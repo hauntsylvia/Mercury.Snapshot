@@ -27,30 +27,22 @@ namespace Mercury.Snapshot.Objects.Util.Google.Calendar
             });
         }
 
-        private GoogleApp CurrentApp { get; set; }
+        private GoogleApp CurrentApp { get; }
         internal CalendarService Service { get; set; }
 
         internal IReadOnlyList<Event> GetIzolabellasEvents(EventsResource.ListRequest? Request)
         {
-            if (this.Service != null)
+            if (Request == null)
             {
-                if(Request == null)
-                {
-                    Request = this.Service.Events.List("primary");
-                    Request.TimeMin = DateTime.Now;
-                    Request.ShowDeleted = false;
-                    Request.SingleEvents = true;
-                    Request.MaxResults = 2500;
-                    Request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
-                }
-                Events Events = Request.Execute();
-                return (IReadOnlyList<Event>)Events.Items;
+                Request = this.Service.Events.List("primary");
+                Request.TimeMin = DateTime.Now;
+                Request.ShowDeleted = false;
+                Request.SingleEvents = true;
+                Request.MaxResults = 2500;
+                Request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
             }
-            else
-            {
-                this.CurrentApp = new();
-                return this.GetIzolabellasEvents(Request);
-            }
+            Events Events = Request.Execute();
+            return (IReadOnlyList<Event>)Events.Items;
         }
     }
 }

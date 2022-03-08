@@ -10,16 +10,20 @@ namespace Mercury.Snapshot.Objects.Structures.Personalization
 {
     internal class MercuryProfile
     {
-        internal MercuryProfile(ulong DiscordId, MercuryUserSettings? Settings)
+        internal MercuryProfile(ulong DiscordId, MercuryUserSettings Settings)
         {
             this.discordId = DiscordId;
-            this.SettingsSaveRegister = new("Mercury User Settings");
-            if (Settings != null)
-                this.SettingsSaveRegister.SaveRecord("Settings", new Record<MercuryUserSettings>(Settings, new List<string>()));
+            this.Settings = new(Settings, new List<string>());
+        }
+
+        internal MercuryProfile(ulong DiscordId)
+        {
+            this.discordId = DiscordId;
         }
 
 
-        private Register SettingsSaveRegister { get; }
+        private readonly Register settingsSaveRegister = new("Mercury User Settings");
+        internal Register SettingsSaveRegister => this.settingsSaveRegister;
 
 
         internal Record<MercuryUserSettings> Settings 

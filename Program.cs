@@ -21,7 +21,7 @@ namespace Mercury.Snapshot
         internal static readonly DiscordSocketClient Client = new();
         internal static readonly OpenWeatherMapClient OpenWeatherMapClient = new();
         internal static readonly GoogleApp GoogleClient = new();
-        internal static readonly MercuryProfile MercuryUser = new(528750326107602965, new());
+        internal static readonly MercuryProfile MercuryUser = new(528750326107602965);
         internal static readonly DiscordWrapper DiscordWrapper = new(Client);
 
         public static void Main()

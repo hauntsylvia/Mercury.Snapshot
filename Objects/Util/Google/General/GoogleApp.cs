@@ -20,12 +20,23 @@ namespace Mercury.Snapshot.Objects.Util.Google.General
     {
         internal static readonly string[] Scopes = { CalendarService.Scope.CalendarReadonly, SheetsService.Scope.SpreadsheetsReadonly };
         internal static readonly string ApplicationName = "MercuryDOTSnapshot";
-        internal GoogleCalendarManager CalendarManager;
-        internal GoogleSheetsManager SheetsManager;
+
+
+        internal GoogleCalendarManager CalendarManager { get; }
+
+
+        private readonly GoogleSheetsManager sheetsManager;
+        internal GoogleSheetsManager SheetsManager 
+        { 
+            get
+            {
+                return this.sheetsManager;
+            }
+        }
         internal GoogleApp()
         {
             this.CalendarManager = new(this);
-            this.SheetsManager = new(this);
+            this.sheetsManager = new(this);
         }
 
         internal static UserCredential GetUserCredential()

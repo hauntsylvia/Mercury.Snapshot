@@ -1,4 +1,5 @@
 ﻿using Mercury.Snapshot.Objects.Structures.Financial;
+using Mercury.Snapshot.Objects.Structures.Personalization;
 using openweathermap.NET.Classes;
 using System;
 using System.Collections.Generic;
@@ -10,17 +11,19 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
 {
     internal class ExpendituresCard : ICard
     {
-        internal ExpendituresCard()
+        internal ExpendituresCard(MercuryProfile User)
         {
-
+            this.User = User;
         }
 
+        public MercuryProfile User { get; }
 
         public IReadOnlyList<EmbedFieldBuilder> Render()
         {
-            if(Program.MercuryUser.Settings != null && Program.MercuryUser.Settings.ObjectToStore.GoogleCalendarSettings != null)
+            string? Id = this.User.Settings.ObjectToStore.GoogleSheetsSettings.ExpenditureSpreadsheetId;
+            if (Id != null)
             {
-                IReadOnlyList<Expenditure> Expenditures = Program.GoogleClient.SheetsManager.GetUserExpenditures(Program.MercuryUser.Settings.ObjectToStore.GoogleCalendarSettings);
+                IReadOnlyList<Expenditure> Expenditures = Program.GoogleClient.SheetsManager.GetUserExpenditures(Id);
                 Dictionary<string, decimal> Counting = new();
                 foreach(Expenditure Expenditure in Expenditures)
                 {
@@ -39,7 +42,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                         new EmbedFieldBuilder()
                         {
                             Name = $"Current Balance",
-                            Value = $"${Program.GoogleClient.SheetsManager.GetUserBalance(Program.MercuryUser.Settings.ObjectToStore.GoogleCalendarSettings)}\n\u200b"
+                            Value = $"${Program.GoogleClient.SheetsManager.GetUserBalance(Id)}\n\u200b"
                         }
                     },
                     {
