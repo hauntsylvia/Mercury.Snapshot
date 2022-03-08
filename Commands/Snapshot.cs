@@ -16,7 +16,7 @@ namespace Mercury.Snapshot.Commands
         [Command(new string[] { "snapshot", "sn", "s", "snap", "shot" })]
         internal static async Task Abc(CommandArguments Args)
         {
-            if (Program.Client.GetChannel(942608553028501544) is SocketTextChannel Channel)
+            if (Program.DiscordClient.GetChannel(942608553028501544) is SocketTextChannel Channel)
             {
                 RestUserMessage Message = await Channel.SendMessageAsync("", false, new EmbedBuilder()
                 {

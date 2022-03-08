@@ -18,26 +18,52 @@ namespace Mercury.Snapshot
 {
     public class Program
     {
-        internal static readonly DiscordSocketClient Client = new();
-        internal static readonly OpenWeatherMapClient OpenWeatherMapClient = new();
-        internal static readonly GoogleApp GoogleClient = new();
-        internal static readonly MercuryProfile MercuryUser = new(528750326107602965);
-        internal static readonly DiscordWrapper DiscordWrapper = new(Client);
+        private static readonly DiscordSocketClient client = new();
+        internal static DiscordSocketClient DiscordClient => client;
+
+
+
+        private static readonly DiscordWrapper discordWrapper = new(DiscordClient);
+
+        internal static DiscordWrapper DiscordWrapper => discordWrapper;
+
+
+
+        private static readonly OpenWeatherMapClient openWeatherMapClient = new();
+        internal static OpenWeatherMapClient OpenWeatherMapClient => openWeatherMapClient;
+
+
+
+        private static readonly MercuryProfile mercuryUser = new(528750326107602965);
+        internal static MercuryProfile MercuryUser => mercuryUser;
+
+
+
+        private static readonly GoogleApp googleClient = new();
+        internal static GoogleApp GoogleClient
+        {
+            get
+            {
+                GoogleApp.GetUserCredential();
+                return googleClient;
+            }
+        }
 
         public static void Main()
         {
+            GoogleClient.SheetsManager.ToString();
             OpenWeatherMapClient.AppId = File.ReadAllText("OpenWeatherMap App Id.txt");
             MainAsync().GetAwaiter().GetResult();
         }
         public static async Task MainAsync()
         {
-            await Client.LoginAsync(TokenType.Bot, File.ReadAllText("Discord Token.txt"));
-            await Client.StartAsync();
+            await DiscordClient.LoginAsync(TokenType.Bot, File.ReadAllText("Discord Token.txt"));
+            await DiscordClient.StartAsync();
             await Task.Delay(3000);
             DiscordWrapper.CommandHandler.AllowBotInteractions = false;
             DiscordWrapper.CommandHandler.CommandNeedsValidation += (SocketMessage Message, CommandAttribute Attr) =>
             {
-                return Message.MentionedUsers.Any(User => User.Id == Client.CurrentUser.Id) && Attr.Tags.Any(Tag => Message.Content.ToLower().Contains(Tag.ToLower()));
+                return Message.MentionedUsers.Any(User => User.Id == DiscordClient.CurrentUser.Id) && Attr.Tags.Any(Tag => Message.Content.ToLower().Contains(Tag.ToLower()));
             };
             await DiscordWrapper.CommandHandler.StartReceiving();
             

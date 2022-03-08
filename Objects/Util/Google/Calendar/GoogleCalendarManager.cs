@@ -17,9 +17,8 @@ namespace Mercury.Snapshot.Objects.Util.Google.Calendar
 {
     internal class GoogleCalendarManager
     {
-        internal GoogleCalendarManager(GoogleApp CurrentApp)
+        internal GoogleCalendarManager()
         {
-            this.CurrentApp = CurrentApp;
             this.Service = new(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = GoogleApp.GetUserCredential(),
@@ -27,7 +26,6 @@ namespace Mercury.Snapshot.Objects.Util.Google.Calendar
             });
         }
 
-        private GoogleApp CurrentApp { get; }
         internal CalendarService Service { get; set; }
 
         internal IReadOnlyList<Event> GetIzolabellasEvents(EventsResource.ListRequest? Request)

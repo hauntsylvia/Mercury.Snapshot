@@ -18,9 +18,8 @@ namespace Mercury.Snapshot.Objects.Util.Google.Sheets
 {
     internal class GoogleSheetsManager
     {
-        internal GoogleSheetsManager(GoogleApp CurrentApp)
+        internal GoogleSheetsManager()
         {
-            this.CurrentApp = CurrentApp;
             this.Service = new(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = GoogleApp.GetUserCredential(),
@@ -30,7 +29,6 @@ namespace Mercury.Snapshot.Objects.Util.Google.Sheets
 
 
         private SheetsService Service { get; set; }
-        internal GoogleApp CurrentApp { get; set; }
 
 
         internal decimal? GetUserBalance(string SpreadsheetId)
