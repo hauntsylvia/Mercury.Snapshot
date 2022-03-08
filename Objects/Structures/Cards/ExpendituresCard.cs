@@ -18,9 +18,9 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
 
         public IReadOnlyList<EmbedFieldBuilder> Render()
         {
-            if(Program.MercuryUser.Settings != null && Program.MercuryUser.Settings.ObjectToStore.GoogleExpenditureSpreadsheetId != null)
+            if(Program.MercuryUser.Settings != null && Program.MercuryUser.Settings.ObjectToStore.GoogleCalendarSettings != null)
             {
-                IReadOnlyList<Expenditure> Expenditures = Program.GoogleClient.SheetsManager.GetUserExpenditures(Program.MercuryUser.Settings.ObjectToStore.GoogleExpenditureSpreadsheetId);
+                IReadOnlyList<Expenditure> Expenditures = Program.GoogleClient.SheetsManager.GetUserExpenditures(Program.MercuryUser.Settings.ObjectToStore.GoogleCalendarSettings);
                 Dictionary<string, decimal> Counting = new();
                 foreach(Expenditure Expenditure in Expenditures)
                 {
@@ -39,7 +39,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                         new EmbedFieldBuilder()
                         {
                             Name = $"Current Balance",
-                            Value = $"${Program.GoogleClient.SheetsManager.GetUserBalance(Program.MercuryUser.Settings.ObjectToStore.GoogleExpenditureSpreadsheetId)}\n\u200b"
+                            Value = $"${Program.GoogleClient.SheetsManager.GetUserBalance(Program.MercuryUser.Settings.ObjectToStore.GoogleCalendarSettings)}\n\u200b"
                         }
                     },
                     {

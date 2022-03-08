@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mercury.Snapshot.Objects.Structures.Personalization.Peronalizers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,20 +11,26 @@ namespace Mercury.Snapshot.Objects.Structures.Personalization
     internal class MercuryUserSettings
     {
         [JsonConstructor]
-        internal MercuryUserSettings(string? GoogleExpenditureSpreadsheetId, string? GoogleCalendarId)
+        internal MercuryUserSettings(GoogleCalendarSettings GoogleCalendarSettings, GoogleSheetsSettings GoogleSheetsSettings)
         {
-            this.googleExpenditureSpreadsheetId = GoogleExpenditureSpreadsheetId;
-            this.googleCalendarId = GoogleCalendarId;
+            this.googleCalendarSettings = GoogleCalendarSettings;
+            this.googleSheetsSettings = GoogleSheetsSettings;
+        }
+
+        internal MercuryUserSettings()
+        {
+            this.googleCalendarSettings = new();
+            this.googleSheetsSettings = new(null);
         }
 
 
-        [JsonProperty("GoogleExpenditureSpreadsheetId")]
-        private readonly string? googleExpenditureSpreadsheetId;
-        internal string? GoogleExpenditureSpreadsheetId => this.googleExpenditureSpreadsheetId;
+        [JsonProperty("GoogleCalendarSettings")]
+        private readonly GoogleCalendarSettings googleCalendarSettings;
+        internal GoogleCalendarSettings GoogleCalendarSettings => this.googleCalendarSettings;
 
 
-        [JsonProperty("GoogleCalendarId")]
-        private readonly string? googleCalendarId;
-        internal string? GoogleCalendarId => this.googleCalendarId;
+        [JsonProperty("GoogleSheetsSettings")]
+        private readonly GoogleSheetsSettings googleSheetsSettings;
+        internal GoogleSheetsSettings GoogleSheetsSettings => this.googleSheetsSettings;
     }
 }
