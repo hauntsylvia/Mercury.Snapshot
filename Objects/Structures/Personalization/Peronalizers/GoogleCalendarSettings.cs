@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Structures.Personalization.Peronalizers
 {
-    internal class GoogleCalendarSettings
+    public class GoogleCalendarSettings
     {
-        internal GoogleCalendarSettings(string CalendarId = "primary")
+        public GoogleCalendarSettings(string CalendarId = "primary")
         {
             this.CalendarId = CalendarId;
         }
 
-        internal string CalendarId { get; }
+        public string CalendarId { get; }
     }
 }

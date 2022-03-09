@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Commands
 {
-    internal class Snapshot
+    public class Snapshot
     {
         [Command(new string[] { "snapshot", "sn", "s", "snap", "shot" })]
-        internal static async Task Abc(CommandArguments Args)
+        public static async Task Abc(CommandArguments Args)
         {
             if (Program.DiscordClient.GetChannel(942608553028501544) is SocketTextChannel Channel)
             {

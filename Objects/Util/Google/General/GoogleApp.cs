@@ -16,13 +16,13 @@ using Mercury.Snapshot.Objects.Util.Google.Calendar;
 
 namespace Mercury.Snapshot.Objects.Util.Google.General
 {
-    internal class GoogleApp
+    public class GoogleApp
     {
-        internal static readonly string[] Scopes = { CalendarService.Scope.CalendarReadonly, SheetsService.Scope.SpreadsheetsReadonly };
-        internal static readonly string ApplicationName = "MercuryDOTSnapshot";
+        public static readonly string[] Scopes = { CalendarService.Scope.CalendarReadonly, SheetsService.Scope.SpreadsheetsReadonly };
+        public static readonly string ApplicationName = "MercuryDOTSnapshot";
 
 
-        internal GoogleApp()
+        public GoogleApp()
         {
             this.calendarManager = new();
             this.sheetsManager = new();
@@ -31,16 +31,16 @@ namespace Mercury.Snapshot.Objects.Util.Google.General
 
 
         private readonly GoogleCalendarManager calendarManager;
-        internal GoogleCalendarManager CalendarManager => this.calendarManager;
+        public GoogleCalendarManager CalendarManager => this.calendarManager;
 
 
 
         private readonly GoogleSheetsManager sheetsManager;
-        internal GoogleSheetsManager SheetsManager => this.sheetsManager;
+        public GoogleSheetsManager SheetsManager => this.sheetsManager;
 
 
 
-        internal static UserCredential GetUserCredential()
+        public static UserCredential GetUserCredential()
         {
             UserCredential Credential;
             using (FileStream stream = new("Google Credentials.json", FileMode.Open, FileAccess.Read))

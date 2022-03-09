@@ -13,9 +13,9 @@ using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Structures.Cards
 {
-    internal class EventsCard : ICard
+    public class EventsCard : ICard
     {
-        internal EventsCard()
+        public EventsCard()
         {
         }
 

@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Structures.Cards
 {
-    internal class ExpendituresCard : ICard
+    public class ExpendituresCard : ICard
     {
-        internal ExpendituresCard(MercuryProfile User)
+        public ExpendituresCard(MercuryProfile User)
         {
             this.User = User;
         }

@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 namespace Mercury.Snapshot.Objects.Structures.Personalization
 {
     [JsonObject(MemberSerialization.OptIn)]
-    internal class MercuryUserSettings
+    public class MercuryUserSettings
     {
         [JsonConstructor]
-        internal MercuryUserSettings(GoogleCalendarSettings GoogleCalendarSettings, GoogleSheetsSettings GoogleSheetsSettings, WeatherSettings WeatherSettings)
+        public MercuryUserSettings(GoogleCalendarSettings GoogleCalendarSettings, GoogleSheetsSettings GoogleSheetsSettings, WeatherSettings WeatherSettings)
         {
             this.googleCalendarSettings = GoogleCalendarSettings;
             this.googleSheetsSettings = GoogleSheetsSettings;
             this.weatherSettings = WeatherSettings;
         }
 
-        internal MercuryUserSettings()
+        public MercuryUserSettings()
         {
             this.googleCalendarSettings = new();
             this.googleSheetsSettings = new(null);
@@ -26,19 +26,19 @@ namespace Mercury.Snapshot.Objects.Structures.Personalization
         }
 
 
-        [JsonProperty("GoogleCalendarSettings")]
         private readonly GoogleCalendarSettings googleCalendarSettings;
-        internal GoogleCalendarSettings GoogleCalendarSettings => this.googleCalendarSettings;
+        [JsonProperty("GoogleCalendarSettings")]
+        public GoogleCalendarSettings GoogleCalendarSettings => this.googleCalendarSettings;
 
 
-        [JsonProperty("GoogleSheetsSettings")]
         private readonly GoogleSheetsSettings googleSheetsSettings;
-        internal GoogleSheetsSettings GoogleSheetsSettings => this.googleSheetsSettings;
+        [JsonProperty("GoogleSheetsSettings")]
+        public GoogleSheetsSettings GoogleSheetsSettings => this.googleSheetsSettings;
 
 
-        [JsonProperty("WeatherSEttings")]
 
         private readonly WeatherSettings weatherSettings;
-        internal WeatherSettings WeatherSettings => this.weatherSettings;
+        [JsonProperty("WeatherSettings")]
+        public WeatherSettings WeatherSettings => this.weatherSettings;
     }
 }

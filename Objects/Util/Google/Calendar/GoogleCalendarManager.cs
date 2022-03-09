@@ -15,9 +15,9 @@ using Mercury.Snapshot.Objects.Util.Google.General;
 
 namespace Mercury.Snapshot.Objects.Util.Google.Calendar
 {
-    internal class GoogleCalendarManager
+    public class GoogleCalendarManager
     {
-        internal GoogleCalendarManager()
+        public GoogleCalendarManager()
         {
             this.Service = new(new BaseClientService.Initializer()
             {
@@ -26,9 +26,9 @@ namespace Mercury.Snapshot.Objects.Util.Google.Calendar
             });
         }
 
-        internal CalendarService Service { get; set; }
+        public CalendarService Service { get; set; }
 
-        internal IReadOnlyList<Event> GetIzolabellasEvents(EventsResource.ListRequest? Request)
+        public IReadOnlyList<Event> GetIzolabellasEvents(EventsResource.ListRequest? Request)
         {
             if (Request == null)
             {

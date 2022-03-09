@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Util.Weather
 {
-    internal class WeatherManager
+    public class WeatherManager
     {
-        internal static WeatherResponse? GetWeatherForToday(string Zip)
+        public static WeatherResponse? GetWeatherForToday(string Zip)
         {
             WeatherResponse? Weather = Program.OpenWeatherMapClient.GetWeatherByZipCode(Zip).Result;
             return Weather;

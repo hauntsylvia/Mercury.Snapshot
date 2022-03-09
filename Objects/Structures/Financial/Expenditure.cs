@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Structures.Financial
 {
-    internal class Expenditure
+    public class Expenditure
     {
-        internal Expenditure(DateTime Timestamp, decimal DollarAmount, string PayeeOrPayer, string Category)
+        public Expenditure(DateTime Timestamp, decimal DollarAmount, string PayeeOrPayer, string Category)
         {
             this.Timestamp = Timestamp;
             this.DollarAmount = DollarAmount;

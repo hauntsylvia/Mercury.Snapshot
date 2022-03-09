@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Structures.Personalization.Peronalizers
 {
-    internal class GoogleSheetsSettings
+    public class GoogleSheetsSettings
     {
-        internal GoogleSheetsSettings(string? ExpenditureSpreadsheetId)
+        public GoogleSheetsSettings(string? ExpenditureSpreadsheetId)
         {
             this.ExpenditureSpreadsheetId = ExpenditureSpreadsheetId;
         }

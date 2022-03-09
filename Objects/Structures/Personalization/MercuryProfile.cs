@@ -8,25 +8,25 @@ using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Structures.Personalization
 {
-    internal class MercuryProfile
+    public class MercuryProfile
     {
-        internal MercuryProfile(ulong DiscordId, MercuryUserSettings Settings)
+        public MercuryProfile(ulong DiscordId, MercuryUserSettings Settings)
         {
             this.discordId = DiscordId;
             this.Settings = new(Settings, new List<string>());
         }
 
-        internal MercuryProfile(ulong DiscordId)
+        public MercuryProfile(ulong DiscordId)
         {
             this.discordId = DiscordId;
         }
 
 
         private readonly Register settingsSaveRegister = new("Mercury User Settings");
-        internal Register SettingsSaveRegister => this.settingsSaveRegister;
+        public Register SettingsSaveRegister => this.settingsSaveRegister;
 
 
-        internal Record<MercuryUserSettings> Settings 
+        public Record<MercuryUserSettings> Settings 
         { 
             get => this.SettingsSaveRegister.GetRecord<MercuryUserSettings>(this.DiscordId.ToString()) ?? new Record<MercuryUserSettings>(new(), new List<string>() { "Auto-generated" });
             set => this.SettingsSaveRegister.SaveRecord(this.DiscordId.ToString(), value);
@@ -35,6 +35,6 @@ namespace Mercury.Snapshot.Objects.Structures.Personalization
 
 
         private readonly ulong discordId;
-        internal ulong DiscordId => this.discordId;
+        public ulong DiscordId => this.discordId;
     }
 }

@@ -16,9 +16,9 @@ using Mercury.Snapshot.Objects.Util.Google.General;
 
 namespace Mercury.Snapshot.Objects.Util.Google.Sheets
 {
-    internal class GoogleSheetsManager
+    public class GoogleSheetsManager
     {
-        internal GoogleSheetsManager()
+        public GoogleSheetsManager()
         {
             this.Service = new(new BaseClientService.Initializer()
             {
@@ -31,7 +31,7 @@ namespace Mercury.Snapshot.Objects.Util.Google.Sheets
         private SheetsService Service { get; set; }
 
 
-        internal decimal? GetUserBalance(string SpreadsheetId)
+        public decimal? GetUserBalance(string SpreadsheetId)
         {
             SpreadsheetsResource.ValuesResource.GetRequest GetCells = this.Service.Spreadsheets.Values.Get(SpreadsheetId, "Expenditure!G2");
             ValueRange Response = GetCells.Execute();
@@ -42,7 +42,7 @@ namespace Mercury.Snapshot.Objects.Util.Google.Sheets
         }
 
 
-        internal IReadOnlyList<Expenditure> GetUserExpenditures(string SpreadsheetId)
+        public IReadOnlyList<Expenditure> GetUserExpenditures(string SpreadsheetId)
         {
             SpreadsheetsResource.ValuesResource.GetRequest GetCells = this.Service.Spreadsheets.Values.Get(SpreadsheetId, "Expenditure!A:D");
             ValueRange Response = GetCells.Execute();

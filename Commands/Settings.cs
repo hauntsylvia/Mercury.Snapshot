@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Commands
 {
-    internal class Settings
+    public class Settings
     {
         [Command(new string[] { "settings" })]
-        internal static async void ChangeSettings(CommandArguments Args)
+        public static async void ChangeSettings(CommandArguments Args)
         {
             if(Args.Message.Author.Id == 528750326107602965)
             {

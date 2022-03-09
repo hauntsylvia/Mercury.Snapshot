@@ -19,28 +19,28 @@ namespace Mercury.Snapshot
     public class Program
     {
         private static readonly DiscordSocketClient client = new();
-        internal static DiscordSocketClient DiscordClient => client;
+        public static DiscordSocketClient DiscordClient => client;
 
 
 
         private static readonly DiscordWrapper discordWrapper = new(DiscordClient);
 
-        internal static DiscordWrapper DiscordWrapper => discordWrapper;
+        public static DiscordWrapper DiscordWrapper => discordWrapper;
 
 
 
         private static readonly OpenWeatherMapClient openWeatherMapClient = new();
-        internal static OpenWeatherMapClient OpenWeatherMapClient => openWeatherMapClient;
+        public static OpenWeatherMapClient OpenWeatherMapClient => openWeatherMapClient;
 
 
 
         private static readonly MercuryProfile mercuryUser = new(528750326107602965);
-        internal static MercuryProfile MercuryUser => mercuryUser;
+        public static MercuryProfile MercuryUser => mercuryUser;
 
 
 
         private static readonly GoogleApp googleClient = new();
-        internal static GoogleApp GoogleClient
+        public static GoogleApp GoogleClient
         {
             get
             {

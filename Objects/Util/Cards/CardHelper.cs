@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Util.Cards
 {
-    internal class CardHelper
+    public class CardHelper
     {
-        internal CardHelper(List<ICard> Cards, MercuryProfile Profile)
+        public CardHelper(List<ICard> Cards, MercuryProfile Profile)
         {
             List<List<EmbedFieldBuilder>> CardsBuilder = new();
             foreach(ICard Card in Cards)
@@ -22,10 +22,10 @@ namespace Mercury.Snapshot.Objects.Util.Cards
         }
 
         private readonly List<List<EmbedFieldBuilder>> cards;
-        internal List<List<EmbedFieldBuilder>> Cards => this.cards;
+        public List<List<EmbedFieldBuilder>> Cards => this.cards;
 
 
-        internal List<EmbedFieldBuilder> CorrectWhitespacing()
+        public List<EmbedFieldBuilder> CorrectWhitespacing()
         {
             List<EmbedFieldBuilder> Finished = new();
             foreach(List<EmbedFieldBuilder> Set in this.Cards)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Structures.Cards
 {
-    internal interface ICard
+    public interface ICard
     {
         IReadOnlyList<EmbedFieldBuilder> Render(MercuryProfile Profile);
     }
