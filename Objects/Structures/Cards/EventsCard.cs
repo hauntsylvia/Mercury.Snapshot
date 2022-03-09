@@ -1,5 +1,6 @@
 ﻿using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
+using Mercury.Snapshot.Objects.Structures.Personalization;
 using Mercury.Snapshot.Objects.Util;
 using Mercury.Snapshot.Objects.Util.Google.Calendar;
 using Mercury.Snapshot.Objects.Util.Weather;
@@ -18,7 +19,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
         {
         }
 
-        public IReadOnlyList<EmbedFieldBuilder> Render()
+        public IReadOnlyList<EmbedFieldBuilder> Render(MercuryProfile Profile)
         {
             List<EmbedFieldBuilder> EmbedFieldBuilders = new();
 
@@ -44,7 +45,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
             IReadOnlyList<Event> EventsWeek = Program.GoogleClient.CalendarManager.GetIzolabellasEvents(RequestWeek);
             IReadOnlyList<Event> EventsMonth = Program.GoogleClient.CalendarManager.GetIzolabellasEvents(RequestMonth);
 
-            WeatherResponse? WeatherToday = WeatherManager.GetWeatherForToday();
+            WeatherResponse? WeatherToday = WeatherManager.GetWeatherForToday(Profile.Settings.ObjectToStore.WeatherSettings.Zip);
 
             if (EventsToday.Count > 0 || WeatherToday != null)
             {

@@ -27,7 +27,7 @@ namespace Mercury.Snapshot.Commands
                     },
                     Description = "<a:loadinghearts:950503533910835241>"
                 }.Build());
-                List<EmbedFieldBuilder> Fields = new CardHelper(new List<ICard> { new EventsCard(), new ExpendituresCard(new(Args.Message.Author.Id)) }).CorrectWhitespacing();
+                List<EmbedFieldBuilder> Fields = new CardHelper(new List<ICard> { new EventsCard(), new ExpendituresCard(new(Args.Message.Author.Id)) }, new(Args.Message.Author.Id)).CorrectWhitespacing();
                 await Message.ModifyAsync(MessageInfo =>
                 {
                     MessageInfo.Embed = new EmbedBuilder()
