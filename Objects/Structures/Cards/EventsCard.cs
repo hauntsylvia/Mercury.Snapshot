@@ -4,7 +4,7 @@ using Mercury.Snapshot.Objects.Structures.Personalization;
 using Mercury.Snapshot.Objects.Util;
 using Mercury.Snapshot.Objects.Util.Google.Calendar;
 using Mercury.Snapshot.Objects.Util.Weather;
-using openweathermap.NET.Classes;
+using OpenWeatherMap.NET.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
