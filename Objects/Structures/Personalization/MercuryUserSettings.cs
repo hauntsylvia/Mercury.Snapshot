@@ -11,16 +11,18 @@ namespace Mercury.Snapshot.Objects.Structures.Personalization
     internal class MercuryUserSettings
     {
         [JsonConstructor]
-        internal MercuryUserSettings(GoogleCalendarSettings GoogleCalendarSettings, GoogleSheetsSettings GoogleSheetsSettings)
+        internal MercuryUserSettings(GoogleCalendarSettings GoogleCalendarSettings, GoogleSheetsSettings GoogleSheetsSettings, WeatherSettings WeatherSettings)
         {
             this.googleCalendarSettings = GoogleCalendarSettings;
             this.googleSheetsSettings = GoogleSheetsSettings;
+            this.weatherSettings = WeatherSettings;
         }
 
         internal MercuryUserSettings()
         {
             this.googleCalendarSettings = new();
             this.googleSheetsSettings = new(null);
+            this.weatherSettings = new("04614");
         }
 
 
@@ -32,5 +34,11 @@ namespace Mercury.Snapshot.Objects.Structures.Personalization
         [JsonProperty("GoogleSheetsSettings")]
         private readonly GoogleSheetsSettings googleSheetsSettings;
         internal GoogleSheetsSettings GoogleSheetsSettings => this.googleSheetsSettings;
+
+
+        [JsonProperty("WeatherSEttings")]
+
+        private readonly WeatherSettings weatherSettings;
+        internal WeatherSettings WeatherSettings => this.weatherSettings;
     }
 }

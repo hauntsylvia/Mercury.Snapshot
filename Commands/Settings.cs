@@ -17,7 +17,7 @@ namespace Mercury.Snapshot.Commands
         {
             if(Args.Message.Author.Id == 528750326107602965)
             {
-                Program.MercuryUser.Settings = new(new MercuryUserSettings(new GoogleCalendarSettings(), new GoogleSheetsSettings("1f6vea1vR4MQ9ts88cebJPhxEc675pyX7St32DJyo7Cg")), new List<string>());
+                new MercuryProfile(Args.Message.Author.Id).Settings = new(new MercuryUserSettings(new GoogleCalendarSettings(), new GoogleSheetsSettings("1f6vea1vR4MQ9ts88cebJPhxEc675pyX7St32DJyo7Cg"), new("04614")), new List<string>());
                 await Args.Message.Channel.SendMessageAsync("changed");
             }
         }

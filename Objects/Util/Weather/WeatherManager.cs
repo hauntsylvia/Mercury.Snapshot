@@ -9,9 +9,9 @@ namespace Mercury.Snapshot.Objects.Util.Weather
 {
     internal class WeatherManager
     {
-        internal static WeatherResponse? GetWeatherForToday()
+        internal static WeatherResponse? GetWeatherForToday(string Zip)
         {
-            WeatherResponse? Weather = Program.OpenWeatherMapClient.GetWeatherByZipCode("04614").Result;
+            WeatherResponse? Weather = Program.OpenWeatherMapClient.GetWeatherByZipCode(Zip).Result;
             return Weather;
         }
     }

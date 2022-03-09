@@ -1,4 +1,5 @@
 ﻿using Mercury.Snapshot.Objects.Structures.Cards;
+using Mercury.Snapshot.Objects.Structures.Personalization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,12 @@ namespace Mercury.Snapshot.Objects.Util.Cards
 {
     internal class CardHelper
     {
-        internal CardHelper(List<ICard> Cards)
+        internal CardHelper(List<ICard> Cards, MercuryProfile Profile)
         {
             List<List<EmbedFieldBuilder>> CardsBuilder = new();
             foreach(ICard Card in Cards)
             {
-                IReadOnlyList<EmbedFieldBuilder> ThisSet = Card.Render();
+                IReadOnlyList<EmbedFieldBuilder> ThisSet = Card.Render(Profile);
                 CardsBuilder.Add(ThisSet.ToList());
             }
             this.cards = CardsBuilder;

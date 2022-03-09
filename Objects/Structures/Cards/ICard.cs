@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mercury.Snapshot.Objects.Structures.Personalization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
 {
     internal interface ICard
     {
-        IReadOnlyList<EmbedFieldBuilder> Render();
+        IReadOnlyList<EmbedFieldBuilder> Render(MercuryProfile Profile);
     }
 }

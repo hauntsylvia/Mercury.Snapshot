@@ -18,7 +18,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
 
         public MercuryProfile User { get; }
 
-        public IReadOnlyList<EmbedFieldBuilder> Render()
+        public IReadOnlyList<EmbedFieldBuilder> Render(MercuryProfile Profile)
         {
             string? Id = this.User.Settings.ObjectToStore.GoogleSheetsSettings.ExpenditureSpreadsheetId;
             if (Id != null)
