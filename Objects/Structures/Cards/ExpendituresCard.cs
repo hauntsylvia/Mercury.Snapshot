@@ -1,6 +1,6 @@
 ﻿using Mercury.Snapshot.Objects.Structures.Financial;
 using Mercury.Snapshot.Objects.Structures.Personalization;
-using openweathermap.NET.Classes;
+using OpenWeatherMap.NET.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;

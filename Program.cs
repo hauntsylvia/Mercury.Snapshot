@@ -4,8 +4,6 @@ global using Newtonsoft.Json.Linq;
 global using Discord.WebSocket;
 global using Discord;
 
-using openweathermap.NET;
-
 using Google.Apis.Calendar.v3.Data;
 using Mercury.Snapshot.Objects.Structures.Cards;
 using Mercury.Snapshot.Objects.Structures.Personalization;
@@ -13,6 +11,7 @@ using Mercury.Snapshot.Objects.Util.Cards;
 using Mercury.Snapshot.Objects.Util.Google.General;
 using izolabella.Discord;
 using izolabella.Discord.Commands.Attributes;
+using OpenWeatherMap.NET;
 
 namespace Mercury.Snapshot
 {

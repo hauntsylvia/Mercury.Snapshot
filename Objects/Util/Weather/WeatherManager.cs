@@ -1,4 +1,4 @@
-﻿using openweathermap.NET.Classes;
+﻿using OpenWeatherMap.NET.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
