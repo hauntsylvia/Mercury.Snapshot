@@ -27,15 +27,16 @@ namespace Mercury.Snapshot.Objects.Util.Cards
         internal List<EmbedFieldBuilder> CorrectWhitespacing()
         {
             List<EmbedFieldBuilder> Finished = new();
-            foreach(List<EmbedFieldBuilder> Set in this.Cards.ToList())
+            foreach(List<EmbedFieldBuilder> Set in this.Cards)
             {
                 if(Set != this.Cards.Last())
                 {
-                    string? TrimmedValue = Set.Last().Value.ToString()?.Trim(new[] { '\u200b', ' ', '\n' });
-                    string? TrimmedName = Set.Last().Name.ToString()?.Trim(new[] { '\u200b', ' ', '\n' });
-                    Set.Last().Value = TrimmedValue ?? Set.Last().Value;
-                    Set.Last().Name = TrimmedName ?? Set.Last().Name;
-                    Set.Last().Value += "\u200b\n────────⊹⊱-☿-⊰⊹────────";
+                    EmbedFieldBuilder Last = Set.Last();
+                    string? TrimmedValue = Last.Value.ToString()?.Trim(new[] { '\u200b', ' ', '\n' });
+                    string? TrimmedName = Last.Name.ToString()?.Trim(new[] { '\u200b', ' ', '\n' });
+                    Last.Value = TrimmedValue ?? Last.Value;
+                    Last.Name = TrimmedName ?? Last.Name;
+                    Last.Value += "\u200b\n────────⊹⊱-☿-⊰⊹────────";
                 }
                 Finished.AddRange(Set);
             }

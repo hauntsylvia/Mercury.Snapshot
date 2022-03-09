@@ -66,7 +66,6 @@ namespace Mercury.Snapshot
                 return Message.MentionedUsers.Any(User => User.Id == DiscordClient.CurrentUser.Id) && Attr.Tags.Any(Tag => Message.Content.ToLower().Contains(Tag.ToLower()));
             };
             await DiscordWrapper.CommandHandler.StartReceiving();
-            
             await Task.Delay(-1);
         }
     }
