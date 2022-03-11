@@ -18,7 +18,6 @@ namespace Mercury.Snapshot.Commands
         {
             try
             {
-                await Args.SlashCommand.DeferAsync();
                 if (Program.DiscordClient.GetChannel(942608553028501544) is SocketTextChannel Channel)
                 {
                     await Args.SlashCommand.RespondAsync("here u go . .", new[] { new EmbedBuilder()

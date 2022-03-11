@@ -19,7 +19,15 @@ namespace Mercury.Snapshot
 {
     public class Program
     {
-        private static readonly DiscordSocketClient client = new();
+        private static readonly DiscordSocketClient client = new(new DiscordSocketConfig()
+        {
+            UseSystemClock = false,
+            MessageCacheSize = 20,
+            AlwaysDownloadUsers = true,
+            AlwaysDownloadDefaultStickers = true,
+            AlwaysResolveStickers = true,
+            UseInteractionSnowflakeDate = false,
+        });
         public static DiscordSocketClient DiscordClient => client;
 
 
