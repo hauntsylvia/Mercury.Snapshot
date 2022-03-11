@@ -13,7 +13,7 @@ namespace Mercury.Snapshot.Commands
 {
     public class Snapshot
     {
-        [Command(new string[] { "snapshot", "sn", "s", "snap", "shot" }, "Receive a general rundown.")]
+        [Command(new string[] { "snapshot" }, "Receive a general rundown.")]
         public static async Task Abc(CommandArguments Args)
         {
             try
