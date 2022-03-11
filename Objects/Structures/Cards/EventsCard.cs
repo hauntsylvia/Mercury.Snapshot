@@ -55,10 +55,10 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                 };
                 if(WeatherToday != null)
                 {
-                    int TemperatureF = (int)((((double)WeatherToday.Main.Temp - 273.15) * (9 / 5)) + 32); // from kelvin
-                    int TemperatureFMax = (int)((((double)WeatherToday.Main.TempMaximum - 273.15) * (9 / 5)) + 32); // from kelvin
-                    int TemperatureFMin = (int)((((double)WeatherToday.Main.TempMinimum - 273.15) * (9 / 5)) + 32); // from kelvin
-                    Today.Value = $"{TemperatureF}° - {WeatherToday.Name}\nH: {TemperatureFMax}° L: {TemperatureFMin}°\n";
+                    decimal TemperatureF = WeatherToday.Main.Temp;
+                    decimal TemperatureFMax = WeatherToday.Main.TempMaximum;
+                    decimal TemperatureFMin = WeatherToday.Main.TempMinimum;
+                    Today.Value = $"{TemperatureF}° - {WeatherToday.Name}\nH: {TemperatureFMax}°C L: {TemperatureFMin}°C\n";
                 }
                 foreach(Event Event in EventsToday)
                 {

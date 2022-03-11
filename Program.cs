@@ -62,10 +62,6 @@ namespace Mercury.Snapshot
             await DiscordClient.StartAsync();
             await Task.Delay(3000);
             DiscordWrapper.CommandHandler.AllowBotInteractions = false;
-            DiscordWrapper.CommandHandler.CommandNeedsValidation += (SocketMessage Message, CommandAttribute Attr) =>
-            {
-                return Message.MentionedUsers.Any(User => User.Id == DiscordClient.CurrentUser.Id) && Attr.Tags.Any(Tag => Message.Content.ToLower().Contains(Tag.ToLower()));
-            };
             await DiscordWrapper.CommandHandler.StartReceiving();
             await Task.Delay(-1);
         }

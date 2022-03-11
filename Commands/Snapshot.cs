@@ -13,7 +13,7 @@ namespace Mercury.Snapshot.Commands
 {
     public class Snapshot
     {
-        [Command(new string[] { "snapshot", "sn", "s", "snap", "shot" })]
+        [Command(new string[] { "snapshot", "sn", "s", "snap", "shot" }, "Receive a general rundown.")]
         public static async Task Abc(CommandArguments Args)
         {
             try
@@ -29,7 +29,7 @@ namespace Mercury.Snapshot.Commands
                         },
                         Description = "<a:loadinghearts:950503533910835241>"
                     }.Build());
-                    List<EmbedFieldBuilder> Fields = new CardHelper(new List<ICard> { new EventsCard(), new ExpendituresCard(new(Args.Message.Author.Id)) }, new(Args.Message.Author.Id)).CorrectWhitespacing();
+                    List<EmbedFieldBuilder> Fields = new CardHelper(new List<ICard> { new EventsCard(), new ExpendituresCard(new(Args.SlashCommand.User.Id)) }, new(Args.SlashCommand.User.Id)).CorrectWhitespacing();
                     await Message.ModifyAsync(MessageInfo =>
                     {
                         MessageInfo.Embed = new EmbedBuilder()

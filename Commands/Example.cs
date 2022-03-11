@@ -10,10 +10,10 @@ namespace Mercury.Snapshot.Commands
 {
     public class Example
     {
-        [Command(new string[] { "a" })]
+        [Command(new string[] { "a" }, "Example command.")]
         public static void Abc(CommandArguments Args)
         {
-            Console.Out.WriteLine(Args.Message.Author.Username);
+            Console.Out.WriteLine(Args.SlashCommand.User.Username);
         }
     }
 }
