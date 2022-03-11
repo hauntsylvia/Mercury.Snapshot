@@ -9,9 +9,11 @@ using Mercury.Snapshot.Objects.Structures.Cards;
 using Mercury.Snapshot.Objects.Structures.Personalization;
 using Mercury.Snapshot.Objects.Util.Cards;
 using Mercury.Snapshot.Objects.Util.Google.General;
+
+
 using izolabella.Discord;
 using izolabella.Discord.Commands.Attributes;
-using OpenWeatherMap.NET;
+using izolabella.OpenWeatherMap.NET;
 
 namespace Mercury.Snapshot
 {

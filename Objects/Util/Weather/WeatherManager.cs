@@ -1,4 +1,4 @@
-﻿using OpenWeatherMap.NET.Classes;
+﻿using izolabella.OpenWeatherMap.NET.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;

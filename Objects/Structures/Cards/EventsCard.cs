@@ -4,12 +4,12 @@ using Mercury.Snapshot.Objects.Structures.Personalization;
 using Mercury.Snapshot.Objects.Util;
 using Mercury.Snapshot.Objects.Util.Google.Calendar;
 using Mercury.Snapshot.Objects.Util.Weather;
-using OpenWeatherMap.NET.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using izolabella.OpenWeatherMap.NET.Classes;
 
 namespace Mercury.Snapshot.Objects.Structures.Cards
 {
