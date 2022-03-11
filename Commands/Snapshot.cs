@@ -16,30 +16,37 @@ namespace Mercury.Snapshot.Commands
         [Command(new string[] { "snapshot", "sn", "s", "snap", "shot" })]
         public static async Task Abc(CommandArguments Args)
         {
-            if (Program.DiscordClient.GetChannel(942608553028501544) is SocketTextChannel Channel)
+            try
             {
-                RestUserMessage Message = await Channel.SendMessageAsync("", false, new EmbedBuilder()
+                if (Program.DiscordClient.GetChannel(942608553028501544) is SocketTextChannel Channel)
                 {
-                    Color = new(0x00000),
-                    Footer = new()
+                    RestUserMessage Message = await Channel.SendMessageAsync("", false, new EmbedBuilder()
                     {
-                        Text = "-☿-"
-                    },
-                    Description = "<a:loadinghearts:950503533910835241>"
-                }.Build());
-                List<EmbedFieldBuilder> Fields = new CardHelper(new List<ICard> { new EventsCard(), new ExpendituresCard(new(Args.Message.Author.Id)) }, new(Args.Message.Author.Id)).CorrectWhitespacing();
-                await Message.ModifyAsync(MessageInfo =>
-                {
-                    MessageInfo.Embed = new EmbedBuilder()
-                    {
-                        Fields = Fields,
                         Color = new(0x00000),
                         Footer = new()
                         {
                             Text = "-☿-"
-                        }
-                    }.Build();
-                });
+                        },
+                        Description = "<a:loadinghearts:950503533910835241>"
+                    }.Build());
+                    List<EmbedFieldBuilder> Fields = new CardHelper(new List<ICard> { new EventsCard(), new ExpendituresCard(new(Args.Message.Author.Id)) }, new(Args.Message.Author.Id)).CorrectWhitespacing();
+                    await Message.ModifyAsync(MessageInfo =>
+                    {
+                        MessageInfo.Embed = new EmbedBuilder()
+                        {
+                            Fields = Fields,
+                            Color = new(0x00000),
+                            Footer = new()
+                            {
+                                Text = "-☿-"
+                            }
+                        }.Build();
+                    });
+                }
+            }
+            catch(Exception E)
+            {
+                Console.WriteLine(E);
             }
         }
     }

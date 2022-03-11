@@ -78,7 +78,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                 foreach(Event Event in EventsWeek)
                 {
                     if(Event.Start.DateTime.HasValue)
-                        Week.Value += $"\n{Event.Start.DateTime.Value.ToShortDateString()} {Event.Start.DateTime.Value.ToShortTimeString()}\n```\n{Event.Summary}{Event.Description}\n```";
+                        Week.Value += $"\n{Event.Start.DateTime.Value.ToShortDateString()} {Event.Start.DateTime.Value.ToShortTimeString()}\n```\n{Event.Summary}\n```";
                 }
                 Week.Value += "\u200b\n";
                 EmbedFieldBuilders.Add(Week);
@@ -89,11 +89,25 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                 EmbedFieldBuilder Month = new()
                 {
                     Name = $"THIS MONTH",
+                    Value = "\u200b"
                 };
                 foreach(Event Event in EventsMonth)
                 {
-                    if(Event.Start.DateTime != null)
-                        Month.Value += $"\n{Event.Start.DateTime.Value.ToShortDateString()} {Event.Start.DateTime.Value.ToShortTimeString()}\n```\n{Event.Summary}{Event.Description}\n```";
+                    string? ToAppend = Event.Start.DateTime.HasValue ? $"\n{Event.Start.DateTime.Value.ToShortDateString()} {Event.Start.DateTime.Value.ToShortTimeString()}\n```\n{Event.Summary}\n```" : null;
+                    if(ToAppend != null)
+                    {
+                        string? MonthValue = Month.Value.ToString();
+                        if (MonthValue != null)
+                        {
+                            if (MonthValue.Length + ToAppend.Length <= 1024)
+                                Month.Value += ToAppend;
+                            else
+                            {
+                                Month.Value += $"\n_. . and {EventsMonth.Count} more events this month_.";
+                                break;
+                            }
+                        }
+                    }
                 }
                 Month.Value += "\u200b\n";
                 EmbedFieldBuilders.Add(Month);
