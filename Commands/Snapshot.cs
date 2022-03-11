@@ -18,9 +18,10 @@ namespace Mercury.Snapshot.Commands
         {
             try
             {
+                await Args.SlashCommand.DeferAsync();
                 if (Program.DiscordClient.GetChannel(942608553028501544) is SocketTextChannel Channel)
                 {
-                    RestUserMessage Message = await Channel.SendMessageAsync("", false, new EmbedBuilder()
+                    await Args.SlashCommand.RespondAsync("here u go . .", new[] { new EmbedBuilder()
                     {
                         Color = new(0x00000),
                         Footer = new()
@@ -28,9 +29,9 @@ namespace Mercury.Snapshot.Commands
                             Text = "-☿-"
                         },
                         Description = "<a:loadinghearts:950503533910835241>"
-                    }.Build());
+                    }.Build() });
                     List<EmbedFieldBuilder> Fields = new CardHelper(new List<ICard> { new EventsCard(), new ExpendituresCard(new(Args.SlashCommand.User.Id)) }, new(Args.SlashCommand.User.Id)).CorrectWhitespacing();
-                    await Message.ModifyAsync(MessageInfo =>
+                    await Args.SlashCommand.ModifyOriginalResponseAsync(MessageInfo =>
                     {
                         MessageInfo.Embed = new EmbedBuilder()
                         {
