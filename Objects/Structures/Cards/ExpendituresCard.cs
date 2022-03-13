@@ -23,7 +23,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
             string? Id = this.User.Settings.ObjectToStore.GoogleSheetsSettings.ExpenditureSpreadsheetId;
             if (Id != null)
             {
-                IReadOnlyList<Expenditure> Expenditures = Program.GoogleClient.SheetsManager.GetUserExpenditures(Id);
+                IReadOnlyList<Expenditure> Expenditures = Profile.GoogleClient.SheetsManager.GetUserExpenditures(Id);
                 Dictionary<string, decimal> Counting = new();
                 foreach(Expenditure Expenditure in Expenditures)
                 {
@@ -42,7 +42,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                         new EmbedFieldBuilder()
                         {
                             Name = $"Current Balance",
-                            Value = $"${Program.GoogleClient.SheetsManager.GetUserBalance(Id)}\n\u200b"
+                            Value = $"${Profile.GoogleClient.SheetsManager.GetUserBalance(Id)}\n\u200b"
                         }
                     },
                     {

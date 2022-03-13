@@ -46,21 +46,8 @@ namespace Mercury.Snapshot
         private static readonly MercuryProfile mercuryUser = new(528750326107602965);
         public static MercuryProfile MercuryUser => mercuryUser;
 
-
-
-        private static readonly GoogleApp googleClient = new();
-        public static GoogleApp GoogleClient
-        {
-            get
-            {
-                GoogleApp.GetUserCredential();
-                return googleClient;
-            }
-        }
-
         public static void Main()
         {
-            GoogleClient.SheetsManager.ToString();
             OpenWeatherMapClient.AppId = File.ReadAllText("OpenWeatherMap App Id.txt");
             MainAsync().GetAwaiter().GetResult();
         }

@@ -23,9 +23,9 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
         {
             List<EmbedFieldBuilder> EmbedFieldBuilders = new();
 
-            IReadOnlyCollection<IEvent> EventsToday = Program.GoogleClient.CalendarManager.GetEvents(DateTime.Today.Date, DateTime.Today.Date.Add(new TimeSpan(23, 59, 59))).Result;
-            IReadOnlyCollection<IEvent> EventsWeek = Program.GoogleClient.CalendarManager.GetEvents(DateTime.Today.AddDays(1), DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59))).Result;
-            IReadOnlyCollection<IEvent> EventsMonth = Program.GoogleClient.CalendarManager.GetEvents(DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), new(DateTime.Today.Date.Year, DateTime.Today.Month + 1, 1)).Result;
+            IReadOnlyCollection<IEvent> EventsToday = Profile.GoogleClient.CalendarManager.GetEvents(DateTime.Today.Date, DateTime.Today.Date.Add(new TimeSpan(23, 59, 59))).Result;
+            IReadOnlyCollection<IEvent> EventsWeek = Profile.GoogleClient.CalendarManager.GetEvents(DateTime.Today.AddDays(1), DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59))).Result;
+            IReadOnlyCollection<IEvent> EventsMonth = Profile.GoogleClient.CalendarManager.GetEvents(DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), new(DateTime.Today.Date.Year, DateTime.Today.Month + 1, 1)).Result;
 
             WeatherResponse? WeatherToday = WeatherManager.GetWeatherForToday(Profile.Settings.ObjectToStore.WeatherSettings.Zip);
 

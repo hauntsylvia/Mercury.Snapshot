@@ -19,13 +19,13 @@ using Mercury.Snapshot.Objects.Structures.Mercury.Events;
 
 namespace Mercury.Snapshot.Objects.Structures.Mercury.Calendars
 {
-    public class GoogleCalendarManager : ICalendar
+    public class GoogleCalendar : ICalendar
     {
-        public GoogleCalendarManager(MercuryProfile User)
+        public GoogleCalendar(MercuryProfile User)
         {
             this.Service = new(new BaseClientService.Initializer()
             {
-                HttpClientInitializer = GoogleApp.GetUserCredential(),
+                HttpClientInitializer = User.GoogleClient.GetUserCredential(),
                 ApplicationName = GoogleApp.ApplicationName,
             });
             this.User = User;

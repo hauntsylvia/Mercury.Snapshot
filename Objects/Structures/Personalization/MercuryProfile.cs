@@ -1,4 +1,5 @@
 ﻿using Mercury.Snapshot.Objects.Structures.Cards;
+using Mercury.Snapshot.Objects.Util.Google.General;
 using Mercury.Unification.IO.File;
 using System;
 using System.Collections.Generic;
@@ -14,17 +15,28 @@ namespace Mercury.Snapshot.Objects.Structures.Personalization
         {
             this.discordId = DiscordId;
             this.Settings = new(Settings, new List<string>());
+            this.googleClient = new(this);
         }
 
         public MercuryProfile(ulong DiscordId)
         {
             this.discordId = DiscordId;
+            this.googleClient = new(this);
         }
 
 
         private readonly Register settingsSaveRegister = new("Mercury User Settings");
         public Register SettingsSaveRegister => this.settingsSaveRegister;
 
+        private readonly GoogleApp googleClient;
+        public GoogleApp GoogleClient
+        {
+            get
+            {
+                this.googleClient.GetUserCredential();
+                return this.googleClient;
+            }
+        }
 
         public Record<MercuryUserSettings> Settings 
         { 

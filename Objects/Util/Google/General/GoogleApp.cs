@@ -13,6 +13,7 @@ using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Sheets.v4;
 using Mercury.Snapshot.Objects.Util.Google.Sheets;
 using Mercury.Snapshot.Objects.Structures.Mercury.Calendars;
+using Mercury.Snapshot.Objects.Structures.Personalization;
 
 namespace Mercury.Snapshot.Objects.Util.Google.General
 {
@@ -22,29 +23,35 @@ namespace Mercury.Snapshot.Objects.Util.Google.General
         public static readonly string ApplicationName = "MercuryDOTSnapshot";
 
 
-        public GoogleApp()
+        public GoogleApp(MercuryProfile User)
         {
-            this.calendarManager = new();
-            this.sheetsManager = new();
+            this.calendarManager = new(User);
+            this.sheetsManager = new(User);
+            this.User = User;
         }
 
 
 
-        private readonly GoogleCalendarManager calendarManager;
-        public GoogleCalendarManager CalendarManager => this.calendarManager;
+        private readonly GoogleCalendar calendarManager;
+        public GoogleCalendar CalendarManager => this.calendarManager;
 
 
 
         private readonly GoogleSheetsManager sheetsManager;
         public GoogleSheetsManager SheetsManager => this.sheetsManager;
 
+        public MercuryProfile User { get; }
 
-
-        public static UserCredential GetUserCredential()
+        public UserCredential GetUserCredential()
         {
+            string TokenPath = Path.Combine(Unification.IO.File.Register.DefaultLocation.FullName, "Google", $"{this.User.DiscordId}");
             UserCredential Credential;
             using (FileStream stream = new("Google Credentials.json", FileMode.Open, FileAccess.Read))
-                Credential = GoogleWebAuthorizationBroker.AuthorizeAsync(GoogleClientSecrets.FromStream(stream).Secrets, Scopes, "user", CancellationToken.None, new FileDataStore(Path.Combine(Unification.IO.File.Register.DefaultLocation.FullName, "Google"), false)).Result;
+                Credential = GoogleWebAuthorizationBroker.AuthorizeAsync(GoogleClientSecrets.FromStream(stream).Secrets,
+                    Scopes, 
+                    "user", 
+                    CancellationToken.None, 
+                    new FileDataStore(TokenPath, false)).Result;
             return Credential;
         }
     }

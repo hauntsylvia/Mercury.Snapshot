@@ -13,16 +13,17 @@ using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Sheets.v4;
 using Mercury.Snapshot.Objects.Structures.Financial;
 using Mercury.Snapshot.Objects.Util.Google.General;
+using Mercury.Snapshot.Objects.Structures.Personalization;
 
 namespace Mercury.Snapshot.Objects.Util.Google.Sheets
 {
     public class GoogleSheetsManager
     {
-        public GoogleSheetsManager()
+        public GoogleSheetsManager(MercuryProfile User)
         {
             this.Service = new(new BaseClientService.Initializer()
             {
-                HttpClientInitializer = GoogleApp.GetUserCredential(),
+                HttpClientInitializer = User.GoogleClient.GetUserCredential(),
                 ApplicationName = GoogleApp.ApplicationName,
             });
         }
