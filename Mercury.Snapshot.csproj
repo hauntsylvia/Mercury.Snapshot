@@ -25,9 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Google Credentials.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Discord Token.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
