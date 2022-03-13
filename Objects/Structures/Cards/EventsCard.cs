@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using izolabella.OpenWeatherMap.NET.Classes;
+using Mercury.Snapshot.Objects.Util.Generics;
 
 namespace Mercury.Snapshot.Objects.Structures.Cards
 {
@@ -41,9 +42,9 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
             RequestMonth.SingleEvents = true;
             RequestMonth.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
 
-            IReadOnlyList<Event> EventsToday = Program.GoogleClient.CalendarManager.GetIzolabellasEvents(RequestToday);
-            IReadOnlyList<Event> EventsWeek = Program.GoogleClient.CalendarManager.GetIzolabellasEvents(RequestWeek);
-            IReadOnlyList<Event> EventsMonth = Program.GoogleClient.CalendarManager.GetIzolabellasEvents(RequestMonth);
+            IReadOnlyList<IEvent> EventsToday = Program.GoogleClient.CalendarManager.GetIzolabellasEvents(RequestToday);
+            IReadOnlyList<IEvent> EventsWeek = Program.GoogleClient.CalendarManager.GetIzolabellasEvents(RequestWeek);
+            IReadOnlyList<IEvent> EventsMonth = Program.GoogleClient.CalendarManager.GetIzolabellasEvents(RequestMonth);
 
             WeatherResponse? WeatherToday = WeatherManager.GetWeatherForToday(Profile.Settings.ObjectToStore.WeatherSettings.Zip);
 
@@ -55,10 +56,10 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                 };
                 if(WeatherToday != null)
                 {
-                    decimal TemperatureF = WeatherToday.Main.Temp;
-                    decimal TemperatureFMax = WeatherToday.Main.TempMaximum;
-                    decimal TemperatureFMin = WeatherToday.Main.TempMinimum;
-                    Today.Value = $"{TemperatureF}° - {WeatherToday.Name}\nH: {TemperatureFMax}°C L: {TemperatureFMin}°C\n";
+                    decimal Temperature = WeatherToday.Main.Temp;
+                    decimal TemperatureMax = WeatherToday.Main.TempMaximum;
+                    decimal TemperatureMin = WeatherToday.Main.TempMinimum;
+                    Today.Value = $"{Temperature}°C - {WeatherToday.Name}\nH: {TemperatureMax}°C L: {TemperatureMin}°C\n";
                 }
                 foreach(Event Event in EventsToday)
                 {
@@ -91,21 +92,18 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                     Name = $"THIS MONTH",
                     Value = "\u200b"
                 };
-                foreach(Event Event in EventsMonth)
+                foreach(IEvent Event in EventsMonth)
                 {
-                    string? ToAppend = Event.Start.DateTime.HasValue ? $"\n{Event.Start.DateTime.Value.ToShortDateString()} {Event.Start.DateTime.Value.ToShortTimeString()}\n```\n{Event.Summary}\n```" : null;
-                    if(ToAppend != null)
+                    string ToAppend = $"\n{Event.Start.ToShortDateString()} {Event.Start.ToShortTimeString()}\n```\n{Event.Summary}\n```";
+                    string? MonthValue = Month.Value.ToString();
+                    if (MonthValue != null)
                     {
-                        string? MonthValue = Month.Value.ToString();
-                        if (MonthValue != null)
+                        if (MonthValue.Length + ToAppend.Length <= 1024)
+                            Month.Value += ToAppend;
+                        else
                         {
-                            if (MonthValue.Length + ToAppend.Length <= 1024)
-                                Month.Value += ToAppend;
-                            else
-                            {
-                                Month.Value += $"\n_. . and {EventsMonth.Count} more events this month_.";
-                                break;
-                            }
+                            Month.Value += $"\n_. . and {EventsMonth.Count} more events this month_.";
+                            break;
                         }
                     }
                 }

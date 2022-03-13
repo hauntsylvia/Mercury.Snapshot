@@ -18,6 +18,7 @@ namespace Mercury.Snapshot.Commands
         {
             try
             {
+                Console.WriteLine($"{Args.SlashCommand.User.Username} {DateTime.Now.ToShortDateString()} {DateTime.Now.ToShortTimeString()}");
                 if (Program.DiscordClient.GetChannel(942608553028501544) is SocketTextChannel Channel)
                 {
                     await Args.SlashCommand.RespondAsync("here u go . .", new[] { new EmbedBuilder()
@@ -28,7 +29,7 @@ namespace Mercury.Snapshot.Commands
                             Text = "-☿-"
                         },
                         Description = "<a:loadinghearts:950503533910835241>"
-                    }.Build() });
+                    }.Build() }, false, true);
                     List<EmbedFieldBuilder> Fields = new CardHelper(new List<ICard> { new EventsCard(), new ExpendituresCard(new(Args.SlashCommand.User.Id)) }, new(Args.SlashCommand.User.Id)).CorrectWhitespacing();
                     await Args.SlashCommand.ModifyOriginalResponseAsync(MessageInfo =>
                     {

@@ -8,12 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Objects\Structures\Mercury\**" />
-    <EmbeddedResource Remove="Objects\Structures\Mercury\**" />
-    <None Remove="Objects\Structures\Mercury\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Discord.Net" Version="3.4.1" />
     <PackageReference Include="Discord.Net.Commands" Version="3.4.1" />
     <PackageReference Include="Discord.Net.Core" Version="3.4.1" />
@@ -21,12 +15,11 @@
     <PackageReference Include="Discord.Net.WebSocket" Version="3.4.1" />
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.56.0.2590" />
     <PackageReference Include="Google.Apis.Sheets.v4" Version="1.56.0.2608" />
-    <PackageReference Include="izolabella.Discord" Version="2.0.4" />
+    <PackageReference Include="izolabella.Discord" Version="2.1.0" />
     <PackageReference Include="izolabella.OpenWeatherMap.NET" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\izolabella.Discord\izolabella.Discord.csproj" />
     <ProjectReference Include="..\Mercury.Unification\Mercury.Unification.csproj" />
   </ItemGroup>
 
