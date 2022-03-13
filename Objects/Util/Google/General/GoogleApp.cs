@@ -12,7 +12,7 @@ using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Sheets.v4;
 using Mercury.Snapshot.Objects.Util.Google.Sheets;
-using Mercury.Snapshot.Objects.Util.Google.Calendar;
+using Mercury.Snapshot.Objects.Structures.Mercury.Calendars;
 
 namespace Mercury.Snapshot.Objects.Util.Google.General
 {

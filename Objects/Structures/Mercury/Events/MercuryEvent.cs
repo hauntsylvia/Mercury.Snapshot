@@ -1,11 +1,11 @@
-﻿using Mercury.Snapshot.Objects.Util.Generics;
+﻿using Mercury.Snapshot.Objects.Structures.Generics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mercury.Snapshot.Objects.Structures.Mercury.Calendar
+namespace Mercury.Snapshot.Objects.Structures.Mercury.Events
 {
     public class MercuryEvent : IEvent
     {

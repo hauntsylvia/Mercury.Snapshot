@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mercury.Snapshot.Objects.Util.Generics
+namespace Mercury.Snapshot.Objects.Structures.Generics
 {
     public interface IEvent
     {

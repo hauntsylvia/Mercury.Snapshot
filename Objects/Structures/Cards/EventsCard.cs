@@ -2,7 +2,6 @@
 using Google.Apis.Calendar.v3.Data;
 using Mercury.Snapshot.Objects.Structures.Personalization;
 using Mercury.Snapshot.Objects.Util;
-using Mercury.Snapshot.Objects.Util.Google.Calendar;
 using Mercury.Snapshot.Objects.Util.Weather;
 using System;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using izolabella.OpenWeatherMap.NET.Classes;
-using Mercury.Snapshot.Objects.Util.Generics;
+using Mercury.Snapshot.Objects.Structures.Generics;
 
 namespace Mercury.Snapshot.Objects.Structures.Cards
 {
@@ -24,27 +23,9 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
         {
             List<EmbedFieldBuilder> EmbedFieldBuilders = new();
 
-            EventsResource.ListRequest RequestToday = (Program.GoogleClient.CalendarManager.Service ?? throw new NullReferenceException(nameof(Program.GoogleClient.CalendarManager.Service) + " can not be null.")).Events.List("primary");
-            RequestToday.TimeMin = DateTime.Today.Date;
-            RequestToday.TimeMax = DateTime.Today.Date.Add(new TimeSpan(23, 59, 59));
-            RequestToday.SingleEvents = true;
-            RequestToday.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
-
-            EventsResource.ListRequest RequestWeek = (Program.GoogleClient.CalendarManager.Service ?? throw new NullReferenceException(nameof(Program.GoogleClient.CalendarManager.Service) + " can not be null.")).Events.List("primary");
-            RequestWeek.TimeMin = DateTime.Today.Date.AddDays(1);
-            RequestWeek.TimeMax = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59));
-            RequestWeek.SingleEvents = true;
-            RequestWeek.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
-
-            EventsResource.ListRequest RequestMonth = (Program.GoogleClient.CalendarManager.Service ?? throw new NullReferenceException(nameof(Program.GoogleClient.CalendarManager.Service) + " can not be null.")).Events.List("primary");
-            RequestMonth.TimeMin = RequestWeek.TimeMax;
-            RequestMonth.TimeMax = new(DateTime.Today.Date.Year, DateTime.Today.Month + 1, 1);
-            RequestMonth.SingleEvents = true;
-            RequestMonth.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
-
-            IReadOnlyList<IEvent> EventsToday = Program.GoogleClient.CalendarManager.GetIzolabellasEvents(RequestToday);
-            IReadOnlyList<IEvent> EventsWeek = Program.GoogleClient.CalendarManager.GetIzolabellasEvents(RequestWeek);
-            IReadOnlyList<IEvent> EventsMonth = Program.GoogleClient.CalendarManager.GetIzolabellasEvents(RequestMonth);
+            IReadOnlyCollection<IEvent> EventsToday = Program.GoogleClient.CalendarManager.GetEvents(DateTime.Today.Date, DateTime.Today.Date.Add(new TimeSpan(23, 59, 59))).Result;
+            IReadOnlyCollection<IEvent> EventsWeek = Program.GoogleClient.CalendarManager.GetEvents(DateTime.Today.AddDays(1), DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59))).Result;
+            IReadOnlyCollection<IEvent> EventsMonth = Program.GoogleClient.CalendarManager.GetEvents(DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), new(DateTime.Today.Date.Year, DateTime.Today.Month + 1, 1)).Result;
 
             WeatherResponse? WeatherToday = WeatherManager.GetWeatherForToday(Profile.Settings.ObjectToStore.WeatherSettings.Zip);
 

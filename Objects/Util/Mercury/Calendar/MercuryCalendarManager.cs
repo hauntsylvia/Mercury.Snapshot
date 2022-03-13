@@ -1,6 +1,5 @@
-﻿using Mercury.Snapshot.Objects.Structures.Personalization;
-using Mercury.Snapshot.Objects.Util.Generics;
-using Mercury.Snapshot.Objects.Util.Google.Calendar;
+﻿using Mercury.Snapshot.Objects.Structures.Generics;
+using Mercury.Snapshot.Objects.Structures.Personalization;
 using Mercury.Unification.IO.File;
 using System;
 using System.Collections.Generic;
