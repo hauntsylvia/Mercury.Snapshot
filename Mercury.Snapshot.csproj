@@ -28,6 +28,9 @@
     <None Update="Discord Token.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Google Credentials.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="OpenWeatherMap App Id.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

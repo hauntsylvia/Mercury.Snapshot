@@ -42,9 +42,10 @@ namespace Mercury.Snapshot.Objects.Util.Google.General
 
         public MercuryProfile User { get; }
 
-        public UserCredential GetUserCredential()
+        public static UserCredential GetUserCredential()
         {
-            string TokenPath = Path.Combine(Unification.IO.File.Register.DefaultLocation.FullName, "Google", $"{this.User.DiscordId}");
+            //string TokenPath = Path.Combine(Unification.IO.File.Register.DefaultLocation.FullName, "Google", $"{this.User.DiscordId}");
+            string TokenPath = Path.Combine(Unification.IO.File.Register.DefaultLocation.FullName, "Google For Mercury");
             UserCredential Credential;
             using (FileStream stream = new("Google Credentials.json", FileMode.Open, FileAccess.Read))
                 Credential = GoogleWebAuthorizationBroker.AuthorizeAsync(GoogleClientSecrets.FromStream(stream).Secrets,
