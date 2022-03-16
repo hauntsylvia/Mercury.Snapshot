@@ -1,8 +1,8 @@
 ﻿namespace Mercury.Snapshot.Objects.Structures.Financial.Entries
 {
-    public class Expenditure : IExpenditure
+    public class MercuryExpenditure : IExpenditure
     {
-        public Expenditure(DateTime Timestamp, decimal DollarAmount, string PayeeOrPayer, string Category)
+        public MercuryExpenditure(DateTime Timestamp, decimal DollarAmount, string PayeeOrPayer, string Category)
         {
             this.Timestamp = Timestamp;
             this.DollarAmount = DollarAmount;

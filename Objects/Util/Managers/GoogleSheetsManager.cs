@@ -33,12 +33,12 @@ namespace Mercury.Snapshot.Objects.Util.Managers
         }
 
 
-        public IReadOnlyList<Expenditure> GetUserExpenditures(string SpreadsheetId)
+        public IReadOnlyList<MercuryExpenditure> GetUserExpenditures(string SpreadsheetId)
         {
             SpreadsheetsResource.ValuesResource.GetRequest GetCells = this.Service.Spreadsheets.Values.Get(SpreadsheetId, "Expenditure!A:D");
             ValueRange Response = GetCells.Execute();
             IList<IList<object>> Values = Response.Values;
-            List<Expenditure> Expenditures = new();
+            List<MercuryExpenditure> Expenditures = new();
             if (Values != null && Values.Count > 0)
                 foreach (IList<object> Row in Values)
                     if (DateTime.TryParse((string)Row[0], out DateTime Timestamp) && decimal.TryParse(((string)Row[1]).Remove(((string)Row[1]).LastIndexOf('$'), 1), out decimal Amount))

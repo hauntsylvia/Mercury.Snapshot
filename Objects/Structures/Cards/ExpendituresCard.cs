@@ -14,9 +14,9 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
             string? Id = Profile.Settings.ObjectToStore.GoogleSheetsSettings.ExpenditureSpreadsheetId;
             if (Id != null && Profile.GoogleClient.IsAuthenticated && Profile.GoogleClient.SheetsManager != null)
             {
-                IReadOnlyList<Expenditure> Expenditures = Profile.GoogleClient.SheetsManager.GetUserExpenditures(Id);
+                IReadOnlyList<MercuryExpenditure> Expenditures = Profile.GoogleClient.SheetsManager.GetUserExpenditures(Id);
                 Dictionary<string, decimal> Counting = new();
-                foreach (Expenditure Expenditure in Expenditures)
+                foreach (MercuryExpenditure Expenditure in Expenditures)
                 {
                     if (Expenditure.PayeeOrPayer.Length > 0 && Expenditure.Timestamp.Month == DateTime.Now.Month)
                     {
