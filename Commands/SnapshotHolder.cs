@@ -2,7 +2,7 @@
 using izolabella.Discord.Commands.Attributes;
 using Mercury.Snapshot.Objects.Structures.Cards;
 using Mercury.Snapshot.Objects.Structures.Personalization;
-using Mercury.Snapshot.Objects.Util.Cards;
+using Mercury.Snapshot.Objects.Util;
 
 namespace Mercury.Snapshot.Commands
 {
@@ -28,7 +28,7 @@ namespace Mercury.Snapshot.Commands
                             },
                             Description = "<a:loadinghearts:950503533910835241>"
                         }.Build() }, false, true);
-                        List<EmbedFieldBuilder> Fields = new CardHelper(new List<ICard> { new EventsCard(), new ExpendituresCard() }, new(Args.SlashCommand.User.Id)).CorrectWhitespacing();
+                        List<EmbedFieldBuilder> Fields = new CardsBuilder(new List<ICard> { new EventsCard(), new ExpendituresCard() }, new(Args.SlashCommand.User.Id)).Build();
                         await Args.SlashCommand.ModifyOriginalResponseAsync(MessageInfo =>
                         {
                             MessageInfo.Embed = new EmbedBuilder()

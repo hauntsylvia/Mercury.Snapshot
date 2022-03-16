@@ -1,20 +1,18 @@
-﻿using Mercury.Snapshot.Objects.Structures.Generics;
+﻿using Mercury.Snapshot.Objects.Structures.Calendars;
 using Mercury.Snapshot.Objects.Structures.Personalization;
 using Mercury.Unification.IO.File;
 
-namespace Mercury.Snapshot.Objects.Util.Mercury.Calendar
+namespace Mercury.Snapshot.Objects.Util
 {
     public class MercuryCalendarManager
     {
         public MercuryCalendarManager(MercuryProfile Profile, List<ICalendar> AllCalendarsToSync)
         {
             this.Profile = Profile;
-            this.CalendarRegister = new("Mercury Calendars");
             this.AllCalendarsToSync = AllCalendarsToSync;
         }
 
         public MercuryProfile Profile { get; }
-        public Register CalendarRegister { get; }
         public IReadOnlyCollection<ICalendar> AllCalendarsToSync { get; }
 
         public Task SyncAllCalendars()

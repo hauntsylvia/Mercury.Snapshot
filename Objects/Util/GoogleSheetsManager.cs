@@ -4,9 +4,8 @@ using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Mercury.Snapshot.Objects.Structures.Financial;
-using Mercury.Snapshot.Objects.Util.Google.General;
 
-namespace Mercury.Snapshot.Objects.Util.Google.Sheets
+namespace Mercury.Snapshot.Objects.Util
 {
     public class GoogleSheetsManager
     {
@@ -15,7 +14,7 @@ namespace Mercury.Snapshot.Objects.Util.Google.Sheets
             this.Service = new(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = Credential,
-                ApplicationName = GoogleApp.ApplicationName,
+                ApplicationName = GoogleClient.ApplicationName,
             });
         }
 

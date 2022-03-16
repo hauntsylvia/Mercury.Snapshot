@@ -1,4 +1,4 @@
-﻿using Mercury.Snapshot.Objects.Util.Google.General;
+﻿using Mercury.Snapshot.Objects.Util;
 using Mercury.Unification.IO.File;
 
 namespace Mercury.Snapshot.Objects.Structures.Personalization
@@ -18,8 +18,8 @@ namespace Mercury.Snapshot.Objects.Structures.Personalization
             this.googleClient = new(this.DiscordId);
         }
 
-        private readonly GoogleApp googleClient;
-        public GoogleApp GoogleClient => this.googleClient;
+        private readonly GoogleClient googleClient;
+        public GoogleClient GoogleClient => this.googleClient;
 
         public Record<MercuryUserSettings> Settings
         {

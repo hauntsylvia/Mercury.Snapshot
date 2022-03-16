@@ -1,7 +1,7 @@
 ﻿using izolabella.OpenWeatherMap.NET.Classes;
-using Mercury.Snapshot.Objects.Structures.Generics;
+using Mercury.Snapshot.Objects.Structures.Events;
 using Mercury.Snapshot.Objects.Structures.Personalization;
-using Mercury.Snapshot.Objects.Util.Weather;
+using Mercury.Snapshot.Objects.Util;
 
 namespace Mercury.Snapshot.Objects.Structures.Cards
 {

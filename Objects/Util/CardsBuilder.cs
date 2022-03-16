@@ -1,11 +1,11 @@
 ﻿using Mercury.Snapshot.Objects.Structures.Cards;
 using Mercury.Snapshot.Objects.Structures.Personalization;
 
-namespace Mercury.Snapshot.Objects.Util.Cards
+namespace Mercury.Snapshot.Objects.Util
 {
-    public class CardHelper
+    public class CardsBuilder
     {
-        public CardHelper(List<ICard> Cards, MercuryProfile Profile)
+        public CardsBuilder(List<ICard> Cards, MercuryProfile Profile)
         {
             List<List<EmbedFieldBuilder>> CardsBuilder = new();
             foreach (ICard Card in Cards)
@@ -20,11 +20,10 @@ namespace Mercury.Snapshot.Objects.Util.Cards
         public List<List<EmbedFieldBuilder>> Cards => this.cards;
 
 
-        public List<EmbedFieldBuilder> CorrectWhitespacing()
+        public List<EmbedFieldBuilder> Build()
         {
             List<EmbedFieldBuilder> Finished = new();
             foreach (List<EmbedFieldBuilder> Set in this.Cards)
-            {
                 if (Set.Count > 0)
                 {
                     if (Set != this.Cards.Last())
@@ -38,7 +37,6 @@ namespace Mercury.Snapshot.Objects.Util.Cards
                     }
                     Finished.AddRange(Set);
                 }
-            }
             return Finished;
         }
     }

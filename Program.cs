@@ -9,7 +9,7 @@ using izolabella.Discord;
 using izolabella.Google.Classes.OAuth2.Helpers;
 using izolabella.OpenWeatherMap.NET;
 using Mercury.Snapshot.Objects.Structures.Personalization;
-using Mercury.Snapshot.Objects.Util.Google.General;
+using Mercury.Snapshot.Objects.Util;
 using Mercury.Unification.IO.File;
 
 namespace Mercury.Snapshot
@@ -43,7 +43,7 @@ namespace Mercury.Snapshot
             {
                 string Redirect = "https://mercury-bot.ml:443/google-oauth2/GoogleAuthReceiver/";
                 string TokenPath = "Google Cache";
-                googleOAuth2Handler = new(new Uri("https://mercury-bot.ml:443/"), Secrets, new FileDataStore(TokenPath, true), Redirect, Redirect, GoogleApp.Scopes);
+                googleOAuth2Handler = new(new Uri("https://mercury-bot.ml:443/"), Secrets, new FileDataStore(TokenPath, true), Redirect, Redirect, GoogleClient.Scopes);
                 await DiscordClient.LoginAsync(TokenType.Bot, File.ReadAllText("Discord Token.txt"));
                 await DiscordClient.StartAsync();
                 await Task.Delay(3000);

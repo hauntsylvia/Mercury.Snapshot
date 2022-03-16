@@ -3,11 +3,10 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
-using Mercury.Snapshot.Objects.Structures.Generics;
-using Mercury.Snapshot.Objects.Structures.Mercury.Events;
-using Mercury.Snapshot.Objects.Util.Google.General;
+using Mercury.Snapshot.Objects.Structures.Events;
+using Mercury.Snapshot.Objects.Util;
 
-namespace Mercury.Snapshot.Objects.Structures.Mercury.Calendars
+namespace Mercury.Snapshot.Objects.Structures.Calendars
 {
     public class GoogleCalendar : ICalendar
     {
@@ -16,7 +15,7 @@ namespace Mercury.Snapshot.Objects.Structures.Mercury.Calendars
             this.Service = new(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = Credential,
-                ApplicationName = GoogleApp.ApplicationName,
+                ApplicationName = GoogleClient.ApplicationName,
             });
         }
 

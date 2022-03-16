@@ -3,19 +3,18 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Sheets.v4;
-using Mercury.Snapshot.Objects.Structures.Mercury.Calendars;
-using Mercury.Snapshot.Objects.Util.Google.Sheets;
+using Mercury.Snapshot.Objects.Structures.Calendars;
 using Mercury.Unification.IO.File;
 
-namespace Mercury.Snapshot.Objects.Util.Google.General
+namespace Mercury.Snapshot.Objects.Util
 {
-    public class GoogleApp
+    public class GoogleClient
     {
         public static readonly string[] Scopes = { CalendarService.Scope.CalendarReadonly, SheetsService.Scope.SpreadsheetsReadonly };
         public static readonly string ApplicationName = "MercuryDOTSnapshot";
 
 
-        public GoogleApp(ulong UserId)
+        public GoogleClient(ulong UserId)
         {
             this.UserId = UserId;
             UserCredential? Credential = this.AuthorizeAndRepairAsync().Result;

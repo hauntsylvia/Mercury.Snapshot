@@ -1,4 +1,6 @@
-﻿namespace Mercury.Snapshot.Objects.Structures.Generics
+﻿using Mercury.Snapshot.Objects.Structures.Events;
+
+namespace Mercury.Snapshot.Objects.Structures.Calendars
 {
     public interface ICalendar
     {

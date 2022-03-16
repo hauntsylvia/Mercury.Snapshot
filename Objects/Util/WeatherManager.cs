@@ -1,6 +1,6 @@
 ﻿using izolabella.OpenWeatherMap.NET.Classes;
 
-namespace Mercury.Snapshot.Objects.Util.Weather
+namespace Mercury.Snapshot.Objects.Util
 {
     public class WeatherManager
     {

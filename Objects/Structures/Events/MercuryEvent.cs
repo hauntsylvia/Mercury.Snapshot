@@ -1,6 +1,4 @@
-﻿using Mercury.Snapshot.Objects.Structures.Generics;
-
-namespace Mercury.Snapshot.Objects.Structures.Mercury.Events
+﻿namespace Mercury.Snapshot.Objects.Structures.Events
 {
     public class MercuryEvent : IEvent
     {

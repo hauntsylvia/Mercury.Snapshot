@@ -1,4 +1,4 @@
-﻿namespace Mercury.Snapshot.Objects.Structures.Generics
+﻿namespace Mercury.Snapshot.Objects.Structures.Events
 {
     public interface IEvent
     {
