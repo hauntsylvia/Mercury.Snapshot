@@ -36,7 +36,6 @@ namespace Mercury.Snapshot.Commands
             {
                 if(OriginalCall.ApplicationAppliedTag == Args.SlashCommand.User.Id.ToString())
                 {
-                    Registers.GoogleCredentialsRegister.SaveRecord(Args.SlashCommand.User.Id.ToString(), new Unification.IO.File.Record<TokenResponse>(TokResponse, new List<string>()));
                     await Args.SlashCommand.FollowupAsync("auth <3", null, false, true);
                 }
             };

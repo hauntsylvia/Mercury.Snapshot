@@ -28,14 +28,13 @@ namespace Mercury.Snapshot.Objects.Util.Google.General
 
         public GoogleApp(ulong UserId)
         {
+            this.UserId = UserId;
             UserCredential? Credential = this.AuthorizeAndRepairAsync().Result;
             if (Credential != null)
             {
                 this.calendarManager = new(Credential);
                 this.sheetsManager = new(Credential);
             }
-
-            this.UserId = UserId;
         }
 
 
@@ -49,23 +48,13 @@ namespace Mercury.Snapshot.Objects.Util.Google.General
         public GoogleSheetsManager? SheetsManager => this.sheetsManager;
 
         public ulong UserId { get; }
-        private UserCredential? LastUserCredential { get; set; }
-        public bool IsAuthenticated
-        {
-            get
-            {
-                return  (this.LastUserCredential == null || this.LastUserCredential.Token.IsExpired(new Clock())) 
-                    &&
-                        (this.calendarManager != null && this.SheetsManager != null);
-            }
-        }
+        public bool IsAuthenticated => this.calendarManager != null && this.sheetsManager != null;
         public async Task<UserCredential?> AuthorizeAndRepairAsync()
         {
             Record<TokenResponse>? Record = Registers.GoogleCredentialsRegister.GetRecord<TokenResponse>(this.UserId.ToString());
             if(Record != null)
             {
                 UserCredential C = await Program.GoogleOAuth2Handler.GetUserCredentialFromTokenResponseAsync(Record.ObjectToStore);
-                this.LastUserCredential = C;
                 this.sheetsManager = new(C);
                 this.calendarManager = new(C);
                 return C;

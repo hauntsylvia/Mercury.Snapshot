@@ -22,6 +22,8 @@ using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Requests;
 using System.Diagnostics;
 using izolabella.Google.Classes.OAuth2.Helpers;
+using Google.Apis.Auth.OAuth2.Responses;
+using Mercury.Unification.IO.File;
 
 namespace Mercury.Snapshot
 {
@@ -62,6 +64,20 @@ namespace Mercury.Snapshot
                 await Task.Delay(3000);
                 DiscordWrapper.CommandHandler.AllowBotInteractions = false;
                 await DiscordWrapper.CommandHandler.StartReceiving();
+                DiscordWrapper.CommandHandler.CommandNeedsValidation = (SlashCommand, Attr) =>
+                {
+                    MercuryProfile P = new(SlashCommand.User.Id);
+                    P.GoogleClient.AuthorizeAndRepairAsync().GetAwaiter().GetResult();
+                    return true;
+                };
+                GoogleOAuth2Handler.TokenPOSTed += (UserCredential, TokResponse, OriginalCall) =>
+                {
+                    Record<TokenResponse> CurrentRecord = Registers.GoogleCredentialsRegister.GetRecord<TokenResponse>(OriginalCall.ApplicationAppliedTag) ?? new Record<TokenResponse>(TokResponse, new List<string>());
+                    CurrentRecord.ObjectToStore.AccessToken = TokResponse.AccessToken;
+                    if (TokResponse.RefreshToken != null)
+                        CurrentRecord.ObjectToStore.RefreshToken = TokResponse.RefreshToken;
+                    Registers.GoogleCredentialsRegister.SaveRecord(OriginalCall.ApplicationAppliedTag, CurrentRecord);
+                };
             }
             await Task.Delay(-1);
         }

@@ -43,10 +43,9 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                         decimal TemperatureMin = WeatherToday.Main.TempMinimum;
                         Today.Value = $"{Temperature}°C - {WeatherToday.Name}\nH: {TemperatureMax}°C L: {TemperatureMin}°C\n";
                     }
-                    foreach (Event Event in EventsToday)
+                    foreach (IEvent Event in EventsToday)
                     {
-                        if (Event.Start.DateTime.HasValue)
-                            Today.Value += $"\n{Event.Start.DateTime.Value.ToShortTimeString()}\n```\n{Event.Summary}{Event.Description}\n```";
+                        Today.Value += $"\n{Event.Start.ToShortTimeString()}\n```\n{Event.Summary}\n{Event.Description}\n```";
                     }
                     Today.Value += "\u200b\n";
                     EmbedFieldBuilders.Add(Today);
@@ -58,10 +57,9 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                     {
                         Name = $"THIS WEEK",
                     };
-                    foreach (Event Event in EventsWeek)
+                    foreach (IEvent Event in EventsWeek)
                     {
-                        if (Event.Start.DateTime.HasValue)
-                            Week.Value += $"\n{Event.Start.DateTime.Value.ToShortDateString()} {Event.Start.DateTime.Value.ToShortTimeString()}\n```\n{Event.Summary}\n```";
+                        Week.Value += $"\n{Event.Start.ToShortDateString()} {Event.Start.ToShortTimeString()}\n```\n{Event.Summary}\n```";
                     }
                     Week.Value += "\u200b\n";
                     EmbedFieldBuilders.Add(Week);

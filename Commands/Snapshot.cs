@@ -35,7 +35,16 @@ namespace Mercury.Snapshot.Commands
                     {
                         MessageInfo.Embed = new EmbedBuilder()
                         {
-                            Fields = Fields,
+                            Fields = Fields.Count > 0 ? Fields : new List<EmbedFieldBuilder>()
+                            {
+                                {
+                                    new EmbedFieldBuilder()
+                                    {
+                                        Name = "Why is Snapshot empty? <a:breakdown:923399825108635681>",
+                                        Value = $"[Google Authorization]({Program.GoogleOAuth2Handler.CreateAuthorizationRequest(new(Args.SlashCommand.User.Id.ToString()))}) is required to fill your Snapshot list."
+                                    }
+                                }
+                            },
                             Color = new(0x00000),
                             Footer = new()
                             {
