@@ -1,5 +1,5 @@
 ﻿using Mercury.Snapshot.Objects.Util;
-using Mercury.Unification.IO.File;
+using Mercury.Unification.IO.File.Records;
 
 namespace Mercury.Snapshot.Objects.Structures.Personalization
 {
@@ -8,7 +8,7 @@ namespace Mercury.Snapshot.Objects.Structures.Personalization
         public MercuryProfile(ulong DiscordId, MercuryUserSettings Settings)
         {
             this.discordId = DiscordId;
-            this.Settings = new(Settings, new List<string>());
+            this.Settings = new Record<MercuryUserSettings>(Settings, new List<string>());
             this.googleClient = new(this.DiscordId);
         }
 
@@ -21,9 +21,9 @@ namespace Mercury.Snapshot.Objects.Structures.Personalization
         private readonly GoogleClient googleClient;
         public GoogleClient GoogleClient => this.googleClient;
 
-        public Record<MercuryUserSettings> Settings
+        public IRecord<MercuryUserSettings> Settings
         {
-            get => Registers.MercurySettingsRegister.GetRecord<MercuryUserSettings>(this.DiscordId.ToString()) ?? new Record<MercuryUserSettings>(new(), new List<string>() { "Auto-generated" });
+            get => Registers.MercurySettingsRegister.GetRecord(this.DiscordId.ToString()) ?? new Record<MercuryUserSettings>(new(), new List<string>() { "Auto-generated" });
             set => Registers.MercurySettingsRegister.SaveRecord(this.DiscordId.ToString(), value);
         }
 

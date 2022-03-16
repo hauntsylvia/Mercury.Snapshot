@@ -10,7 +10,7 @@ using izolabella.Google.Classes.OAuth2.Helpers;
 using izolabella.OpenWeatherMap.NET;
 using Mercury.Snapshot.Objects.Structures.Personalization;
 using Mercury.Snapshot.Objects.Util;
-using Mercury.Unification.IO.File;
+using Mercury.Unification.IO.File.Records;
 
 namespace Mercury.Snapshot
 {
@@ -57,7 +57,7 @@ namespace Mercury.Snapshot
                 };
                 GoogleOAuth2Handler.TokenPOSTed += (UserCredential, TokResponse, OriginalCall) =>
                 {
-                    Record<TokenResponse> CurrentRecord = Registers.GoogleCredentialsRegister.GetRecord<TokenResponse>(OriginalCall.ApplicationAppliedTag) ?? new Record<TokenResponse>(TokResponse, new List<string>());
+                    IRecord<TokenResponse> CurrentRecord = Registers.GoogleCredentialsRegister.GetRecord(OriginalCall.ApplicationAppliedTag) ?? new Record<TokenResponse>(TokResponse, new List<string>());
                     CurrentRecord.ObjectToStore.AccessToken = TokResponse.AccessToken;
                     if (TokResponse.RefreshToken != null)
                         CurrentRecord.ObjectToStore.RefreshToken = TokResponse.RefreshToken;

@@ -5,7 +5,7 @@ using Google.Apis.Calendar.v3;
 using Google.Apis.Sheets.v4;
 using Mercury.Snapshot.Objects.Structures.Calendars;
 using Mercury.Snapshot.Objects.Util.Managers;
-using Mercury.Unification.IO.File;
+using Mercury.Unification.IO.File.Records;
 
 namespace Mercury.Snapshot.Objects.Util
 {
@@ -40,7 +40,7 @@ namespace Mercury.Snapshot.Objects.Util
         public bool IsAuthenticated => this.calendarManager != null && this.sheetsManager != null;
         public async Task<UserCredential?> AuthorizeAndRepairAsync()
         {
-            Record<TokenResponse>? Record = Registers.GoogleCredentialsRegister.GetRecord<TokenResponse>(this.UserId.ToString());
+            IRecord<TokenResponse>? Record = Registers.GoogleCredentialsRegister.GetRecord(this.UserId.ToString());
             if (Record != null)
             {
                 UserCredential C = await Program.GoogleOAuth2Handler.GetUserCredentialFromTokenResponseAsync(Record.ObjectToStore);
