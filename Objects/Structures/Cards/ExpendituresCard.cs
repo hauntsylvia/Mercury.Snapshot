@@ -21,7 +21,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
         public IReadOnlyList<EmbedFieldBuilder> Render(MercuryProfile Profile)
         {
             string? Id = this.User.Settings.ObjectToStore.GoogleSheetsSettings.ExpenditureSpreadsheetId;
-            if (Id != null)
+            if (Id != null && Profile.GoogleClient.IsAuthenticated && Profile.GoogleClient.SheetsManager != null)
             {
                 IReadOnlyList<Expenditure> Expenditures = Profile.GoogleClient.SheetsManager.GetUserExpenditures(Id);
                 Dictionary<string, decimal> Counting = new();

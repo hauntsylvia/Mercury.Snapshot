@@ -4,6 +4,8 @@ global using Newtonsoft.Json.Linq;
 global using Discord.WebSocket;
 global using Discord;
 
+global using Mercury.Snapshot.Consts;
+
 using Google.Apis.Calendar.v3.Data;
 using Mercury.Snapshot.Objects.Structures.Cards;
 using Mercury.Snapshot.Objects.Structures.Personalization;

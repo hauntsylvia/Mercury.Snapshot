@@ -19,11 +19,11 @@ namespace Mercury.Snapshot.Objects.Util.Google.Sheets
 {
     public class GoogleSheetsManager
     {
-        public GoogleSheetsManager(MercuryProfile User)
+        public GoogleSheetsManager(UserCredential Credential)
         {
             this.Service = new(new BaseClientService.Initializer()
             {
-                HttpClientInitializer = User.GoogleClient.GetUserCredential(),
+                HttpClientInitializer = Credential,
                 ApplicationName = GoogleApp.ApplicationName,
             });
         }

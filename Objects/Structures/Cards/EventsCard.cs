@@ -22,74 +22,76 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
         public IReadOnlyList<EmbedFieldBuilder> Render(MercuryProfile Profile)
         {
             List<EmbedFieldBuilder> EmbedFieldBuilders = new();
-
-            IReadOnlyCollection<IEvent> EventsToday = Profile.GoogleClient.CalendarManager.GetEvents(DateTime.Today.Date, DateTime.Today.Date.Add(new TimeSpan(23, 59, 59))).Result;
-            IReadOnlyCollection<IEvent> EventsWeek = Profile.GoogleClient.CalendarManager.GetEvents(DateTime.Today.AddDays(1), DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59))).Result;
-            IReadOnlyCollection<IEvent> EventsMonth = Profile.GoogleClient.CalendarManager.GetEvents(DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), new(DateTime.Today.Date.Year, DateTime.Today.Month + 1, 1)).Result;
-
-            WeatherResponse? WeatherToday = WeatherManager.GetWeatherForToday(Profile.Settings.ObjectToStore.WeatherSettings.Zip);
-
-            if (EventsToday.Count > 0 || WeatherToday != null)
+            if (Profile.GoogleClient.IsAuthenticated && Profile.GoogleClient.CalendarManager != null)
             {
-                EmbedFieldBuilder Today = new()
-                {
-                    Name = $"TODAY • {DateTime.Today.ToLongDateString()}",
-                };
-                if(WeatherToday != null)
-                {
-                    decimal Temperature = WeatherToday.Main.Temp;
-                    decimal TemperatureMax = WeatherToday.Main.TempMaximum;
-                    decimal TemperatureMin = WeatherToday.Main.TempMinimum;
-                    Today.Value = $"{Temperature}°C - {WeatherToday.Name}\nH: {TemperatureMax}°C L: {TemperatureMin}°C\n";
-                }
-                foreach(Event Event in EventsToday)
-                {
-                    if(Event.Start.DateTime.HasValue)
-                        Today.Value += $"\n{Event.Start.DateTime.Value.ToShortTimeString()}\n```\n{Event.Summary}{Event.Description}\n```";
-                }
-                Today.Value += "\u200b\n";
-                EmbedFieldBuilders.Add(Today);
-            }
+                IReadOnlyCollection<IEvent> EventsToday = Profile.GoogleClient.CalendarManager.GetEvents(DateTime.Today.Date, DateTime.Today.Date.Add(new TimeSpan(23, 59, 59))).Result;
+                IReadOnlyCollection<IEvent> EventsWeek = Profile.GoogleClient.CalendarManager.GetEvents(DateTime.Today.AddDays(1), DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59))).Result;
+                IReadOnlyCollection<IEvent> EventsMonth = Profile.GoogleClient.CalendarManager.GetEvents(DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), new(DateTime.Today.Date.Year, DateTime.Today.Month + 1, 1)).Result;
 
-            if(EventsWeek.Count > 0)
-            {
-                EmbedFieldBuilder Week = new()
-                {
-                    Name = $"THIS WEEK",
-                };
-                foreach(Event Event in EventsWeek)
-                {
-                    if(Event.Start.DateTime.HasValue)
-                        Week.Value += $"\n{Event.Start.DateTime.Value.ToShortDateString()} {Event.Start.DateTime.Value.ToShortTimeString()}\n```\n{Event.Summary}\n```";
-                }
-                Week.Value += "\u200b\n";
-                EmbedFieldBuilders.Add(Week);
-            }
+                WeatherResponse? WeatherToday = WeatherManager.GetWeatherForToday(Profile.Settings.ObjectToStore.WeatherSettings.Zip);
 
-            if(EventsMonth.Count > 0)
-            {
-                EmbedFieldBuilder Month = new()
+                if (EventsToday.Count > 0 || WeatherToday != null)
                 {
-                    Name = $"THIS MONTH",
-                    Value = "\u200b"
-                };
-                foreach(IEvent Event in EventsMonth)
-                {
-                    string ToAppend = $"\n{Event.Start.ToShortDateString()} {Event.Start.ToShortTimeString()}\n```\n{Event.Summary}\n```";
-                    string? MonthValue = Month.Value.ToString();
-                    if (MonthValue != null)
+                    EmbedFieldBuilder Today = new()
                     {
-                        if (MonthValue.Length + ToAppend.Length <= 1024)
-                            Month.Value += ToAppend;
-                        else
+                        Name = $"TODAY • {DateTime.Today.ToLongDateString()}",
+                    };
+                    if (WeatherToday != null)
+                    {
+                        decimal Temperature = WeatherToday.Main.Temp;
+                        decimal TemperatureMax = WeatherToday.Main.TempMaximum;
+                        decimal TemperatureMin = WeatherToday.Main.TempMinimum;
+                        Today.Value = $"{Temperature}°C - {WeatherToday.Name}\nH: {TemperatureMax}°C L: {TemperatureMin}°C\n";
+                    }
+                    foreach (Event Event in EventsToday)
+                    {
+                        if (Event.Start.DateTime.HasValue)
+                            Today.Value += $"\n{Event.Start.DateTime.Value.ToShortTimeString()}\n```\n{Event.Summary}{Event.Description}\n```";
+                    }
+                    Today.Value += "\u200b\n";
+                    EmbedFieldBuilders.Add(Today);
+                }
+
+                if (EventsWeek.Count > 0)
+                {
+                    EmbedFieldBuilder Week = new()
+                    {
+                        Name = $"THIS WEEK",
+                    };
+                    foreach (Event Event in EventsWeek)
+                    {
+                        if (Event.Start.DateTime.HasValue)
+                            Week.Value += $"\n{Event.Start.DateTime.Value.ToShortDateString()} {Event.Start.DateTime.Value.ToShortTimeString()}\n```\n{Event.Summary}\n```";
+                    }
+                    Week.Value += "\u200b\n";
+                    EmbedFieldBuilders.Add(Week);
+                }
+
+                if (EventsMonth.Count > 0)
+                {
+                    EmbedFieldBuilder Month = new()
+                    {
+                        Name = $"THIS MONTH",
+                        Value = "\u200b"
+                    };
+                    foreach (IEvent Event in EventsMonth)
+                    {
+                        string ToAppend = $"\n{Event.Start.ToShortDateString()} {Event.Start.ToShortTimeString()}\n```\n{Event.Summary}\n```";
+                        string? MonthValue = Month.Value.ToString();
+                        if (MonthValue != null)
                         {
-                            Month.Value += $"\n_. . and {EventsMonth.Count} more events this month_.";
-                            break;
+                            if (MonthValue.Length + ToAppend.Length <= 1024)
+                                Month.Value += ToAppend;
+                            else
+                            {
+                                Month.Value += $"\n_. . and {EventsMonth.Count} more events this month_.";
+                                break;
+                            }
                         }
                     }
+                    Month.Value += "\u200b\n";
+                    EmbedFieldBuilders.Add(Month);
                 }
-                Month.Value += "\u200b\n";
-                EmbedFieldBuilders.Add(Month);
             }
             return EmbedFieldBuilders;
         }

@@ -21,19 +21,16 @@ namespace Mercury.Snapshot.Objects.Structures.Mercury.Calendars
 {
     public class GoogleCalendar : ICalendar
     {
-        public GoogleCalendar(MercuryProfile User)
+        public GoogleCalendar(UserCredential Credential)
         {
             this.Service = new(new BaseClientService.Initializer()
             {
-                HttpClientInitializer = User.GoogleClient.GetUserCredential(),
+                HttpClientInitializer = Credential,
                 ApplicationName = GoogleApp.ApplicationName,
             });
-            this.User = User;
         }
 
         public CalendarService Service { get; set; }
-
-        public MercuryProfile User { get; }
 
         public Task<IReadOnlyCollection<IEvent>> GetEvents(DateTime TimeMin, DateTime TimeMax, int MaxResults = 2500)
         {

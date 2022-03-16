@@ -1,4 +1,5 @@
-﻿using Mercury.Snapshot.Objects.Structures.Cards;
+﻿using Mercury.Snapshot.Consts;
+using Mercury.Snapshot.Objects.Structures.Cards;
 using Mercury.Snapshot.Objects.Util.Google.General;
 using Mercury.Unification.IO.File;
 using System;
@@ -15,33 +16,22 @@ namespace Mercury.Snapshot.Objects.Structures.Personalization
         {
             this.discordId = DiscordId;
             this.Settings = new(Settings, new List<string>());
-            this.googleClient = new(this);
+            this.googleClient = new(this.DiscordId);
         }
 
         public MercuryProfile(ulong DiscordId)
         {
             this.discordId = DiscordId;
-            this.googleClient = new(this);
+            this.googleClient = new(this.DiscordId);
         }
-
-
-        private readonly Register settingsSaveRegister = new("Mercury User Settings");
-        public Register SettingsSaveRegister => this.settingsSaveRegister;
 
         private readonly GoogleApp googleClient;
-        public GoogleApp GoogleClient
-        {
-            get
-            {
-                this.googleClient.GetUserCredential();
-                return this.googleClient;
-            }
-        }
+        public GoogleApp GoogleClient => this.googleClient;
 
         public Record<MercuryUserSettings> Settings 
         { 
-            get => this.SettingsSaveRegister.GetRecord<MercuryUserSettings>(this.DiscordId.ToString()) ?? new Record<MercuryUserSettings>(new(), new List<string>() { "Auto-generated" });
-            set => this.SettingsSaveRegister.SaveRecord(this.DiscordId.ToString(), value);
+            get => Registers.MercurySettingsRegister.GetRecord<MercuryUserSettings>(this.DiscordId.ToString()) ?? new Record<MercuryUserSettings>(new(), new List<string>() { "Auto-generated" });
+            set => Registers.MercurySettingsRegister.SaveRecord(this.DiscordId.ToString(), value);
         }
 
 

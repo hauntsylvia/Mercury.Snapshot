@@ -1,4 +1,5 @@
-﻿using izolabella.Discord.Commands.Arguments;
+﻿using Google.Apis.Auth.OAuth2.Responses;
+using izolabella.Discord.Commands.Arguments;
 using izolabella.Discord.Commands.Attributes;
 using System;
 using System.Collections.Generic;
@@ -15,25 +16,29 @@ namespace Mercury.Snapshot.Commands
         {
             string ToSend = Program.GoogleOAuth2Handler.CreateAuthorizationRequest(new(Args.SlashCommand.User.Id.ToString()));
             await Args.SlashCommand.RespondAsync("a", new Embed[]
+            {
+                new EmbedBuilder()
                 {
-                    new EmbedBuilder()
+                    Description = $"auth!",
+                    Fields = new()
                     {
-                        Description = $"auth!",
-                        Fields = new()
-                        {
-                            {   
-                                new()
-                                {
-                                    Name = "<3",
-                                    Value = $"[auth!]({ToSend})"
-                                }
+                        {   
+                            new()
+                            {
+                                Name = "<3",
+                                Value = $"[auth!]({ToSend})"
                             }
                         }
-                    }.Build()
-                }, false, true);
-            Program.GoogleOAuth2Handler.TokenPOSTed += async (TokenResponse, OriginalCall) =>
+                    }
+                }.Build()
+            }, false, true);
+            Program.GoogleOAuth2Handler.TokenPOSTed += async (UserCredential, TokResponse, OriginalCall) =>
             {
-                await Args.SlashCommand.FollowupAsync("auth <3", null, false, true);
+                if(OriginalCall.ApplicationAppliedTag == Args.SlashCommand.User.Id.ToString())
+                {
+                    Registers.GoogleCredentialsRegister.SaveRecord(Args.SlashCommand.User.Id.ToString(), new Unification.IO.File.Record<TokenResponse>(TokResponse, new List<string>()));
+                    await Args.SlashCommand.FollowupAsync("auth <3", null, false, true);
+                }
             };
         }
     }

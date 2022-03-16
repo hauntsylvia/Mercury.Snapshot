@@ -15,6 +15,8 @@ using Mercury.Snapshot.Objects.Util.Google.Sheets;
 using Mercury.Snapshot.Objects.Structures.Mercury.Calendars;
 using Mercury.Snapshot.Objects.Structures.Personalization;
 using Google.Apis.Auth.OAuth2.Responses;
+using Mercury.Unification.IO.File;
+using izolabella.Google.Classes.Consts;
 
 namespace Mercury.Snapshot.Objects.Util.Google.General
 {
@@ -24,39 +26,49 @@ namespace Mercury.Snapshot.Objects.Util.Google.General
         public static readonly string ApplicationName = "MercuryDOTSnapshot";
 
 
-        public GoogleApp(MercuryProfile User)
+        public GoogleApp(ulong UserId)
         {
-            this.calendarManager = new(User);
-            this.sheetsManager = new(User);
-            this.User = User;
+            UserCredential? Credential = this.AuthorizeAndRepairAsync().Result;
+            if (Credential != null)
+            {
+                this.calendarManager = new(Credential);
+                this.sheetsManager = new(Credential);
+            }
+
+            this.UserId = UserId;
         }
 
 
 
-        private readonly GoogleCalendar calendarManager;
-        public GoogleCalendar CalendarManager => this.calendarManager;
+        private GoogleCalendar? calendarManager;
+        public GoogleCalendar? CalendarManager => this.calendarManager;
 
 
 
-        private readonly GoogleSheetsManager sheetsManager;
-        public GoogleSheetsManager SheetsManager => this.sheetsManager;
+        private GoogleSheetsManager? sheetsManager;
+        public GoogleSheetsManager? SheetsManager => this.sheetsManager;
 
-
-        public MercuryProfile User { get; }
-
-        public UserCredential? GetUserCredential()
+        public ulong UserId { get; }
+        private UserCredential? LastUserCredential { get; set; }
+        public bool IsAuthenticated
         {
-            string TokenPath = Path.Combine(Unification.IO.File.Register.DefaultLocation.FullName, "Google", $"{this.User.DiscordId}");
-            //string TokenPath = Path.Combine(Unification.IO.File.Register.DefaultLocation.FullName, "Google For Mercury");
-            UserCredential Credential;
-            if (File.Exists(TokenPath))
+            get
             {
-                TokenResponse? TokenResponseFromFile = JsonConvert.DeserializeObject<TokenResponse>(File.ReadAllText(TokenPath));
-                if (TokenResponseFromFile != null)
-                {
-                    Credential = Program.GoogleOAuth2Handler.GetUserCredentialFromTokenResponse(TokenResponseFromFile);
-                    return Credential;
-                }
+                return  (this.LastUserCredential == null || this.LastUserCredential.Token.IsExpired(new Clock())) 
+                    &&
+                        (this.calendarManager != null && this.SheetsManager != null);
+            }
+        }
+        public async Task<UserCredential?> AuthorizeAndRepairAsync()
+        {
+            Record<TokenResponse>? Record = Registers.GoogleCredentialsRegister.GetRecord<TokenResponse>(this.UserId.ToString());
+            if(Record != null)
+            {
+                UserCredential C = await Program.GoogleOAuth2Handler.GetUserCredentialFromTokenResponseAsync(Record.ObjectToStore);
+                this.LastUserCredential = C;
+                this.sheetsManager = new(C);
+                this.calendarManager = new(C);
+                return C;
             }
             return null;
         }
