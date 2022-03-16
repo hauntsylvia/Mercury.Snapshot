@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\izolabella.Google\izolabella.Google\izolabella.Google.csproj" />
     <ProjectReference Include="..\Mercury.Unification\Mercury.Unification.csproj" />
   </ItemGroup>
 

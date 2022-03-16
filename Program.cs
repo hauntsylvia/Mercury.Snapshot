@@ -14,6 +14,12 @@ using Mercury.Snapshot.Objects.Util.Google.General;
 using izolabella.Discord;
 using izolabella.Discord.Commands.Attributes;
 using izolabella.OpenWeatherMap.NET;
+using izolabella.Google;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Util.Store;
+using Google.Apis.Auth.OAuth2.Flows;
+using Google.Apis.Auth.OAuth2.Requests;
+using System.Diagnostics;
 
 namespace Mercury.Snapshot
 {
@@ -46,18 +52,25 @@ namespace Mercury.Snapshot
         private static readonly MercuryProfile mercuryUser = new(528750326107602965);
         public static MercuryProfile MercuryUser => mercuryUser;
 
-        public static void Main()
+        public static async Task Main()
         {
             OpenWeatherMapClient.AppId = File.ReadAllText("OpenWeatherMap App Id.txt");
-            MainAsync().GetAwaiter().GetResult();
-        }
-        public static async Task MainAsync()
-        {
-            await DiscordClient.LoginAsync(TokenType.Bot, File.ReadAllText("Discord Token.txt"));
-            await DiscordClient.StartAsync();
-            await Task.Delay(3000);
-            DiscordWrapper.CommandHandler.AllowBotInteractions = false;
-            await DiscordWrapper.CommandHandler.StartReceiving();
+            ClientSecrets? Secrets = null;
+            using (FileStream stream = new("Google Credentials.json", FileMode.Open, FileAccess.Read))
+                Secrets = GoogleClientSecrets.FromStream(stream).Secrets;
+            if (Secrets != null)
+            {
+                string Redirect = "https://mercury-bot.ml:443/google-oauth2/GoogleAuthReceiver/";
+                string TokenPath = Path.Combine(Unification.IO.File.Register.DefaultLocation.FullName, "Google For Mercury");
+                GoogleOAuth2Handler A = new(new Uri("https://mercury-bot.ml:443/"), Secrets, new FileDataStore(TokenPath, true), Redirect, Redirect, GoogleApp.Scopes);
+                Uri B = A.CreateAuthorizationRequest(new("cum!"));
+                Console.WriteLine(B);
+                await DiscordClient.LoginAsync(TokenType.Bot, File.ReadAllText("Discord Token.txt"));
+                await DiscordClient.StartAsync();
+                await Task.Delay(3000);
+                DiscordWrapper.CommandHandler.AllowBotInteractions = false;
+                await DiscordWrapper.CommandHandler.StartReceiving();
+            }
             await Task.Delay(-1);
         }
     }
