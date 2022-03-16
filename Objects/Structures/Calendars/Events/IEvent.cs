@@ -12,6 +12,6 @@
         /// <summary>
         /// From where this event originates.
         /// </summary>
-        string Origin { get; }
+        Origins Origin { get; }
     }
 }

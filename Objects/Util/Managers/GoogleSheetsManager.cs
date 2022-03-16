@@ -42,7 +42,7 @@ namespace Mercury.Snapshot.Objects.Util.Managers
             if (Values != null && Values.Count > 0)
                 foreach (IList<object> Row in Values)
                     if (DateTime.TryParse((string)Row[0], out DateTime Timestamp) && decimal.TryParse(((string)Row[1]).Remove(((string)Row[1]).LastIndexOf('$'), 1), out decimal Amount))
-                        Expenditures.Add(new(Timestamp, Amount, (string)Row[2], (string)Row[3]));
+                        Expenditures.Add(new(Timestamp, Amount, (string)Row[2], (string)Row[3], Origins.Google));
             return Expenditures;
         }
     }

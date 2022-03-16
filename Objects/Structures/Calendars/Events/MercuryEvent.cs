@@ -2,7 +2,7 @@
 {
     public class MercuryEvent : IEvent
     {
-        public MercuryEvent(string Summary, string Description, DateTime LastUpdated, DateTime Created, DateTime Start, DateTime End, string Origin)
+        public MercuryEvent(string Summary, string Description, DateTime LastUpdated, DateTime Created, DateTime Start, DateTime End, Origins Origin)
         {
             this.Summary = Summary;
             this.Description = Description;
@@ -19,6 +19,6 @@
         public DateTime Created { get; }
         public DateTime Start { get; }
         public DateTime End { get; }
-        public string Origin { get; }
+        public Origins Origin { get; }
     }
 }
