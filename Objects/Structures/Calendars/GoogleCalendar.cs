@@ -3,7 +3,7 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
-using Mercury.Snapshot.Objects.Structures.Events;
+using Mercury.Snapshot.Objects.Structures.Calendars.Events;
 using Mercury.Snapshot.Objects.Util;
 
 namespace Mercury.Snapshot.Objects.Structures.Calendars

@@ -1,7 +1,7 @@
 ﻿using Mercury.Snapshot.Objects.Structures.Cards;
 using Mercury.Snapshot.Objects.Structures.Personalization;
 
-namespace Mercury.Snapshot.Objects.Util
+namespace Mercury.Snapshot.Objects.Util.Discord.EmbedFieldBuilders
 {
     public class CardsBuilder
     {

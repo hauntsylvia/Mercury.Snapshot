@@ -3,9 +3,9 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
-using Mercury.Snapshot.Objects.Structures.Financial;
+using Mercury.Snapshot.Objects.Structures.Financial.Entries;
 
-namespace Mercury.Snapshot.Objects.Util
+namespace Mercury.Snapshot.Objects.Util.Managers
 {
     public class GoogleSheetsManager
     {

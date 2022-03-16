@@ -1,4 +1,4 @@
-﻿using Mercury.Snapshot.Objects.Structures.Events;
+﻿using Mercury.Snapshot.Objects.Structures.Calendars.Events;
 using Mercury.Snapshot.Objects.Structures.Personalization;
 
 namespace Mercury.Snapshot.Objects.Structures.Calendars

@@ -1,4 +1,4 @@
-﻿namespace Mercury.Snapshot.Objects.Structures.Events
+﻿namespace Mercury.Snapshot.Objects.Structures.Calendars.Events
 {
     public class MercuryEvent : IEvent
     {

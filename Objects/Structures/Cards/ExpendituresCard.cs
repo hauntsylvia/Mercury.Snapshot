@@ -1,4 +1,4 @@
-﻿using Mercury.Snapshot.Objects.Structures.Financial;
+﻿using Mercury.Snapshot.Objects.Structures.Financial.Entries;
 using Mercury.Snapshot.Objects.Structures.Personalization;
 
 namespace Mercury.Snapshot.Objects.Structures.Cards
