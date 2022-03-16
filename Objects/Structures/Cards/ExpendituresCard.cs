@@ -1,33 +1,24 @@
 ﻿using Mercury.Snapshot.Objects.Structures.Financial;
 using Mercury.Snapshot.Objects.Structures.Personalization;
-using izolabella.OpenWeatherMap.NET.Classes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Structures.Cards
 {
     public class ExpendituresCard : ICard
     {
-        public ExpendituresCard(MercuryProfile User)
+        public ExpendituresCard()
         {
-            this.User = User;
         }
-
-        public MercuryProfile User { get; }
 
         public IReadOnlyList<EmbedFieldBuilder> Render(MercuryProfile Profile)
         {
-            string? Id = this.User.Settings.ObjectToStore.GoogleSheetsSettings.ExpenditureSpreadsheetId;
+            string? Id = Profile.Settings.ObjectToStore.GoogleSheetsSettings.ExpenditureSpreadsheetId;
             if (Id != null && Profile.GoogleClient.IsAuthenticated && Profile.GoogleClient.SheetsManager != null)
             {
                 IReadOnlyList<Expenditure> Expenditures = Profile.GoogleClient.SheetsManager.GetUserExpenditures(Id);
                 Dictionary<string, decimal> Counting = new();
-                foreach(Expenditure Expenditure in Expenditures)
+                foreach (Expenditure Expenditure in Expenditures)
                 {
-                    if(Expenditure.PayeeOrPayer.Length > 0 && Expenditure.Timestamp.Month == DateTime.Now.Month)
+                    if (Expenditure.PayeeOrPayer.Length > 0 && Expenditure.Timestamp.Month == DateTime.Now.Month)
                     {
                         if (Counting.ContainsKey(Expenditure.PayeeOrPayer))
                             Counting[Expenditure.PayeeOrPayer] += Expenditure.DollarAmount;

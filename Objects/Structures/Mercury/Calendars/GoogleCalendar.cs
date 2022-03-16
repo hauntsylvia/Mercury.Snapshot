@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
-using Google.Apis.Util.Store;
-using Google.Apis.Services;
 using Google.Apis.Calendar.v3.Data;
-using Google.Apis.Sheets.v4.Data;
-using Google.Apis.Sheets.v4;
-using Mercury.Snapshot.Objects.Util.Google.General;
-using Mercury.Snapshot.Objects.Structures.Mercury.Calendars;
-using Mercury.Snapshot.Objects.Structures.Personalization;
+using Google.Apis.Services;
 using Mercury.Snapshot.Objects.Structures.Generics;
 using Mercury.Snapshot.Objects.Structures.Mercury.Events;
+using Mercury.Snapshot.Objects.Util.Google.General;
 
 namespace Mercury.Snapshot.Objects.Structures.Mercury.Calendars
 {

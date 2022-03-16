@@ -5,6 +5,18 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <DebugType>embedded</DebugType>
+    <AnalysisLevel>6.0</AnalysisLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn />
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn />
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,11 +29,11 @@
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.56.0.2590" />
     <PackageReference Include="Google.Apis.Sheets.v4" Version="1.56.0.2608" />
     <PackageReference Include="izolabella.Discord" Version="2.1.0" />
+    <PackageReference Include="izolabella.Google" Version="0.1.0" />
     <PackageReference Include="izolabella.OpenWeatherMap.NET" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\izolabella.Google\izolabella.Google\izolabella.Google.csproj" />
     <ProjectReference Include="..\Mercury.Unification\Mercury.Unification.csproj" />
   </ItemGroup>
 

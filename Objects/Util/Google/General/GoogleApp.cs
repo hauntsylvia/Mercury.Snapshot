@@ -1,22 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 using Google.Apis.Auth.OAuth2;
-using Google.Apis.Calendar.v3;
-using Google.Apis.Util.Store;
-using Google.Apis.Services;
-using Google.Apis.Calendar.v3.Data;
-using Google.Apis.Sheets.v4.Data;
-using Google.Apis.Sheets.v4;
-using Mercury.Snapshot.Objects.Util.Google.Sheets;
-using Mercury.Snapshot.Objects.Structures.Mercury.Calendars;
-using Mercury.Snapshot.Objects.Structures.Personalization;
 using Google.Apis.Auth.OAuth2.Responses;
+using Google.Apis.Calendar.v3;
+using Google.Apis.Sheets.v4;
+using Mercury.Snapshot.Objects.Structures.Mercury.Calendars;
+using Mercury.Snapshot.Objects.Util.Google.Sheets;
 using Mercury.Unification.IO.File;
-using izolabella.Google.Classes.Consts;
 
 namespace Mercury.Snapshot.Objects.Util.Google.General
 {
@@ -52,7 +41,7 @@ namespace Mercury.Snapshot.Objects.Util.Google.General
         public async Task<UserCredential?> AuthorizeAndRepairAsync()
         {
             Record<TokenResponse>? Record = Registers.GoogleCredentialsRegister.GetRecord<TokenResponse>(this.UserId.ToString());
-            if(Record != null)
+            if (Record != null)
             {
                 UserCredential C = await Program.GoogleOAuth2Handler.GetUserCredentialFromTokenResponseAsync(Record.ObjectToStore);
                 this.sheetsManager = new(C);

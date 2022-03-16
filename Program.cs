@@ -1,28 +1,15 @@
-﻿global using Newtonsoft.Json;
-global using Newtonsoft.Json.Linq;
-
+﻿global using Discord;
 global using Discord.WebSocket;
-global using Discord;
-
 global using Mercury.Snapshot.Consts;
-
-using Google.Apis.Calendar.v3.Data;
-using Mercury.Snapshot.Objects.Structures.Cards;
-using Mercury.Snapshot.Objects.Structures.Personalization;
-using Mercury.Snapshot.Objects.Util.Cards;
-using Mercury.Snapshot.Objects.Util.Google.General;
-
-
-using izolabella.Discord;
-using izolabella.Discord.Commands.Attributes;
-using izolabella.OpenWeatherMap.NET;
+global using Newtonsoft.Json;
 using Google.Apis.Auth.OAuth2;
-using Google.Apis.Util.Store;
-using Google.Apis.Auth.OAuth2.Flows;
-using Google.Apis.Auth.OAuth2.Requests;
-using System.Diagnostics;
-using izolabella.Google.Classes.OAuth2.Helpers;
 using Google.Apis.Auth.OAuth2.Responses;
+using Google.Apis.Util.Store;
+using izolabella.Discord;
+using izolabella.Google.Classes.OAuth2.Helpers;
+using izolabella.OpenWeatherMap.NET;
+using Mercury.Snapshot.Objects.Structures.Personalization;
+using Mercury.Snapshot.Objects.Util.Google.General;
 using Mercury.Unification.IO.File;
 
 namespace Mercury.Snapshot
@@ -57,8 +44,6 @@ namespace Mercury.Snapshot
                 string Redirect = "https://mercury-bot.ml:443/google-oauth2/GoogleAuthReceiver/";
                 string TokenPath = "Google Cache";
                 googleOAuth2Handler = new(new Uri("https://mercury-bot.ml:443/"), Secrets, new FileDataStore(TokenPath, true), Redirect, Redirect, GoogleApp.Scopes);
-                string B = googleOAuth2Handler.CreateAuthorizationRequest(new("cum!"));
-                Console.WriteLine(B);
                 await DiscordClient.LoginAsync(TokenType.Bot, File.ReadAllText("Discord Token.txt"));
                 await DiscordClient.StartAsync();
                 await Task.Delay(3000);

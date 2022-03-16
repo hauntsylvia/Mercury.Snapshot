@@ -1,12 +1,5 @@
-﻿using Mercury.Snapshot.Consts;
-using Mercury.Snapshot.Objects.Structures.Cards;
-using Mercury.Snapshot.Objects.Util.Google.General;
+﻿using Mercury.Snapshot.Objects.Util.Google.General;
 using Mercury.Unification.IO.File;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Structures.Personalization
 {
@@ -28,8 +21,8 @@ namespace Mercury.Snapshot.Objects.Structures.Personalization
         private readonly GoogleApp googleClient;
         public GoogleApp GoogleClient => this.googleClient;
 
-        public Record<MercuryUserSettings> Settings 
-        { 
+        public Record<MercuryUserSettings> Settings
+        {
             get => Registers.MercurySettingsRegister.GetRecord<MercuryUserSettings>(this.DiscordId.ToString()) ?? new Record<MercuryUserSettings>(new(), new List<string>() { "Auto-generated" });
             set => Registers.MercurySettingsRegister.SaveRecord(this.DiscordId.ToString(), value);
         }

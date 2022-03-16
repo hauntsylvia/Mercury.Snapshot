@@ -1,10 +1,5 @@
 ﻿using Mercury.Snapshot.Objects.Structures.Cards;
 using Mercury.Snapshot.Objects.Structures.Personalization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Util.Cards
 {
@@ -13,7 +8,7 @@ namespace Mercury.Snapshot.Objects.Util.Cards
         public CardHelper(List<ICard> Cards, MercuryProfile Profile)
         {
             List<List<EmbedFieldBuilder>> CardsBuilder = new();
-            foreach(ICard Card in Cards)
+            foreach (ICard Card in Cards)
             {
                 IReadOnlyList<EmbedFieldBuilder> ThisSet = Card.Render(Profile);
                 CardsBuilder.Add(ThisSet.ToList());
@@ -28,9 +23,9 @@ namespace Mercury.Snapshot.Objects.Util.Cards
         public List<EmbedFieldBuilder> CorrectWhitespacing()
         {
             List<EmbedFieldBuilder> Finished = new();
-            foreach(List<EmbedFieldBuilder> Set in this.Cards)
+            foreach (List<EmbedFieldBuilder> Set in this.Cards)
             {
-                if(Set.Count > 0)
+                if (Set.Count > 0)
                 {
                     if (Set != this.Cards.Last())
                     {
