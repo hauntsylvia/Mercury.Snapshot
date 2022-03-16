@@ -49,4 +49,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Objects\Util\Discord\EmbedBuilders\" />
+  </ItemGroup>
+
 </Project>
