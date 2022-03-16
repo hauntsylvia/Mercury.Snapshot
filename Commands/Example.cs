@@ -11,9 +11,30 @@ namespace Mercury.Snapshot.Commands
     public class Example
     {
         [Command(new string[] { "a" }, "Example command.")]
-        public static void Abc(CommandArguments Args)
+        public static async void Abc(CommandArguments Args)
         {
-            Console.Out.WriteLine(Args.SlashCommand.User.Username);
+            string ToSend = Program.GoogleOAuth2Handler.CreateAuthorizationRequest(new(Args.SlashCommand.User.Id.ToString()));
+            await Args.SlashCommand.RespondAsync("a", new Embed[]
+                {
+                    new EmbedBuilder()
+                    {
+                        Description = $"auth!",
+                        Fields = new()
+                        {
+                            {   
+                                new()
+                                {
+                                    Name = "<3",
+                                    Value = $"[auth!]({ToSend})"
+                                }
+                            }
+                        }
+                    }.Build()
+                }, false, true);
+            Program.GoogleOAuth2Handler.TokenPOSTed += async (TokenResponse, OriginalCall) =>
+            {
+                await Args.SlashCommand.FollowupAsync("auth <3", null, false, true);
+            };
         }
     }
 }

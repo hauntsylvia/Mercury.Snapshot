@@ -18,6 +18,7 @@ namespace Mercury.Snapshot.Objects.Structures.Personalization
             this.weatherSettings = WeatherSettings;
         }
 
+
         public MercuryUserSettings()
         {
             this.googleCalendarSettings = new();
@@ -34,7 +35,6 @@ namespace Mercury.Snapshot.Objects.Structures.Personalization
         private readonly GoogleSheetsSettings googleSheetsSettings;
         [JsonProperty("GoogleSheetsSettings")]
         public GoogleSheetsSettings GoogleSheetsSettings => this.googleSheetsSettings;
-
 
 
         private readonly WeatherSettings weatherSettings;

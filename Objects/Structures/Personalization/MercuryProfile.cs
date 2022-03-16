@@ -33,7 +33,7 @@ namespace Mercury.Snapshot.Objects.Structures.Personalization
         {
             get
             {
-                GoogleApp.GetUserCredential();
+                this.googleClient.GetUserCredential();
                 return this.googleClient;
             }
         }

@@ -23,7 +23,7 @@ namespace Mercury.Snapshot.Objects.Util.Google.Sheets
         {
             this.Service = new(new BaseClientService.Initializer()
             {
-                HttpClientInitializer = GoogleApp.GetUserCredential(),
+                HttpClientInitializer = User.GoogleClient.GetUserCredential(),
                 ApplicationName = GoogleApp.ApplicationName,
             });
         }

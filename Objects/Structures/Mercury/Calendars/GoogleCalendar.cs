@@ -25,7 +25,7 @@ namespace Mercury.Snapshot.Objects.Structures.Mercury.Calendars
         {
             this.Service = new(new BaseClientService.Initializer()
             {
-                HttpClientInitializer = GoogleApp.GetUserCredential(),
+                HttpClientInitializer = User.GoogleClient.GetUserCredential(),
                 ApplicationName = GoogleApp.ApplicationName,
             });
             this.User = User;

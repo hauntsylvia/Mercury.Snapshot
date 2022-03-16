@@ -14,6 +14,7 @@ using Google.Apis.Sheets.v4;
 using Mercury.Snapshot.Objects.Util.Google.Sheets;
 using Mercury.Snapshot.Objects.Structures.Mercury.Calendars;
 using Mercury.Snapshot.Objects.Structures.Personalization;
+using Google.Apis.Auth.OAuth2.Responses;
 
 namespace Mercury.Snapshot.Objects.Util.Google.General
 {
@@ -40,20 +41,24 @@ namespace Mercury.Snapshot.Objects.Util.Google.General
         private readonly GoogleSheetsManager sheetsManager;
         public GoogleSheetsManager SheetsManager => this.sheetsManager;
 
+
         public MercuryProfile User { get; }
 
-        public static UserCredential GetUserCredential()
+        public UserCredential? GetUserCredential()
         {
-            //string TokenPath = Path.Combine(Unification.IO.File.Register.DefaultLocation.FullName, "Google", $"{this.User.DiscordId}");
-            string TokenPath = Path.Combine(Unification.IO.File.Register.DefaultLocation.FullName, "Google For Mercury");
+            string TokenPath = Path.Combine(Unification.IO.File.Register.DefaultLocation.FullName, "Google", $"{this.User.DiscordId}");
+            //string TokenPath = Path.Combine(Unification.IO.File.Register.DefaultLocation.FullName, "Google For Mercury");
             UserCredential Credential;
-            using (FileStream stream = new("Google Credentials.json", FileMode.Open, FileAccess.Read))
-                Credential = GoogleWebAuthorizationBroker.AuthorizeAsync(GoogleClientSecrets.FromStream(stream).Secrets,
-                    Scopes, 
-                    "user", 
-                    CancellationToken.None, 
-                    new FileDataStore(TokenPath, false)).Result;
-            return Credential;
+            if (File.Exists(TokenPath))
+            {
+                TokenResponse? TokenResponseFromFile = JsonConvert.DeserializeObject<TokenResponse>(File.ReadAllText(TokenPath));
+                if (TokenResponseFromFile != null)
+                {
+                    Credential = Program.GoogleOAuth2Handler.GetUserCredentialFromTokenResponse(TokenResponseFromFile);
+                    return Credential;
+                }
+            }
+            return null;
         }
     }
 }

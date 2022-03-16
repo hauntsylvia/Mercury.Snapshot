@@ -14,18 +14,18 @@ using Mercury.Snapshot.Objects.Util.Google.General;
 using izolabella.Discord;
 using izolabella.Discord.Commands.Attributes;
 using izolabella.OpenWeatherMap.NET;
-using izolabella.Google;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Util.Store;
 using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Requests;
 using System.Diagnostics;
+using izolabella.Google.Classes.OAuth2.Helpers;
 
 namespace Mercury.Snapshot
 {
     public class Program
     {
-        private static readonly DiscordSocketClient client = new(new DiscordSocketConfig()
+        public static DiscordSocketClient DiscordClient { get; } = new(new DiscordSocketConfig()
         {
             UseSystemClock = false,
             MessageCacheSize = 20,
@@ -34,23 +34,13 @@ namespace Mercury.Snapshot
             AlwaysResolveStickers = true,
             UseInteractionSnowflakeDate = false,
         });
-        public static DiscordSocketClient DiscordClient => client;
 
+        public static DiscordWrapper DiscordWrapper { get; } = new(DiscordClient);
 
+        public static OpenWeatherMapClient OpenWeatherMapClient { get; } = new();
 
-        private static readonly DiscordWrapper discordWrapper = new(DiscordClient);
-
-        public static DiscordWrapper DiscordWrapper => discordWrapper;
-
-
-
-        private static readonly OpenWeatherMapClient openWeatherMapClient = new();
-        public static OpenWeatherMapClient OpenWeatherMapClient => openWeatherMapClient;
-
-
-
-        private static readonly MercuryProfile mercuryUser = new(528750326107602965);
-        public static MercuryProfile MercuryUser => mercuryUser;
+        private static GoogleOAuth2Handler? googleOAuth2Handler;
+        public static GoogleOAuth2Handler GoogleOAuth2Handler => googleOAuth2Handler ?? throw new NullReferenceException();
 
         public static async Task Main()
         {
@@ -61,9 +51,9 @@ namespace Mercury.Snapshot
             if (Secrets != null)
             {
                 string Redirect = "https://mercury-bot.ml:443/google-oauth2/GoogleAuthReceiver/";
-                string TokenPath = Path.Combine(Unification.IO.File.Register.DefaultLocation.FullName, "Google For Mercury");
-                GoogleOAuth2Handler A = new(new Uri("https://mercury-bot.ml:443/"), Secrets, new FileDataStore(TokenPath, true), Redirect, Redirect, GoogleApp.Scopes);
-                Uri B = A.CreateAuthorizationRequest(new("cum!"));
+                string TokenPath = "Google Cache";
+                googleOAuth2Handler = new(new Uri("https://mercury-bot.ml:443/"), Secrets, new FileDataStore(TokenPath, true), Redirect, Redirect, GoogleApp.Scopes);
+                string B = googleOAuth2Handler.CreateAuthorizationRequest(new("cum!"));
                 Console.WriteLine(B);
                 await DiscordClient.LoginAsync(TokenType.Bot, File.ReadAllText("Discord Token.txt"));
                 await DiscordClient.StartAsync();
