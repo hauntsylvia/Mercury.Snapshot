@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mercury.Snapshot", "Mercury
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mercury.Unification", "..\Mercury.Unification\Mercury.Unification.csproj", "{F56CBBA1-C2EA-4BA8-8A65-EB73E3625476}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "izolabella.Discord", "..\izolabella.Discord\izolabella.Discord.csproj", "{FA12B84A-D941-42C0-A5E9-27B7C799DA12}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "izolabella.PrettyConsole", "..\izolabella.PrettyConsole\izolabella.PrettyConsole\izolabella.PrettyConsole.csproj", "{B28CB9B9-B02F-443E-A049-8D0026D934F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{F56CBBA1-C2EA-4BA8-8A65-EB73E3625476}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F56CBBA1-C2EA-4BA8-8A65-EB73E3625476}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F56CBBA1-C2EA-4BA8-8A65-EB73E3625476}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA12B84A-D941-42C0-A5E9-27B7C799DA12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA12B84A-D941-42C0-A5E9-27B7C799DA12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA12B84A-D941-42C0-A5E9-27B7C799DA12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA12B84A-D941-42C0-A5E9-27B7C799DA12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B28CB9B9-B02F-443E-A049-8D0026D934F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B28CB9B9-B02F-443E-A049-8D0026D934F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B28CB9B9-B02F-443E-A049-8D0026D934F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B28CB9B9-B02F-443E-A049-8D0026D934F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -34,6 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\izolabella.Discord\izolabella.Discord.csproj" />
     <ProjectReference Include="..\Mercury.Unification\Mercury.Unification.csproj" />
   </ItemGroup>
 
