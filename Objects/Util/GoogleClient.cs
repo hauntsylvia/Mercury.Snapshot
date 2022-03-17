@@ -14,38 +14,31 @@ namespace Mercury.Snapshot.Objects.Util
         public static readonly string[] Scopes = { CalendarService.Scope.CalendarReadonly, SheetsService.Scope.SpreadsheetsReadonly };
         public static readonly string ApplicationName = "MercuryDOTSnapshot";
 
-
         public GoogleClient(ulong UserId)
         {
             this.UserId = UserId;
             UserCredential? Credential = this.AuthorizeAndRepairAsync().Result;
             if (Credential != null)
             {
-                this.calendarManager = new(Credential);
-                this.sheetsManager = new(Credential);
+                this.CalendarManager = new(Credential);
+                this.SheetsManager = new(Credential);
             }
         }
 
+        public GoogleCalendar? CalendarManager { get; private set; }
 
-
-        private GoogleCalendar? calendarManager;
-        public GoogleCalendar? CalendarManager => this.calendarManager;
-
-
-
-        private GoogleSheetsManager? sheetsManager;
-        public GoogleSheetsManager? SheetsManager => this.sheetsManager;
+        public GoogleSheetsManager? SheetsManager { get; private set; }
 
         public ulong UserId { get; }
-        public bool IsAuthenticated => this.calendarManager != null && this.sheetsManager != null;
+        public bool IsAuthenticated => this.CalendarManager != null && this.SheetsManager != null;
         public async Task<UserCredential?> AuthorizeAndRepairAsync()
         {
             IRecord<TokenResponse>? Record = Registers.GoogleCredentialsRegister.GetRecord(this.UserId.ToString());
             if (Record != null)
             {
                 UserCredential C = await Program.GoogleOAuth2Handler.GetUserCredentialFromTokenResponseAsync(Record.ObjectToStore);
-                this.sheetsManager = new(C);
-                this.calendarManager = new(C);
+                this.SheetsManager = new(C);
+                this.CalendarManager = new(C);
                 return C;
             }
             return null;

@@ -8,32 +8,25 @@ namespace Mercury.Snapshot.Objects.Structures.Personalization
         [JsonConstructor]
         public MercuryUserSettings(GoogleCalendarSettings GoogleCalendarSettings, GoogleSheetsSettings GoogleSheetsSettings, WeatherSettings WeatherSettings)
         {
-            this.googleCalendarSettings = GoogleCalendarSettings;
-            this.googleSheetsSettings = GoogleSheetsSettings;
-            this.weatherSettings = WeatherSettings;
+            this.GoogleCalendarSettings = GoogleCalendarSettings;
+            this.GoogleSheetsSettings = GoogleSheetsSettings;
+            this.WeatherSettings = WeatherSettings;
         }
-
 
         public MercuryUserSettings()
         {
-            this.googleCalendarSettings = new();
-            this.googleSheetsSettings = new(null);
-            this.weatherSettings = new("04614");
+            this.GoogleCalendarSettings = new();
+            this.GoogleSheetsSettings = new(null);
+            this.WeatherSettings = new("04614");
         }
 
-
-        private readonly GoogleCalendarSettings googleCalendarSettings;
         [JsonProperty("GoogleCalendarSettings")]
-        public GoogleCalendarSettings GoogleCalendarSettings => this.googleCalendarSettings;
+        public GoogleCalendarSettings GoogleCalendarSettings { get; }
 
-
-        private readonly GoogleSheetsSettings googleSheetsSettings;
         [JsonProperty("GoogleSheetsSettings")]
-        public GoogleSheetsSettings GoogleSheetsSettings => this.googleSheetsSettings;
+        public GoogleSheetsSettings GoogleSheetsSettings { get; }
 
-
-        private readonly WeatherSettings weatherSettings;
         [JsonProperty("WeatherSettings")]
-        public WeatherSettings WeatherSettings => this.weatherSettings;
+        public WeatherSettings WeatherSettings { get; }
     }
 }

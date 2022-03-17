@@ -36,7 +36,7 @@ namespace Mercury.Snapshot
         public static async Task Main()
         {
             FileInfo OpenWeatherMapCredentialsFile = new("OpenWeatherMap App Id.txt");
-            if(OpenWeatherMapCredentialsFile.Exists)
+            if (OpenWeatherMapCredentialsFile.Exists)
             {
                 using StreamReader Stream = new(OpenWeatherMapCredentialsFile.FullName);
                 OpenWeatherMapClient.AppId = Stream.ReadToEnd();

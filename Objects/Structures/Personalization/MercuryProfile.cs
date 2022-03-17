@@ -7,29 +7,24 @@ namespace Mercury.Snapshot.Objects.Structures.Personalization
     {
         public MercuryProfile(ulong DiscordId, MercuryUserSettings Settings)
         {
-            this.discordId = DiscordId;
+            this.DiscordId = DiscordId;
             this.Settings = new Record<MercuryUserSettings>(Settings, new List<string>());
-            this.googleClient = new(this.DiscordId);
+            this.GoogleClient = new(this.DiscordId);
         }
 
         public MercuryProfile(ulong DiscordId)
         {
-            this.discordId = DiscordId;
-            this.googleClient = new(this.DiscordId);
+            this.DiscordId = DiscordId;
+            this.GoogleClient = new(this.DiscordId);
         }
 
-        private readonly GoogleClient googleClient;
-        public GoogleClient GoogleClient => this.googleClient;
+        public GoogleClient GoogleClient { get; }
 
         public IRecord<MercuryUserSettings> Settings
         {
             get => Registers.MercurySettingsRegister.GetRecord(this.DiscordId.ToString()) ?? new Record<MercuryUserSettings>(new(), new List<string>() { "Auto-generated" });
             set => Registers.MercurySettingsRegister.SaveRecord(this.DiscordId.ToString(), value);
         }
-
-
-
-        private readonly ulong discordId;
-        public ulong DiscordId => this.discordId;
+        public ulong DiscordId { get; }
     }
 }

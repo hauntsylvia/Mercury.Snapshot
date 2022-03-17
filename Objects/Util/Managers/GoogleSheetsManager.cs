@@ -18,23 +18,17 @@ namespace Mercury.Snapshot.Objects.Util.Managers
             });
         }
 
-
         private SheetsService Service { get; set; }
-
 
         public decimal? GetUserBalance(string SpreadsheetId)
         {
             SpreadsheetsResource.ValuesResource.GetRequest GetCells = this.Service.Spreadsheets.Values.Get(SpreadsheetId, "Expenditure!G2");
             ValueRange Response = GetCells.Execute();
             IList<IList<object>> Values = Response.Values;
-            if (Values != null && Values.Count > 0 && decimal.TryParse(((string)Values[0][0]).Remove(((string)Values[0][0]).LastIndexOf('$'), 1), out decimal Amount))
-            {
-                return Amount;
-            }
-
-            return null;
+            return Values != null && Values.Count > 0 && decimal.TryParse(((string)Values[0][0]).Remove(((string)Values[0][0]).LastIndexOf('$'), 1), out decimal Amount)
+                ? Amount
+                : null;
         }
-
 
         public IReadOnlyList<MercuryExpenditure> GetUserExpenditures(string SpreadsheetId)
         {

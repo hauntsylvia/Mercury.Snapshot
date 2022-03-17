@@ -1,5 +1,4 @@
 ﻿
-
 using Google.Apis.Auth.OAuth2.Responses;
 using Mercury.Snapshot.Objects.Structures.Calendars;
 using Mercury.Snapshot.Objects.Structures.Financial;

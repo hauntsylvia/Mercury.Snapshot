@@ -13,12 +13,10 @@ namespace Mercury.Snapshot.Objects.Util.Discord.EmbedFieldBuilders
                 IReadOnlyList<EmbedFieldBuilder> ThisSet = Card.Render(Profile);
                 CardsBuilder.Add(ThisSet.ToList());
             }
-            this.cards = CardsBuilder;
+            this.Cards = CardsBuilder;
         }
 
-        private readonly List<List<EmbedFieldBuilder>> cards;
-        public List<List<EmbedFieldBuilder>> Cards => this.cards;
-
+        public List<List<EmbedFieldBuilder>> Cards { get; }
 
         public List<EmbedFieldBuilder> Build()
         {
