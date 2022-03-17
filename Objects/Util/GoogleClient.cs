@@ -36,7 +36,7 @@ namespace Mercury.Snapshot.Objects.Util
             IRecord<TokenResponse>? Record = Registers.GoogleCredentialsRegister.GetRecord(this.UserId.ToString());
             if (Record != null)
             {
-                UserCredential C = await Program.GoogleOAuth2Handler.GetUserCredentialFromTokenResponseAsync(Record.ObjectToStore);
+                UserCredential C = await Program.CurrentApp.Initializer.GoogleOAuth2.GetUserCredentialFromTokenResponseAsync(Record.ObjectToStore);
                 this.SheetsManager = new(C);
                 this.CalendarManager = new(C);
                 return C;

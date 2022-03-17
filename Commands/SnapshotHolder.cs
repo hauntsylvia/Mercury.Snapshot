@@ -17,40 +17,38 @@ namespace Mercury.Snapshot.Commands
                 {
                     MercuryProfile Profile = new(Args.SlashCommand.User.Id);
                     Console.WriteLine($"{Args.SlashCommand.User.Username} {DateTime.Now.ToShortDateString()} {DateTime.Now.ToShortTimeString()}");
-                    if (Program.DiscordClient.GetChannel(942608553028501544) is SocketTextChannel Channel)
+
+                    await Args.SlashCommand.RespondAsync("here u go . .", new[] { new EmbedBuilder()
                     {
-                        await Args.SlashCommand.RespondAsync("here u go . .", new[] { new EmbedBuilder()
+                        Color = new(0x00000),
+                        Footer = new()
                         {
-                            Color = new(0x00000),
-                            Footer = new()
-                            {
-                                Text = "-☿-"
-                            },
-                            Description = "<a:loadinghearts:950503533910835241>"
-                        }.Build() }, false, true);
-                        List<EmbedFieldBuilder> Fields = new CardsBuilder(new List<ICard> { new EventsCard(), new ExpendituresCard() }, new(Args.SlashCommand.User.Id)).Build();
-                        await Args.SlashCommand.ModifyOriginalResponseAsync(MessageInfo =>
+                            Text = "-☿-"
+                        },
+                        Description = "<a:loadinghearts:950503533910835241>"
+                    }.Build() }, false, true);
+                    List<EmbedFieldBuilder> Fields = new CardsBuilder(new List<ICard> { new EventsCard(), new ExpendituresCard() }, new(Args.SlashCommand.User.Id)).Build();
+                    await Args.SlashCommand.ModifyOriginalResponseAsync(MessageInfo =>
+                    {
+                        MessageInfo.Embed = new EmbedBuilder()
                         {
-                            MessageInfo.Embed = new EmbedBuilder()
-                            {
-                                Fields = Fields.Count > 0 ? Fields : new List<EmbedFieldBuilder>()
+                            Fields = Fields.Count > 0 ? Fields : new List<EmbedFieldBuilder>()
                             {
                                 {
                                     new EmbedFieldBuilder()
                                     {
                                         Name = "Why is Snapshot empty? <a:breakdown:923399825108635681>",
-                                        Value = !Profile.GoogleClient.IsAuthenticated ? $"[Google Authorization]({Program.GoogleOAuth2Handler.CreateAuthorizationRequest(new(Args.SlashCommand.User.Id.ToString()))}) is required to fill your Snapshot list." : "Check that you have any events or expenses.",
+                                        Value = !Profile.GoogleClient.IsAuthenticated ? $"[Google Authorization]({Program.CurrentApp.Initializer.GoogleOAuth2.CreateAuthorizationRequest(new(Args.SlashCommand.User.Id.ToString()))}) is required to fill your Snapshot list." : "Check that you have any events or expenses.",
                                     }
                                 }
                             },
-                                Color = new(0x00000),
-                                Footer = new()
-                                {
-                                    Text = "-☿-"
-                                }
-                            }.Build();
-                        });
-                    }
+                            Color = new(0x00000),
+                            Footer = new()
+                            {
+                                Text = "-☿-"
+                            }
+                        }.Build();
+                    });
                 }
             }
             catch (Exception E)

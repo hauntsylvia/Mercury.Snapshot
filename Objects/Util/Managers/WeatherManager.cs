@@ -6,7 +6,7 @@ namespace Mercury.Snapshot.Objects.Util.Managers
     {
         public static async Task<WeatherResponse?> GetWeatherForToday(string Zip, string CountryCode = "US")
         {
-            WeatherResponse? Weather = await Program.OpenWeatherMapClient.Processors.CurrentWeatherDataProcessor.GetWeatherByZipCodeAsync(Zip, CountryCode);
+            WeatherResponse? Weather = await Program.CurrentApp.Initializer.OpenWeatherMapClient.Processors.CurrentWeatherDataProcessor.GetWeatherByZipCodeAsync(Zip, CountryCode);
             return Weather;
         }
     }
