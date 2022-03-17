@@ -2,11 +2,11 @@
 
 namespace Mercury.Snapshot.Objects.Util.Managers
 {
-    public class WeatherManager
+    public static class WeatherManager
     {
-        public static WeatherResponse? GetWeatherForToday(string Zip)
+        public static async Task<WeatherResponse?> GetWeatherForToday(string Zip, string CountryCode = "US")
         {
-            WeatherResponse? Weather = Program.OpenWeatherMapClient.GetWeatherByZipCode(Zip).Result;
+            WeatherResponse? Weather = await Program.OpenWeatherMapClient.Processors.CurrentWeatherDataProcessor.GetWeatherByZipCodeAsync(Zip, CountryCode);
             return Weather;
         }
     }

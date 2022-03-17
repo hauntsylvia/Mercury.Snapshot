@@ -35,34 +35,42 @@ namespace Mercury.Snapshot
 
         public static async Task Main()
         {
-            OpenWeatherMapClient.AppId = File.ReadAllText("OpenWeatherMap App Id.txt");
-            ClientSecrets? Secrets = null;
-            using (FileStream stream = new("Google Credentials.json", FileMode.Open, FileAccess.Read))
-                Secrets = GoogleClientSecrets.FromStream(stream).Secrets;
-            if (Secrets != null)
+            FileInfo OpenWeatherMapCredentialsFile = new("OpenWeatherMap App Id.txt");
+            if(OpenWeatherMapCredentialsFile.Exists)
             {
-                string Redirect = "https://mercury-bot.ml:443/google-oauth2/GoogleAuthReceiver/";
-                string TokenPath = "Google Cache";
-                googleOAuth2Handler = new(new Uri("https://mercury-bot.ml:443/"), Secrets, new FileDataStore(TokenPath, true), Redirect, Redirect, GoogleClient.Scopes);
-                await DiscordClient.LoginAsync(TokenType.Bot, File.ReadAllText("Discord Token.txt"));
-                await DiscordClient.StartAsync();
-                await Task.Delay(3000);
-                DiscordWrapper.CommandHandler.AllowBotInteractions = false;
-                await DiscordWrapper.CommandHandler.StartReceiving();
-                DiscordWrapper.CommandHandler.CommandNeedsValidation = (SlashCommand, Attr) =>
+                using StreamReader Stream = new(OpenWeatherMapCredentialsFile.FullName);
+                OpenWeatherMapClient.AppId = Stream.ReadToEnd();
+                ClientSecrets? Secrets = null;
+                using FileStream FileStream = new("Google Credentials.json", FileMode.Open, FileAccess.Read);
+                Secrets = GoogleClientSecrets.FromStream(FileStream).Secrets;
+                if (Secrets != null)
                 {
-                    MercuryProfile P = new(SlashCommand.User.Id);
-                    P.GoogleClient.AuthorizeAndRepairAsync().GetAwaiter().GetResult();
-                    return true;
-                };
-                GoogleOAuth2Handler.TokenPOSTed += (UserCredential, TokResponse, OriginalCall) =>
-                {
-                    IRecord<TokenResponse> CurrentRecord = Registers.GoogleCredentialsRegister.GetRecord(OriginalCall.ApplicationAppliedTag) ?? new Record<TokenResponse>(TokResponse, new List<string>());
-                    CurrentRecord.ObjectToStore.AccessToken = TokResponse.AccessToken;
-                    if (TokResponse.RefreshToken != null)
-                        CurrentRecord.ObjectToStore.RefreshToken = TokResponse.RefreshToken;
-                    Registers.GoogleCredentialsRegister.SaveRecord(OriginalCall.ApplicationAppliedTag, CurrentRecord);
-                };
+                    string Redirect = "https://mercury-bot.ml:443/google-oauth2/GoogleAuthReceiver/";
+                    string TokenPath = "Google Cache";
+                    googleOAuth2Handler = new(new Uri("https://mercury-bot.ml:443/"), Secrets, new FileDataStore(TokenPath, true), Redirect, Redirect, GoogleClient.Scopes);
+                    await DiscordClient.LoginAsync(TokenType.Bot, File.ReadAllText("Discord Token.txt"));
+                    await DiscordClient.StartAsync();
+                    await Task.Delay(3000);
+                    DiscordWrapper.CommandHandler.AllowBotInteractions = false;
+                    await DiscordWrapper.CommandHandler.StartReceiving();
+                    DiscordWrapper.CommandHandler.CommandNeedsValidation = (SlashCommand, Attr) =>
+                    {
+                        MercuryProfile P = new(SlashCommand.User.Id);
+                        P.GoogleClient.AuthorizeAndRepairAsync().GetAwaiter().GetResult();
+                        return true;
+                    };
+                    GoogleOAuth2Handler.TokenPOSTed += (UserCredential, TokResponse, OriginalCall) =>
+                    {
+                        IRecord<TokenResponse> CurrentRecord = Registers.GoogleCredentialsRegister.GetRecord(OriginalCall.ApplicationAppliedTag) ?? new Record<TokenResponse>(TokResponse, new List<string>());
+                        CurrentRecord.ObjectToStore.AccessToken = TokResponse.AccessToken;
+                        if (TokResponse.RefreshToken != null)
+                        {
+                            CurrentRecord.ObjectToStore.RefreshToken = TokResponse.RefreshToken;
+                        }
+
+                        Registers.GoogleCredentialsRegister.SaveRecord(OriginalCall.ApplicationAppliedTag, CurrentRecord);
+                    };
+                }
             }
             await Task.Delay(-1);
         }

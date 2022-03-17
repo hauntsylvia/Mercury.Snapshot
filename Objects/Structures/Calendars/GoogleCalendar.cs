@@ -41,9 +41,15 @@ namespace Mercury.Snapshot.Objects.Structures.Calendars
                 DateTime Created = DateTime.ParseExact(Event.CreatedRaw, RFC3339Z, null);
                 DateTime Updated = DateTime.ParseExact(Event.UpdatedRaw, RFC3339Z, null);
                 if (!DateTime.TryParseExact(Event.Start.DateTimeRaw, RFC3339, null, System.Globalization.DateTimeStyles.None, out DateTime Start))
+                {
                     DateTime.TryParseExact(Event.Start.Date, new string[] { GeneralDate, GeneralDateTime }, null, System.Globalization.DateTimeStyles.AllowWhiteSpaces, out Start);
+                }
+
                 if (!DateTime.TryParseExact(Event.End.DateTimeRaw, RFC3339, null, System.Globalization.DateTimeStyles.None, out DateTime End))
+                {
                     DateTime.TryParseExact(Event.End.Date, new string[] { GeneralDate, GeneralDateTime }, null, System.Globalization.DateTimeStyles.AllowWhiteSpaces, out End);
+                }
+
                 EventItems.Add(new MercuryEvent(Event.Summary, Event.Description, Updated, Created, Start, End, Origins.Google));
             }
             return Task.FromResult<IReadOnlyCollection<IEvent>>(EventItems);

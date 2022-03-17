@@ -28,7 +28,10 @@ namespace Mercury.Snapshot.Objects.Util.Managers
             ValueRange Response = GetCells.Execute();
             IList<IList<object>> Values = Response.Values;
             if (Values != null && Values.Count > 0 && decimal.TryParse(((string)Values[0][0]).Remove(((string)Values[0][0]).LastIndexOf('$'), 1), out decimal Amount))
+            {
                 return Amount;
+            }
+
             return null;
         }
 
@@ -40,9 +43,16 @@ namespace Mercury.Snapshot.Objects.Util.Managers
             IList<IList<object>> Values = Response.Values;
             List<MercuryExpenditure> Expenditures = new();
             if (Values != null && Values.Count > 0)
+            {
                 foreach (IList<object> Row in Values)
+                {
                     if (DateTime.TryParse((string)Row[0], out DateTime Timestamp) && decimal.TryParse(((string)Row[1]).Remove(((string)Row[1]).LastIndexOf('$'), 1), out decimal Amount))
+                    {
                         Expenditures.Add(new(Timestamp, Amount, (string)Row[2], (string)Row[3], Origins.Google));
+                    }
+                }
+            }
+
             return Expenditures;
         }
     }

@@ -24,6 +24,7 @@ namespace Mercury.Snapshot.Objects.Util.Discord.EmbedFieldBuilders
         {
             List<EmbedFieldBuilder> Finished = new();
             foreach (List<EmbedFieldBuilder> Set in this.Cards)
+            {
                 if (Set.Count > 0)
                 {
                     if (Set != this.Cards.Last())
@@ -37,6 +38,8 @@ namespace Mercury.Snapshot.Objects.Util.Discord.EmbedFieldBuilders
                     }
                     Finished.AddRange(Set);
                 }
+            }
+
             return Finished;
         }
     }

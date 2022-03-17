@@ -21,9 +21,13 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                     if (Expenditure.PayeeOrPayer.Length > 0 && Expenditure.Timestamp.Month == DateTime.Now.Month)
                     {
                         if (Counting.ContainsKey(Expenditure.PayeeOrPayer))
+                        {
                             Counting[Expenditure.PayeeOrPayer] += Expenditure.DollarAmount;
+                        }
                         else
+                        {
                             Counting.Add(Expenditure.PayeeOrPayer, Expenditure.DollarAmount);
+                        }
                     }
                 }
                 Dictionary<string, decimal> Enum = Counting.OrderBy(E => E.Value).ToDictionary(Key => Key.Key, Value => Value.Value);
@@ -67,7 +71,9 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                 };
             }
             else
+            {
                 return new List<EmbedFieldBuilder>();
+            }
         }
     }
 }

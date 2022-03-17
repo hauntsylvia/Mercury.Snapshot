@@ -20,7 +20,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                 IReadOnlyCollection<IEvent> EventsWeek = Profile.GoogleClient.CalendarManager.GetEvents(DateTime.Today.AddDays(1), DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59))).Result;
                 IReadOnlyCollection<IEvent> EventsMonth = Profile.GoogleClient.CalendarManager.GetEvents(DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), new(DateTime.Today.Date.Year, DateTime.Today.Month + 1, 1)).Result;
 
-                WeatherResponse? WeatherToday = WeatherManager.GetWeatherForToday(Profile.Settings.ObjectToStore.WeatherSettings.Zip);
+                WeatherResponse? WeatherToday = WeatherManager.GetWeatherForToday(Profile.Settings.ObjectToStore.WeatherSettings.Zip).Result;
 
                 if (EventsToday.Count > 0 || WeatherToday != null)
                 {
@@ -33,7 +33,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                         decimal Temperature = WeatherToday.Main.Temp;
                         decimal TemperatureMax = WeatherToday.Main.TempMaximum;
                         decimal TemperatureMin = WeatherToday.Main.TempMinimum;
-                        Today.Value = $"{Temperature}°C - {WeatherToday.Name}\nH: {TemperatureMax}°C L: {TemperatureMin}°C\n";
+                        Today.Value = $"{Temperature}°C - {WeatherToday.CityName}\nH: {TemperatureMax}°C L: {TemperatureMin}°C\n";
                     }
                     foreach (IEvent Event in EventsToday)
                     {
@@ -71,7 +71,9 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                         if (MonthValue != null)
                         {
                             if (MonthValue.Length + ToAppend.Length <= 1024)
+                            {
                                 Month.Value += ToAppend;
+                            }
                             else
                             {
                                 Month.Value += $"\n_. . and {EventsMonth.Count} more events this month_.";
