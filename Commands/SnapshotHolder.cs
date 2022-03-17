@@ -17,7 +17,7 @@ namespace Mercury.Snapshot.Commands
                     MercuryProfile Profile = new(Args.SlashCommand.User.Id);
                     Console.WriteLine($"{Args.SlashCommand.User.Username} {DateTime.Now.ToShortDateString()} {DateTime.Now.ToShortTimeString()}");
 
-                    await Args.SlashCommand.RespondAsync("here u go . .", new[] { new EmbedBuilder()
+                    await Args.SlashCommand.RespondAsync("here u go . .", new[] { CustomEmbedBuilder.GetConformingEmbed(new EmbedBuilder()
                     {
                         Color = new(0x00000),
                         Footer = new()
@@ -25,7 +25,7 @@ namespace Mercury.Snapshot.Commands
                             Text = "-☿-"
                         },
                         Description = "<a:loadinghearts:950503533910835241>"
-                    }.Build() }, false, true);
+                    }).Build() }, false, true);
                     List<EmbedFieldBuilder> Fields = new CardsBuilder(new List<ICard> { new EventsCard(), new ExpendituresCard() }, new(Args.SlashCommand.User.Id)).Build();
                     await Args.SlashCommand.ModifyOriginalResponseAsync(MessageInfo =>
                     {

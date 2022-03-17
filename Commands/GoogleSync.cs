@@ -12,7 +12,7 @@ namespace Mercury.Snapshot.Commands
             string ToSend = Program.CurrentApp.Initializer.GoogleOAuth2.CreateAuthorizationRequest(new(Args.SlashCommand.User.Id.ToString()));
             await Args.SlashCommand.RespondAsync("", new Embed[]
             {
-                new GoogleAuthPrompt(ToSend).Build(),
+                CustomEmbedBuilder.GetConformingEmbed(new GoogleAuthPrompt(ToSend)).Build(),
             }, false, true);
             Program.CurrentApp.Initializer.GoogleOAuth2.TokenPOSTed += async (UserCredential, TokResponse, OriginalCall) =>
             {
