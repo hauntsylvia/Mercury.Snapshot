@@ -1,8 +1,6 @@
 ﻿using Google.Apis.Auth.OAuth2;
 using izolabella.ConsoleHelper;
 using Mercury.Snapshot.Objects.Structures.Exceptions;
-using Mercury.Unification.IO.File.Records;
-using Mercury.Unification.IO.File.Registers;
 
 namespace Mercury.Snapshot.Objects.Structures.MercurySnapshot
 {
@@ -25,7 +23,7 @@ namespace Mercury.Snapshot.Objects.Structures.MercurySnapshot
         /// If true, none of the credentials inside of this app are legitimate, or at least one of them is null.
         /// </summary>
         [JsonProperty("IsCold")]
-        public bool IsCold => this.openWeatherMapAppId == null || this.discordToken == null || this.googleClientSecrets== null;
+        public bool IsCold => this.openWeatherMapAppId == null || this.discordToken == null || this.googleClientSecrets == null;
 
         private readonly string? openWeatherMapAppId;
         [JsonProperty("OpenWeatherMapAppId")]

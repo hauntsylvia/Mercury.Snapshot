@@ -1,10 +1,5 @@
 ﻿using Mercury.Snapshot.Objects.Structures.MercurySnapshot;
 using Mercury.Snapshot.Objects.Util.HighTier.Initializers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Util.HighTier.Programs
 {
@@ -32,14 +27,19 @@ namespace Mercury.Snapshot.Objects.Util.HighTier.Programs
         {
             if (this.Initializer != null && !this.Initializer.StartupItems.IsCold)
             {
+                this.Initializer.DiscordSocketClient.Client.Ready += this.Client_Ready;
                 await this.Initializer.DiscordSocketClient.Client.LoginAsync(TokenType.Bot, this.Initializer.StartupItems.DiscordToken, true);
                 await this.Initializer.DiscordSocketClient.Client.StartAsync();
-                await this.Initializer.DiscordSocketClient.CommandHandler.StartReceiving(true);
             }
             else
             {
                 throw new NullReferenceException("No initializer is present.");
             }
+        }
+
+        private async Task Client_Ready()
+        {
+            await this.Initializer.DiscordSocketClient.CommandHandler.StartReceiving(true);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using izolabella.Discord.Commands.Arguments;
 using izolabella.Discord.Commands.Attributes;
+using Mercury.Snapshot.Objects.Structures.Embeds;
 
 namespace Mercury.Snapshot.Commands
 {
@@ -11,18 +12,13 @@ namespace Mercury.Snapshot.Commands
             string ToSend = Program.CurrentApp.Initializer.GoogleOAuth2.CreateAuthorizationRequest(new(Args.SlashCommand.User.Id.ToString()));
             await Args.SlashCommand.RespondAsync("", new Embed[]
             {
-                new EmbedBuilder()
-                {
-                    Timestamp = DateTime.UtcNow,
-                    Title = "Google Syncing",
-                    Description = $"By [connecting your Google acccount]({ToSend}), you are letting me see events placed on your calendar, as well as enabling me to help you budget. :)",
-                }.Build()
+                new GoogleAuthPrompt(ToSend).Build(),
             }, false, true);
             Program.CurrentApp.Initializer.GoogleOAuth2.TokenPOSTed += async (UserCredential, TokResponse, OriginalCall) =>
             {
                 if (OriginalCall.ApplicationAppliedTag == Args.SlashCommand.User.Id.ToString())
                 {
-                    await Args.SlashCommand.FollowupAsync("auth <3", null, false, true);
+                    await Args.SlashCommand.FollowupAsync("Successful authorization. <3", null, false, true);
                 }
             };
         }

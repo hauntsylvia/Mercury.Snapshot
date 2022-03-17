@@ -1,11 +1,6 @@
 ﻿using Mercury.Snapshot.Objects.Structures.MercurySnapshot;
 using Mercury.Unification.IO.File.Records;
 using Mercury.Unification.IO.File.Registers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Util.Managers
 {

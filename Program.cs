@@ -1,20 +1,13 @@
 ﻿global using Discord;
 global using Discord.WebSocket;
 global using Mercury.Snapshot.Consts;
+global using Mercury.Snapshot.Objects.Util.Discord;
 global using Newtonsoft.Json;
 using Google.Apis.Auth.OAuth2;
-using Google.Apis.Auth.OAuth2.Responses;
-using Google.Apis.Util.Store;
-using izolabella.Discord;
-using izolabella.Google.Classes.OAuth2.Helpers;
-using izolabella.OpenWeatherMap.NET;
 using Mercury.Snapshot.Objects.Structures.MercurySnapshot;
-using Mercury.Snapshot.Objects.Structures.Personalization;
-using Mercury.Snapshot.Objects.Util;
 using Mercury.Snapshot.Objects.Util.HighTier.Initializers;
 using Mercury.Snapshot.Objects.Util.HighTier.Programs;
 using Mercury.Snapshot.Objects.Util.Managers;
-using Mercury.Unification.IO.File.Records;
 
 namespace Mercury.Snapshot
 {
@@ -30,7 +23,7 @@ namespace Mercury.Snapshot
                 ConfigManager.SaveStartupItems(Items);
                 return Items;
             }
-            else if(File.Exists(Strings.GoogleCredentialsFileLocation))
+            else if (File.Exists(Strings.GoogleCredentialsFileLocation))
             {
                 Console.WriteLine("Input OpenWeatherMap application id.");
                 string? OpenWeatherMapAppId = Console.ReadLine();

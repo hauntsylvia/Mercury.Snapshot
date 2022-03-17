@@ -2,7 +2,6 @@
 using izolabella.Discord.Commands.Attributes;
 using Mercury.Snapshot.Objects.Structures.Cards;
 using Mercury.Snapshot.Objects.Structures.Personalization;
-using Mercury.Snapshot.Objects.Util.Discord.EmbedFieldBuilders;
 
 namespace Mercury.Snapshot.Commands
 {
