@@ -36,10 +36,24 @@ namespace Mercury.Snapshot.Objects.Util
             IRecord<TokenResponse>? Record = Registers.GoogleCredentialsRegister.GetRecord(this.UserId.ToString());
             if (Record != null)
             {
-                UserCredential C = await Program.CurrentApp.Initializer.GoogleOAuth2.GetUserCredentialFromTokenResponseAsync(Record.ObjectToStore);
-                this.SheetsManager = new(C);
-                this.CalendarManager = new(C);
-                return C;
+                try
+                {
+                    UserCredential C = await Program.CurrentApp.Initializer.GoogleOAuth2.GetUserCredentialFromTokenResponseAsync(Record.ObjectToStore);
+                    this.SheetsManager = new(C);
+                    this.CalendarManager = new(C);
+                    return C;
+                }
+                catch(Exception Ex)
+                {
+                    if (Ex is AggregateException || Ex is TokenResponseException)
+                    {
+                        Registers.GoogleCredentialsRegister.DeleteRecord(this.UserId.ToString());
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
             }
             return null;
         }
