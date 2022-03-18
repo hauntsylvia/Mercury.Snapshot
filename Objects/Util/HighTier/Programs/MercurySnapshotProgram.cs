@@ -1,4 +1,5 @@
-﻿using Mercury.Snapshot.Objects.Structures.MercurySnapshot;
+﻿using izolabella.ConsoleHelper;
+using Mercury.Snapshot.Objects.Structures.MercurySnapshot;
 using Mercury.Snapshot.Objects.Util.HighTier.Initializers;
 
 namespace Mercury.Snapshot.Objects.Util.HighTier.Programs
@@ -39,7 +40,7 @@ namespace Mercury.Snapshot.Objects.Util.HighTier.Programs
 
         private async Task Client_Ready()
         {
-            await this.Initializer.DiscordSocketClient.CommandHandler.StartReceiving(true);
+            await this.Initializer.DiscordSocketClient.CommandHandler.StartReceiving();
         }
     }
 }

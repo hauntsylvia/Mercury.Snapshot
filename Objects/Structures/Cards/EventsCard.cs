@@ -1,4 +1,5 @@
 ﻿using izolabella.OpenWeatherMap.NET.Classes;
+using izolabella.OpenWeatherMap.NET.Classes.Responses.CurrentWeatherData;
 using Mercury.Snapshot.Objects.Structures.Calendars.Events;
 using Mercury.Snapshot.Objects.Structures.Personalization;
 using Mercury.Snapshot.Objects.Util.Managers;
