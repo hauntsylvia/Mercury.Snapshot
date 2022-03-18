@@ -41,6 +41,7 @@ namespace Mercury.Snapshot
         }
         public static async Task Main()
         {
+            await CurrentApp.Initializer.GoogleOAuth2.StopListener();
             StartupItems Items = GetStartupItems(null);
             CurrentApp = new(new MercurySnapshotInitializer(Items));
             CurrentApp.RunProgram();
