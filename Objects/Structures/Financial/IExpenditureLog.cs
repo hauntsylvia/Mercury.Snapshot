@@ -5,7 +5,8 @@ namespace Mercury.Snapshot.Objects.Structures.Financial
 {
     public interface IExpenditureLog
     {
-        public IRegister<IExpenditure> OwnersExpenditureLog { get; }
-        public Task<IReadOnlyCollection<IExpenditure>> GetExpenditures(DateTime TimeMin, DateTime TimeMax, int MaxResults);
+        public IRegister<IExpenditureEntry> OwnersExpenditureLog { get; }
+        public Task<IReadOnlyCollection<IExpenditureEntry>> GetExpenditures(DateTime TimeMin, DateTime TimeMax, int MaxResults);
+        public Task SaveExpenditures(params IExpenditureEntry[] Entries);
     }
 }

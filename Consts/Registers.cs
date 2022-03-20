@@ -12,8 +12,9 @@ namespace Mercury.Snapshot.Consts
     {
         internal static Register<TokenResponse> GoogleCredentialsRegister => new("Google User Credentials");
         internal static Register<MercuryUserSettings> MercurySettingsRegister => new("Mercury User Settings");
+        internal static Register<StartupItems> MercuryStartupItemsRegister => new("Mercury Startup Items");
+
         internal static Register<MercuryCalendar> CalendarsRegister => new("Calendars");
         internal static Register<MercuryExpenditureLog> ExpenditureLogsRegister => new("Expenditure Logs");
-        internal static Register<StartupItems> MercuryStartupItemsRegister => new("Mercury Startup Items");
     }
 }

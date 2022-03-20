@@ -1,4 +1,5 @@
 ﻿using Mercury.Snapshot.Objects.Structures.Financial.Entries;
+using Mercury.Snapshot.Objects.Structures.Personalization;
 using Mercury.Unification.IO.File.Records;
 using Mercury.Unification.IO.File.Registers;
 
@@ -10,23 +11,37 @@ namespace Mercury.Snapshot.Objects.Structures.Financial
         /// 
         /// </summary>
         /// <param name="OwnerId">Owner's id on Discord.</param>
-        public MercuryExpenditureLog(ulong OwnerId)
+        public MercuryExpenditureLog(MercuryProfile User)
         {
-            this.OwnersExpenditureLog = Registers.ExpenditureLogsRegister.CreateSubRegister<IExpenditure>(OwnerId.ToString());
+            this.User = User;
         }
 
-        public IRegister<IExpenditure> OwnersExpenditureLog { get; }
-
-        public Task<IReadOnlyCollection<IExpenditure>> GetExpenditures(DateTime TimeMin, DateTime TimeMax, int MaxResults)
+        public MercuryProfile User { get; }
+        public Task<IReadOnlyCollection<IExpenditureEntry>> GetExpenditures(DateTime TimeMin, DateTime TimeMax, int MaxResults)
         {
-            IReadOnlyCollection<IRecord<IExpenditure>> AllExpenditures = this.OwnersExpenditureLog.GetAllRecords();
-            return (Task<IReadOnlyCollection<IExpenditure>>)AllExpenditures.OrderByDescending(Record => Record.UTCTimestamp).Where(Record => Record.UTCTimestamp >= TimeMin && Record.UTCTimestamp <= TimeMax).SkipLast(MaxResults);
+            if(this.User.ExpenditureEntriesRegister != null)
+            {
+                IReadOnlyCollection<IRecord<IExpenditureEntry>> AllExpenditures = this.User.ExpenditureEntriesRegister.GetAllRecords();
+                return (Task<IReadOnlyCollection<IExpenditureEntry>>)AllExpenditures.OrderByDescending(Record => Record.UTCTimestamp).Where(Record => Record.UTCTimestamp >= TimeMin && Record.UTCTimestamp <= TimeMax).SkipLast(MaxResults);
+            }
+            else
+            {
+                return Task.FromResult<IReadOnlyCollection<IExpenditureEntry>>(new List<IExpenditureEntry>());
+            }
         }
 
-        public Task SaveExpenditures(IExpenditure Expenditure)
+        public Task SaveExpenditures(params IExpenditureEntry[] Entries)
         {
-            this.OwnersExpenditureLog.SaveRecord(Expenditure.Timestamp.Ticks.ToString(), new Record<IExpenditure>(Expenditure, new List<string>()));
-            return Task.CompletedTask;
+            if (this.User.ExpenditureEntriesRegister != null)
+            {
+                foreach (IExpenditureEntry Entry in Entries)
+                {
+                    if(Entry != null)
+                    {
+                        this.User.ExpenditureEntriesRegister.SaveRecord()
+                    }
+                }
+            }
         }
     }
 }

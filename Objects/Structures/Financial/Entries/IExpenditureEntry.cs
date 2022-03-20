@@ -1,6 +1,8 @@
-﻿namespace Mercury.Snapshot.Objects.Structures.Financial.Entries
+﻿using Mercury.Snapshot.Objects.Structures.Interfaces;
+
+namespace Mercury.Snapshot.Objects.Structures.Financial.Entries
 {
-    public interface IExpenditure
+    public interface IExpenditureEntry : ISaveable
     {
         public DateTime Timestamp { get; }
         public decimal DollarAmount { get; }

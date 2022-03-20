@@ -1,6 +1,8 @@
-﻿namespace Mercury.Snapshot.Objects.Structures.Calendars.Events
+﻿using Mercury.Snapshot.Objects.Structures.Interfaces;
+
+namespace Mercury.Snapshot.Objects.Structures.Calendars.Events
 {
-    public interface IEvent
+    public interface IEvent : ISaveable
     {
         string Summary { get; }
         string Description { get; }
