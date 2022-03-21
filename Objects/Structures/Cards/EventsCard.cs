@@ -1,7 +1,7 @@
 ﻿using izolabella.OpenWeatherMap.NET.Classes;
 using izolabella.OpenWeatherMap.NET.Classes.Responses.CurrentWeatherData;
-using Mercury.Snapshot.Objects.Structures.Calendars.Events;
-using Mercury.Snapshot.Objects.Structures.Personalization;
+using Mercury.Snapshot.Objects.Structures.UserStructures.Calendars.Events;
+using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
 using Mercury.Snapshot.Objects.Util.Managers;
 
 namespace Mercury.Snapshot.Objects.Structures.Cards
@@ -12,7 +12,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
         {
         }
 
-        public IReadOnlyList<EmbedFieldBuilder> Render(MercuryProfile Profile)
+        public IReadOnlyList<EmbedFieldBuilder> Render(MercuryUser Profile)
         {
             List<EmbedFieldBuilder> EmbedFieldBuilders = new();
             if (Profile.GoogleClient.IsAuthenticated && Profile.GoogleClient.CalendarManager != null)

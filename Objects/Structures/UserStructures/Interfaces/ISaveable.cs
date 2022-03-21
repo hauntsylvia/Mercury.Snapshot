@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mercury.Snapshot.Objects.Structures.Interfaces
+namespace Mercury.Snapshot.Objects.Structures.UserStructures.Interfaces
 {
     public interface ISaveable
     {

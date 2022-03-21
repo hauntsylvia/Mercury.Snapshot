@@ -1,6 +1,6 @@
-﻿using Mercury.Snapshot.Objects.Structures.Personalization.Peronalizers;
+﻿using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization.Peronalizers;
 
-namespace Mercury.Snapshot.Objects.Structures.Personalization
+namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class MercuryUserSettings

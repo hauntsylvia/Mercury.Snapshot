@@ -3,7 +3,7 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Sheets.v4;
-using Mercury.Snapshot.Objects.Structures.Calendars;
+using Mercury.Snapshot.Objects.Structures.UserStructures.Calendars;
 using Mercury.Snapshot.Objects.Util.Managers;
 using Mercury.Unification.IO.File.Records;
 

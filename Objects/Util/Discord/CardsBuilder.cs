@@ -1,11 +1,11 @@
 ﻿using Mercury.Snapshot.Objects.Structures.Cards;
-using Mercury.Snapshot.Objects.Structures.Personalization;
+using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
 
 namespace Mercury.Snapshot.Objects.Util.Discord
 {
     public class CardsBuilder
     {
-        public CardsBuilder(List<ICard> Cards, MercuryProfile Profile)
+        public CardsBuilder(List<ICard> Cards, MercuryUser Profile)
         {
             List<List<EmbedFieldBuilder>> CardsBuilder = new();
             foreach (ICard Card in Cards)

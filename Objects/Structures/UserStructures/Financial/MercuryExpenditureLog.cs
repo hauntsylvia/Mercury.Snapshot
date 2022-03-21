@@ -1,25 +1,27 @@
-﻿using Mercury.Snapshot.Objects.Structures.Financial.Entries;
-using Mercury.Snapshot.Objects.Structures.Personalization;
+﻿using Mercury.Snapshot.Objects.Structures.UserStructures.Financial.Entries;
+using Mercury.Snapshot.Objects.Structures.UserStructures.Interfaces;
+using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
 using Mercury.Unification.IO.File.Records;
 using Mercury.Unification.IO.File.Registers;
 
-namespace Mercury.Snapshot.Objects.Structures.Financial
+namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
 {
-    public class MercuryExpenditureLog : IExpenditureLog
+    public class MercuryExpenditureLog : IExpenditureLog, IMercuryExpenditureLog
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="OwnerId">Owner's id on Discord.</param>
-        public MercuryExpenditureLog(MercuryProfile User)
+        public MercuryExpenditureLog(MercuryUser User)
         {
             this.User = User;
         }
 
-        public MercuryProfile User { get; }
+        public MercuryUser User { get; }
+
         public Task<IReadOnlyCollection<IExpenditureEntry>> GetExpenditures(DateTime TimeMin, DateTime TimeMax, int MaxResults)
         {
-            if(this.User.ExpenditureEntriesRegister != null)
+            if (this.User.ExpenditureEntriesRegister != null)
             {
                 IReadOnlyCollection<IRecord<IExpenditureEntry>> AllExpenditures = this.User.ExpenditureEntriesRegister.GetAllRecords();
                 return (Task<IReadOnlyCollection<IExpenditureEntry>>)AllExpenditures.OrderByDescending(Record => Record.UTCTimestamp).Where(Record => Record.UTCTimestamp >= TimeMin && Record.UTCTimestamp <= TimeMax).SkipLast(MaxResults);
@@ -36,12 +38,10 @@ namespace Mercury.Snapshot.Objects.Structures.Financial
             {
                 foreach (IExpenditureEntry Entry in Entries)
                 {
-                    if(Entry != null)
-                    {
-                        this.User.ExpenditureEntriesRegister.SaveRecord()
-                    }
+                    this.User.ExpenditureEntriesRegister.SaveRecord(Entry.Id, new Record<IExpenditureEntry>(Entry));
                 }
             }
+            return Task.CompletedTask;
         }
     }
 }

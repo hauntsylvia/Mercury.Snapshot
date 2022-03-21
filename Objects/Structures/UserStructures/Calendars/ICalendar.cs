@@ -1,6 +1,6 @@
-﻿using Mercury.Snapshot.Objects.Structures.Calendars.Events;
+﻿using Mercury.Snapshot.Objects.Structures.UserStructures.Calendars.Events;
 
-namespace Mercury.Snapshot.Objects.Structures.Calendars
+namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
 {
     public interface ICalendar
     {

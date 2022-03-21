@@ -1,9 +1,9 @@
 ﻿
 using Google.Apis.Auth.OAuth2.Responses;
-using Mercury.Snapshot.Objects.Structures.Calendars;
-using Mercury.Snapshot.Objects.Structures.Financial;
 using Mercury.Snapshot.Objects.Structures.MercurySnapshot;
-using Mercury.Snapshot.Objects.Structures.Personalization;
+using Mercury.Snapshot.Objects.Structures.UserStructures.Calendars;
+using Mercury.Snapshot.Objects.Structures.UserStructures.Financial;
+using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
 using Mercury.Unification.IO.File.Registers;
 
 namespace Mercury.Snapshot.Consts

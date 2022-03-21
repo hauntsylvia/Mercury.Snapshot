@@ -1,4 +1,4 @@
-﻿namespace Mercury.Snapshot.Objects.Structures.Personalization.Peronalizers
+﻿namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization.Peronalizers
 {
     public class GoogleCalendarSettings
     {

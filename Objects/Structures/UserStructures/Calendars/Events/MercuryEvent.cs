@@ -1,8 +1,8 @@
-﻿namespace Mercury.Snapshot.Objects.Structures.Calendars.Events
+﻿namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars.Events
 {
     public class MercuryEvent : IEvent
     {
-        public MercuryEvent(string Summary, string Description, DateTime LastUpdated, DateTime Created, DateTime Start, DateTime End, Origins Origin)
+        public MercuryEvent(string Summary, string Description, DateTime LastUpdated, DateTime Created, DateTime Start, DateTime End, Origins Origin, ulong Id)
         {
             this.Summary = Summary;
             this.Description = Description;
@@ -11,6 +11,7 @@
             this.Start = Start;
             this.End = End;
             this.Origin = Origin;
+            this.Id = Id;
         }
 
         public string Summary { get; }
@@ -20,5 +21,6 @@
         public DateTime Start { get; }
         public DateTime End { get; }
         public Origins Origin { get; }
+        public ulong Id { get; }
     }
 }

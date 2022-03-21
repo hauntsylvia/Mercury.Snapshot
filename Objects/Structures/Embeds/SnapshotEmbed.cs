@@ -1,6 +1,6 @@
 ﻿using izolabella.Discord.Commands.Arguments;
 using Mercury.Snapshot.Objects.Structures.Cards;
-using Mercury.Snapshot.Objects.Structures.Personalization;
+using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ namespace Mercury.Snapshot.Objects.Structures.Embeds
 {
     public class SnapshotEmbed : EmbedBuilder
     {
-        public SnapshotEmbed(CommandArguments Context, MercuryProfile Profile)
+        public SnapshotEmbed(CommandArguments Context, MercuryUser Profile)
         {
             List<EmbedFieldBuilder> Fields = new CardsBuilder(new List<ICard> { new EventsCard(), new ExpendituresCard() }, Profile).Build();
             this.Fields = Fields.Count > 0 ? Fields : new List<EmbedFieldBuilder>()

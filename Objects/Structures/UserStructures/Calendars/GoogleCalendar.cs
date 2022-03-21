@@ -3,10 +3,11 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
-using Mercury.Snapshot.Objects.Structures.Calendars.Events;
+using Mercury.Snapshot.Objects.Structures.UserStructures.Calendars.Events;
+using Mercury.Snapshot.Objects.Structures.UserStructures.Identification;
 using Mercury.Snapshot.Objects.Util;
 
-namespace Mercury.Snapshot.Objects.Structures.Calendars
+namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
 {
     public class GoogleCalendar : ICalendar
     {
@@ -50,7 +51,7 @@ namespace Mercury.Snapshot.Objects.Structures.Calendars
                     DateTime.TryParseExact(Event.End.Date, new string[] { GeneralDate, GeneralDateTime }, null, System.Globalization.DateTimeStyles.AllowWhiteSpaces, out End);
                 }
 
-                EventItems.Add(new MercuryEvent(Event.Summary, Event.Description, Updated, Created, Start, End, Origins.Google));
+                EventItems.Add(new MercuryEvent(Event.Summary, Event.Description, Updated, Created, Start, End, Origins.Google, Identifier.GetIdentifier()));
             }
             return Task.FromResult<IReadOnlyCollection<IEvent>>(EventItems);
         }

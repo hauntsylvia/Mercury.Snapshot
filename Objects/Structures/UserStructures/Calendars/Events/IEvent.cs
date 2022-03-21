@@ -1,6 +1,6 @@
-﻿using Mercury.Snapshot.Objects.Structures.Interfaces;
+﻿using Mercury.Snapshot.Objects.Structures.UserStructures.Interfaces;
 
-namespace Mercury.Snapshot.Objects.Structures.Calendars.Events
+namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars.Events
 {
     public interface IEvent : ISaveable
     {

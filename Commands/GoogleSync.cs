@@ -1,7 +1,7 @@
 ﻿using izolabella.Discord.Commands.Arguments;
 using izolabella.Discord.Commands.Attributes;
 using Mercury.Snapshot.Objects.Structures.Embeds;
-using Mercury.Snapshot.Objects.Structures.Personalization;
+using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
 
 namespace Mercury.Snapshot.Commands
 {
@@ -10,7 +10,7 @@ namespace Mercury.Snapshot.Commands
         [Command(new string[] { "google-sync" }, "Connect your Google account to Mercury.")]
         public static async void Sync(CommandArguments Args, bool? Snapshot)
         {
-            MercuryProfile Profile = new(Args.SlashCommand.User.Id);
+            MercuryUser Profile = new(Args.SlashCommand.User.Id);
             string ToSend = Program.CurrentApp.Initializer.GoogleOAuth2.CreateAuthorizationRequest(new(Args.SlashCommand.User.Id.ToString()));
             await Args.SlashCommand.RespondAsync("", new Embed[]
             {
