@@ -15,8 +15,8 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization
             this.DiscordId = DiscordId;
             this.Settings = new Record<MercuryUserSettings>(Settings, new List<string>());
             this.GoogleClient = new(this.DiscordId);
-            this.CalendarRegister = new Register<ICalendar>(this.DiscordId);
-            this.ExpenditureRegister = new Register<IExpenditureLog>(this.DiscordId);
+            this.CalendarRegister = Registers.CalendarsRegister.GetSubRegister<ICalendar>(this.DiscordId);
+            this.ExpenditureRegister = Registers.ExpenditureLogsRegister.GetSubRegister<IExpenditureLog>(this.DiscordId);
         }
 
         public MercuryUser(ulong DiscordId)
