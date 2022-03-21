@@ -15,7 +15,7 @@ namespace Mercury.Snapshot.Commands
             try
             {
                 MercuryUser Profile = new(Args.SlashCommand.User.Id);
-                await Args.SlashCommand.RespondAsync("here u go . .", new[] { new EmbedBuilder()
+                await Args.SlashCommand.FollowupAsync("here u go . .", new[] { new EmbedBuilder()
                 {
                     Color = new(0x00000),
                     Footer = new()
@@ -27,6 +27,7 @@ namespace Mercury.Snapshot.Commands
                 await Args.SlashCommand.ModifyOriginalResponseAsync(MessageInfo =>
                 {
                     MessageInfo.Embed = new SnapshotEmbed(Args, Profile).Build();
+                    MessageInfo.Content = "";
                 });
             }
             catch (Exception E)
