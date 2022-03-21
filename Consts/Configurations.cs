@@ -1,6 +1,6 @@
 ﻿namespace Mercury.Snapshot.Consts
 {
-    internal class Configurations
+    internal static class Configurations
     {
         internal static DiscordSocketConfig DiscordConfig => new()
         {

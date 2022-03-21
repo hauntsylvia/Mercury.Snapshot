@@ -9,7 +9,7 @@ namespace Mercury.Snapshot.Commands
 {
     public static class SnapshotHolder
     {
-        [Command(new string[] { "snapshot" }, "Receive a general rundown.")]
+        [Command(new string[] { "snapshot" }, "Receive a general rundown.", Defer = true, LocalOnly = true)]
         public static async Task Snap(CommandArguments Args)
         {
             try

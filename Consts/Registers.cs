@@ -8,7 +8,7 @@ using Mercury.Unification.IO.File.Registers;
 
 namespace Mercury.Snapshot.Consts
 {
-    internal class Registers
+    internal static class Registers
     {
         internal static Register<TokenResponse> GoogleCredentialsRegister => new("Google User Credentials");
         internal static Register<MercuryUserSettings> MercurySettingsRegister => new("Mercury User Settings");
