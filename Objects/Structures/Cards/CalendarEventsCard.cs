@@ -17,9 +17,9 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
             List<EmbedFieldBuilder> EmbedFieldBuilders = new();
             if (Profile.GoogleClient.IsAuthenticated && Profile.GoogleClient.CalendarManager != null)
             {
-                IReadOnlyCollection<IEvent> EventsToday = await Profile.GetAllCalendarEventsAsync(DateTime.Today.Date, DateTime.Today.Date.Add(new TimeSpan(23, 59, 59)), int.MaxValue);
-                IReadOnlyCollection<IEvent> EventsWeek = await Profile.GetAllCalendarEventsAsync(DateTime.Today.AddDays(1), DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), int.MaxValue);
-                IReadOnlyCollection<IEvent> EventsMonth = await Profile.GetAllCalendarEventsAsync(DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), new(DateTime.Today.Date.Year, DateTime.Today.Month + 1, 1), int.MaxValue);
+                IReadOnlyCollection<CalendarEvent> EventsToday = await Profile.GetAllCalendarEventsAsync(DateTime.Today.Date, DateTime.Today.Date.Add(new TimeSpan(23, 59, 59)), int.MaxValue);
+                IReadOnlyCollection<CalendarEvent> EventsWeek = await Profile.GetAllCalendarEventsAsync(DateTime.Today.AddDays(1), DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), int.MaxValue);
+                IReadOnlyCollection<CalendarEvent> EventsMonth = await Profile.GetAllCalendarEventsAsync(DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), new(DateTime.Today.Date.Year, DateTime.Today.Month + 1, 1), int.MaxValue);
 
                 WeatherResponse? WeatherToday = WeatherManager.GetWeatherForToday(Profile.Settings.ObjectToStore.WeatherSettings.Zip).Result;
 
@@ -36,7 +36,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                         decimal TemperatureMin = WeatherToday.Main.TempMinimum;
                         Today.Value = $"{Temperature}°C - {WeatherToday.CityName}\nH: {TemperatureMax}°C L: {TemperatureMin}°C\n";
                     }
-                    foreach (IEvent Event in EventsToday)
+                    foreach (CalendarEvent Event in EventsToday)
                     {
                         Today.Value += $"\n{Event.Start.ToShortTimeString()}\n```\n{Event.Summary}\n{Event.Description}\n```";
                     }
@@ -50,7 +50,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                     {
                         Name = $"THIS WEEK",
                     };
-                    foreach (IEvent Event in EventsWeek)
+                    foreach (CalendarEvent Event in EventsWeek)
                     {
                         Week.Value += $"\n{Event.Start.ToShortDateString()} {Event.Start.ToShortTimeString()}\n```\n{Event.Summary}\n```";
                     }
@@ -65,7 +65,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                         Name = $"THIS MONTH",
                         Value = "\u200b"
                     };
-                    foreach (IEvent Event in EventsMonth)
+                    foreach (CalendarEvent Event in EventsMonth)
                     {
                         string ToAppend = $"\n{Event.Start.ToShortDateString()} {Event.Start.ToShortTimeString()}\n```\n{Event.Summary}\n```";
                         string? MonthValue = Month.Value.ToString();

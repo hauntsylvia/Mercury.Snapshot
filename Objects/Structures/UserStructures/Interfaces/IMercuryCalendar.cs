@@ -9,6 +9,6 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Interfaces
 {
     public interface IMercuryCalendar
     {
-        public Task SaveEvents(params IEvent[] Events);
+        public Task SaveEvents(params CalendarEvent[] Events);
     }
 }

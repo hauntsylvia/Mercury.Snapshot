@@ -14,23 +14,23 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
         }
 
         public MercuryUser User { get; }
-        public Task<IReadOnlyCollection<IEvent>> GetEvents(DateTime TimeMin, DateTime TimeMax, int MaxResults)
+        public Task<IReadOnlyCollection<CalendarEvent>> GetEvents(DateTime TimeMin, DateTime TimeMax, int MaxResults)
         {
-            List<IEvent> Events = new();
+            List<CalendarEvent> Events = new();
             if (this.User.CalendarEventsRegister != null)
             {
                 Events.AddRange(this.User.CalendarEventsRegister.GetAllRecords().Select(X => X.ObjectToStore).Where(Z => Z.Start >= TimeMin && Z.End <= TimeMax));
             }
-            return Task.FromResult<IReadOnlyCollection<IEvent>>(Events.SkipLast(Events.Count - MaxResults).ToList());
+            return Task.FromResult<IReadOnlyCollection<CalendarEvent>>(Events.SkipLast(Events.Count - MaxResults).ToList());
         }
 
-        public Task SaveEvents(params IEvent[] Events)
+        public Task SaveEvents(params CalendarEvent[] Events)
         {
             if (this.User.CalendarEventsRegister != null)
             {
-                foreach (MercuryEvent Event in Events)
+                foreach (MercuryCalendarEvent Event in Events)
                 {
-                    this.User.CalendarEventsRegister.SaveRecord(Event.Id, new Record<MercuryEvent>(Event));
+                    this.User.CalendarEventsRegister.SaveRecord(Event.Id, new Record<CalendarEvent>(Event));
                 }
             }
             return Task.CompletedTask;
@@ -38,29 +38,29 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
         
         private async Task Pull(DateTime Min, DateTime Max, ICalendar?[] CalendarsToSync, int BufferSize)
         {
-            IEvent[] MercuryEvents = (await this.GetEvents(Min, Max, BufferSize)).ToArray();
+            CalendarEvent[] MercuryEvents = (await this.GetEvents(Min, Max, BufferSize)).ToArray();
             foreach (ICalendar? Calendar in CalendarsToSync)
             {
                 if (Calendar != null)
                 {
-                    IEvent[] Events = (await Calendar.GetEvents(Min, Max, BufferSize)).ToArray();
+                    CalendarEvent[] Events = (await Calendar.GetEvents(Min, Max, BufferSize)).ToArray();
                     for (int EventIndex = 0; EventIndex < BufferSize; EventIndex++)
                     {
                         if(Events.Length > EventIndex)
                         {
-                            IEvent Event = Events.ElementAt(EventIndex);
-                            IEvent? MercuryEvent = MercuryEvents.FirstOrDefault(Ev =>
+                            CalendarEvent Event = Events.ElementAt(EventIndex);
+                            CalendarEvent? MercuryEvent = MercuryEvents.FirstOrDefault(Ev =>
                             {
                                 return Ev.Start == Event.Start && Ev.Summary == Event.Summary && Ev.Description == Event.Description;
                             });
                             if (Calendar.GetType() != typeof(MercuryCalendar))
                             {
+                                if (Event.Start > Min)
+                                {
+                                    Min = Event.Start;
+                                }
                                 if (MercuryEvent == null)
                                 {
-                                    if (Event.Start > Min)
-                                    {
-                                        Min = Event.Start;
-                                    }
                                     await this.SaveEvents(Event);
                                 }
                             }
@@ -75,14 +75,17 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
             await this.Pull(Min, Max, CalendarsToSync, BufferSize);
         }
 
+        /// <summary>
+        /// Pulls using a maximum value to download at a time from each calendar to prevent heavy memory use. This calls every
+        /// calendar's <see cref="ICalendar.GetEvents(DateTime, DateTime, int)"/> method recursively until all events have been 
+        /// retrieved. This method will also download every event by calling <see cref="ICalendar.SaveEvents(CalendarEvent[])"/> for each
+        /// iteration.
+        /// </summary>
+        /// <param name="CalendarsToSync">The calendars to sync.</param>
+        /// <returns></returns>
         public async Task BufferPull(params ICalendar?[] CalendarsToSync)
         {
             await this.Pull(DateTime.MinValue, DateTime.MaxValue, CalendarsToSync, 128);
-        }
-
-        Task ICalendar.SaveEvents(params IEvent[] Events)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -8,10 +8,6 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
 {
     public class MercuryExpenditureLog : IExpenditureLog, IMercuryExpenditureLog
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="OwnerId">Owner's id on Discord.</param>
         public MercuryExpenditureLog(MercuryUser User)
         {
             this.User = User;
@@ -19,26 +15,26 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
 
         public MercuryUser User { get; }
 
-        public Task<IReadOnlyCollection<IExpenditureEntry>> GetExpenditures(DateTime TimeMin, DateTime TimeMax, int MaxResults)
+        public Task<IReadOnlyCollection<ExpenditureEntry>> GetExpenditures(DateTime TimeMin, DateTime TimeMax, int MaxResults)
         {
             if (this.User.ExpenditureEntriesRegister != null)
             {
-                IReadOnlyCollection<Record<IExpenditureEntry>> AllExpenditures = this.User.ExpenditureEntriesRegister.GetAllRecords();
-                return (Task<IReadOnlyCollection<IExpenditureEntry>>)AllExpenditures.OrderByDescending(Record => Record.UTCTimestamp).Where(Record => Record.UTCTimestamp >= TimeMin && Record.UTCTimestamp <= TimeMax).SkipLast(MaxResults);
+                IReadOnlyCollection<Record<ExpenditureEntry>> AllExpenditures = this.User.ExpenditureEntriesRegister.GetAllRecords();
+                return (Task<IReadOnlyCollection<ExpenditureEntry>>)AllExpenditures.OrderByDescending(Record => Record.UTCTimestamp).Where(Record => Record.UTCTimestamp >= TimeMin && Record.UTCTimestamp <= TimeMax).SkipLast(MaxResults);
             }
             else
             {
-                return Task.FromResult<IReadOnlyCollection<IExpenditureEntry>>(new List<IExpenditureEntry>());
+                return Task.FromResult<IReadOnlyCollection<ExpenditureEntry>>(new List<ExpenditureEntry>());
             }
         }
 
-        public Task SaveExpenditures(params IExpenditureEntry[] Entries)
+        public Task SaveExpenditures(params ExpenditureEntry[] Entries)
         {
             if (this.User.ExpenditureEntriesRegister != null)
             {
-                foreach (IExpenditureEntry Entry in Entries)
+                foreach (ExpenditureEntry Entry in Entries)
                 {
-                    this.User.ExpenditureEntriesRegister.SaveRecord(Entry.Id, new Record<IExpenditureEntry>(Entry));
+                    this.User.ExpenditureEntriesRegister.SaveRecord(Entry.Id, new Record<ExpenditureEntry>(Entry));
                 }
             }
             return Task.CompletedTask;

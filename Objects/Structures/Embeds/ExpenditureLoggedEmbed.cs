@@ -9,7 +9,7 @@ namespace Mercury.Snapshot.Objects.Structures.Embeds
 {
     public class ExpenditureLoggedEmbed : EmbedBuilder
     {
-        public ExpenditureLoggedEmbed(IExpenditureEntry Entry)
+        public ExpenditureLoggedEmbed(ExpenditureEntry Entry)
         {
             this.Description = $"`${Math.Abs(Entry.DollarAmount)}` {(Entry.DollarAmount < 0 ? "paid to" : "paid from")} `{Entry.PayeeOrPayer}`";
             this.Title = Entry.Category;

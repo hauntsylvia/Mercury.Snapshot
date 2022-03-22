@@ -22,7 +22,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
 
         public CalendarService Service { get; set; }
 
-        public Task<IReadOnlyCollection<IEvent>> GetEvents(DateTime TimeMin, DateTime TimeMax, int MaxResults = 2500)
+        public Task<IReadOnlyCollection<CalendarEvent>> GetEvents(DateTime TimeMin, DateTime TimeMax, int MaxResults = 2500)
         {
             EventsResource.ListRequest Request = this.Service.Events.List("primary");
             Request.TimeMin = TimeMin;
@@ -32,7 +32,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
             Request.MaxResults = MaxResults;
             Request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
             Google.Apis.Calendar.v3.Data.Events Events = Request.Execute();
-            List<IEvent> EventItems = new();
+            List<CalendarEvent> EventItems = new();
             foreach (Event Event in Events.Items)
             {
                 string RFC3339Z = "yyyy-MM-dd'T'HH:mm:ss.fffZ";
@@ -51,16 +51,16 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
                     DateTime.TryParseExact(Event.End.Date, new string[] { GeneralDate, GeneralDateTime }, null, System.Globalization.DateTimeStyles.AllowWhiteSpaces, out End);
                 }
 
-                EventItems.Add(new MercuryEvent(Event.Summary, Event.Description, Updated, Created, Start, End, Origins.Google, Identifier.GetIdentifier()));
+                EventItems.Add(new MercuryCalendarEvent(Event.Summary, Event.Description, Updated, Created, Start, End, Origins.Google, Identifier.GetIdentifier()));
             }
-            return Task.FromResult<IReadOnlyCollection<IEvent>>(EventItems);
+            return Task.FromResult<IReadOnlyCollection<CalendarEvent>>(EventItems);
         }
 
-        public Task SaveEvents(params IEvent[] Events)
+        public Task SaveEvents(params CalendarEvent[] Events)
         {
             try
             {
-                foreach (IEvent Event in Events)
+                foreach (CalendarEvent Event in Events)
                 {
                     this.Service.Events.Insert(new Event()
                     {

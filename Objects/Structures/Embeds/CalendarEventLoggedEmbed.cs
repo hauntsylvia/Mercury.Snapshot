@@ -10,7 +10,7 @@ namespace Mercury.Snapshot.Objects.Structures.Embeds
 {
     public class CalendarEventLoggedEmbed : EmbedBuilder
     {
-        public CalendarEventLoggedEmbed(IEvent Event)
+        public CalendarEventLoggedEmbed(CalendarEvent Event)
         {
             this.Description = $"{Event.Start.ToLongDateString()} at {Event.Start.ToShortTimeString()}\n```{Event.Description}```";
             this.Title = Event.Summary;

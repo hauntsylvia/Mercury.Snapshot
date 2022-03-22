@@ -18,13 +18,19 @@ namespace Mercury.Snapshot.Commands
             if (User.ExpenditureEntriesRegister != null)
             {
                 MercuryExpenditureEntry Entry = new(DateTime.UtcNow, Credit ? (Math.Abs(Amount)) : (-Math.Abs(Amount)), PayerOrPayee, Category ?? string.Empty, Origins.Mercury, Identifier.GetIdentifier());
-                User.ExpenditureEntriesRegister.SaveRecord(Entry.Id, new Record<IExpenditureEntry>(Entry, null));
+                await User.ExpenditureLog.SaveExpenditures(Entry);
                 await Args.SlashCommand.RespondAsync(Strings.EmbedStrings.Expenditures.ExpenditureSuccessfullyLogged, new Embed[] { new ExpenditureLoggedEmbed(Entry).Build() }, false, true);
             }
             else
             {
                 await Args.SlashCommand.RespondAsync(Strings.EmbedStrings.Expenditures.ExpenditureLogFailed, null, false, true);
             }
+        }
+        [Command(new string[] { "sync-expenditurelogs" }, "Sync all expenditure logs.", Defer = false, LocalOnly = true)]
+        public static async void ExpenditureLogSync(CommandArguments Args)
+        {
+            MercuryUser User = new(Args.SlashCommand.User.Id);
+            
         }
     }
 }

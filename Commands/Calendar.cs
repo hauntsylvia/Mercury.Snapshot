@@ -24,7 +24,7 @@ namespace Mercury.Snapshot.Commands
                 if((((DateTime.TryParseExact(StartsAt, new string[] { GeneralDate, GeneralDateTime }, null, System.Globalization.DateTimeStyles.AllowWhiteSpaces, out DateTime Start) || DateTime.TryParse(StartsAt, out Start)) &&
                     DateTime.TryParseExact(EndsAt, new string[] { GeneralDate, GeneralDateTime }, null, System.Globalization.DateTimeStyles.AllowWhiteSpaces, out DateTime End)) || DateTime.TryParse(EndsAt, out End)))
                 {
-                    MercuryEvent Event = new(Title, Description, DateTime.UtcNow, DateTime.UtcNow, Start, End, Origins.Mercury, Identifier.GetIdentifier());
+                    MercuryCalendarEvent Event = new(Title, Description, DateTime.UtcNow, DateTime.UtcNow, Start, End, Origins.Mercury, Identifier.GetIdentifier());
                     await User.Calendar.SaveEvents(Event);
                     await Args.SlashCommand.RespondAsync(Strings.EmbedStrings.Calendars.CalendarEventSuccessfullyLogged, new Embed[] { new CalendarEventLoggedEmbed(Event).Build() }, false, true);
                 }
