@@ -42,22 +42,16 @@ namespace Mercury.Snapshot.Commands
         public static async void CalendarSync(CommandArguments Args)
         {
             MercuryUser User = new(Args.SlashCommand.User.Id);
-            if (User.CalendarEventsRegister != null && User.Calendar != null && User.GoogleClient.CalendarManager != null)
+            if (User.Calendar != null)
             {
-                if (User.Calendar != null)
-                {
-                    await Args.SlashCommand.RespondAsync("", new Embed[] { new CalendarSyncEmbed().Build() }, false, true);
-                    await User.Calendar.BufferPull(User.GoogleClient.CalendarManager);
-                    await Args.SlashCommand.FollowupAsync(Strings.EmbedStrings.Calendars.CalendarSyncSuccess, null, false, true);
-                }
-                else
-                {
-                    await Args.SlashCommand.RespondAsync(Strings.EmbedStrings.Calendars.CalendarSyncFailure, null, false, true);
-                }
+                await Args.SlashCommand.RespondAsync("", new Embed[] { new CalendarSyncEmbed(true, true).Build() }, false, true);
+                await User.Calendar.Pull();
+                await User.Calendar.Push();
+                await Args.SlashCommand.FollowupAsync("", new Embed[] { new CalendarSyncEmbed(false, true).Build() }, false, true);
             }
             else
             {
-                await Args.SlashCommand.RespondAsync(Strings.EmbedStrings.Calendars.CalendarSyncFailure, null, false, true);
+                await Args.SlashCommand.FollowupAsync("", new Embed[] { new CalendarSyncEmbed(false, false).Build() }, false, true);
             }
         }
     }

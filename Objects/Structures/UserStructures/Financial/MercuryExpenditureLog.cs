@@ -1,12 +1,14 @@
 ﻿using Mercury.Snapshot.Objects.Structures.UserStructures.Financial.Entries;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Interfaces;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
+using Mercury.Snapshot.Objects.Util.Managers;
 using Mercury.Unification.IO.File.Records;
 using Mercury.Unification.IO.File.Registers;
+using System.Reflection;
 
 namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
 {
-    public class MercuryExpenditureLog : IExpenditureLog, IMercuryExpenditureLog
+    public class MercuryExpenditureLog : IExpenditureLog, IMercuryExpenditureLog, ISyncable
     {
         public MercuryExpenditureLog(MercuryUser User)
         {
@@ -38,6 +40,65 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
                 }
             }
             return Task.CompletedTask;
+        }
+
+        private static Task<List<ExpenditureEntry>> GetAllNonMatchingAsync(ExpenditureEntry[] A, ExpenditureEntry[] B)
+        {
+            List<ExpenditureEntry> Expenditures = new();
+            foreach (ExpenditureEntry ExpA in A)
+            {
+                ExpenditureEntry? MatchingExpenditure = B.FirstOrDefault(E => ObjectEqualityManager.PropertiesAreEqual(E, ExpA));
+                if (MatchingExpenditure == null)
+                {
+                    Expenditures.Add(ExpA);
+                }
+            }
+            return Task.FromResult(Expenditures);
+        }
+
+        private async Task RecursivePull(DateTime Min, DateTime Max, List<IExpenditureLog?> LogsToSync, ExpenditureEntry[] Buffer)
+        {
+            IReadOnlyCollection<ExpenditureEntry> MercuryExpEntries = await this.GetExpenditures(Min, Max, Buffer.Length);
+            foreach (IExpenditureLog? ExpLog in LogsToSync.ToList())
+            {
+                if (ExpLog != null)
+                {
+                    Buffer = (await ExpLog.GetExpenditures(Min, Max, Buffer.Length)).ToArray();
+                    List<ExpenditureEntry> NonMatching = await GetAllNonMatchingAsync(Buffer, MercuryExpEntries.ToArray());
+                    if (Buffer.All(X => X != null) && NonMatching.Count > 0)
+                    {
+                        await this.SaveExpenditures(NonMatching.ToArray());
+                    }
+                    else
+                    {
+                        LogsToSync.Remove(ExpLog);
+                    }
+                    await this.RecursivePull(NonMatching.Count > 0 ? NonMatching.Last().Timestamp : Min, Max, LogsToSync, new ExpenditureEntry[Buffer.Length]);
+                }
+            }
+        }
+
+        public async Task Pull()
+        {
+            await this.RecursivePull(DateTime.MinValue, DateTime.MaxValue, this.User.ExpenditureLogs.ToList(), new ExpenditureEntry[2048]);
+        }
+
+        public async Task Push()
+        {
+            IReadOnlyCollection<ExpenditureEntry> MercuryExps = await this.GetExpenditures(DateTime.MinValue, DateTime.MaxValue, int.MaxValue);
+            foreach (IExpenditureLog? ExpLog in this.User.Calendars)
+            {
+                if (ExpLog != null)
+                {
+                    foreach (ExpenditureEntry Exp in MercuryExps)
+                    {
+                        if (Exp.Origin == Origins.Mercury)
+                        {
+                            await ExpLog.SaveExpenditures(Exp);
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -14,14 +14,14 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization
         {
             this.DiscordId = DiscordId;
             this.Settings = new Record<MercuryUserSettings>(Settings, new List<string>());
-            this.GoogleClient = new(this.DiscordId);
+            this.GoogleClient = new(this);
             this.CalendarEventsRegister = Registers.CalendarsRegister.GetSubRegister<ICalendar>(this.DiscordId)?.GetSubRegister<CalendarEvent>(this.DiscordId);
         }
 
         public MercuryUser(ulong DiscordId)
         {
             this.DiscordId = DiscordId;
-            this.GoogleClient = new(this.DiscordId);
+            this.GoogleClient = new(this);
             this.CalendarEventsRegister = Registers.CalendarsRegister.GetSubRegister<ICalendar>(this.DiscordId)?.GetSubRegister<CalendarEvent>(this.DiscordId);
         }
 
@@ -32,6 +32,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization
             get => Registers.MercurySettingsRegister.GetRecord(this.DiscordId.ToString()) ?? new Record<MercuryUserSettings>(new(), new List<string>() { "Auto-generated" });
             set => Registers.MercurySettingsRegister.SaveRecord(this.DiscordId.ToString(), value);
         }
+        
         public async Task<IReadOnlyCollection<CalendarEvent>> GetAllCalendarEventsAsync(DateTime TimeMin, DateTime TimeMax, int MaxResults)
         {
             List<CalendarEvent> Events = new();
@@ -73,7 +74,8 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization
         {
             get => new List<IExpenditureLog?>()
             {
-                this.ExpenditureLog
+                this.ExpenditureLog,
+                this.GoogleClient.IsAuthenticated ? this.GoogleClient.SheetsManager : null
             };
         }
         public MercuryExpenditureLog ExpenditureLog

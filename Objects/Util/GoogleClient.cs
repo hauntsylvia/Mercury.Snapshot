@@ -3,7 +3,9 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Sheets.v4;
+using izolabella.Google.Classes.Consts;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Calendars;
+using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
 using Mercury.Snapshot.Objects.Util.Managers;
 using Mercury.Unification.IO.File.Records;
 
@@ -14,40 +16,42 @@ namespace Mercury.Snapshot.Objects.Util
         public static readonly string[] Scopes = { CalendarService.Scope.CalendarReadonly, SheetsService.Scope.SpreadsheetsReadonly };
         public static readonly string ApplicationName = "MercuryDOTSnapshot";
 
-        public GoogleClient(ulong UserId)
+        public GoogleClient(MercuryUser UserInstance)
         {
-            this.UserId = UserId;
+            this.UserInstance = UserInstance;
             UserCredential? Credential = this.AuthorizeAndRepairAsync().Result;
             if (Credential != null)
             {
+                this.LastUsedCredential = Credential;
                 this.CalendarManager = new(Credential);
-                this.SheetsManager = new(Credential);
+                string? ExpSheetId = this.UserInstance?.Settings.ObjectToStore.GoogleSheetsSettings.ExpenditureSpreadsheetId;
+                this.SheetsManager = ExpSheetId != null ? new(Credential, ExpSheetId) : null;
             }
         }
-
+        public MercuryUser UserInstance { get; }
+        public UserCredential? LastUsedCredential { get; }
+        public bool IsAuthenticated => this.LastUsedCredential != null && !this.LastUsedCredential.Token.IsExpired(new Clock());
         public GoogleCalendar? CalendarManager { get; private set; }
+        public GoogleSheetsExpenditureLog? SheetsManager { get; private set; }
 
-        public GoogleSheetsManager? SheetsManager { get; private set; }
-
-        public ulong UserId { get; }
-        public bool IsAuthenticated => this.CalendarManager != null && this.SheetsManager != null;
         public async Task<UserCredential?> AuthorizeAndRepairAsync()
         {
-            Record<TokenResponse>? Record = Registers.GoogleCredentialsRegister.GetRecord(this.UserId.ToString());
+            Record<TokenResponse>? Record = Registers.GoogleCredentialsRegister.GetRecord(this.UserInstance.DiscordId.ToString());
             if (Record != null)
             {
                 try
                 {
                     UserCredential C = await Program.CurrentApp.Initializer.GoogleOAuth2.GetUserCredentialFromTokenResponseAsync(Record.ObjectToStore);
-                    this.SheetsManager = new(C);
+                    string? ExpSheetId = this.UserInstance?.Settings.ObjectToStore.GoogleSheetsSettings.ExpenditureSpreadsheetId;
+                    this.SheetsManager = ExpSheetId != null ? new(C, ExpSheetId) : null;
                     this.CalendarManager = new(C);
                     return C;
                 }
-                catch(Exception Ex)
+                catch (Exception Ex)
                 {
                     if (Ex is AggregateException || Ex is TokenResponseException)
                     {
-                        Registers.GoogleCredentialsRegister.DeleteRecord(this.UserId.ToString());
+                        Registers.GoogleCredentialsRegister.DeleteRecord(this.UserInstance.DiscordId.ToString());
                     }
                     else
                     {

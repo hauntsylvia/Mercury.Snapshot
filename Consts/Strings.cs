@@ -7,13 +7,19 @@
         internal static string MercuryGoogleRedirectUrl => "https://mercury-bot.ml:443/google-oauth2/GoogleAuthReceiver/";
         internal static string GoogleFileDatastoreLocation => "Tokens";
         internal static string GoogleCredentialsFileLocation => "Google Credentials.json";
-
+        internal static class SettingsStrings
+        {
+            internal static string SettingsSaved => "Your settings have been saved.";
+        }
         internal static class EmbedStrings
         {
             internal static class Expenditures
             {
                 internal static string ExpenditureSuccessfullyLogged => "Expenditure successfully saved.";
                 internal static string ExpenditureLogFailed => "Something went wrong saving your expenditure.";
+                internal static string ExpenditureSyncFailed => "Expenditure log sync couldn't be completed.";
+                internal static string ExpenditureSyncCompleted => "Expenditure log sync completed! <3";
+                internal static string ExpenditureSyncLoading => "Your Expenditure logs are syncing..";
             }
             internal static class Calendars
             {

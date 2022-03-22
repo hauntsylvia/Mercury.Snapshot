@@ -8,14 +8,16 @@ using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Structures.Embeds
 {
-    public class CalendarSyncEmbed : EmbedBuilder
+    public class ExpenditureSyncEmbed : EmbedBuilder
     {
-        public CalendarSyncEmbed(bool Loading = true, bool Success = true)
+        public ExpenditureSyncEmbed(bool Loading = true, bool Success = true)
         {
             this.Timestamp = DateTime.UtcNow;
             this.Description = Loading
-                ? $"{Strings.EmbedStrings.Calendars.CalendarSyncLoading} {Emotes.AliceCenturion}"
-                : Success ? $"{Strings.EmbedStrings.Calendars.CalendarSyncSuccess}" : $"{Strings.EmbedStrings.Calendars.CalendarSyncFailure}";
+                ? $"{Strings.EmbedStrings.Expenditures.ExpenditureSyncLoading} {Emotes.AliceCenturion}"
+                : Success
+                    ? $"{Strings.EmbedStrings.Expenditures.ExpenditureSyncCompleted}"
+                    : $"{Strings.EmbedStrings.Expenditures.ExpenditureSyncFailed}";
         }
     }
 }

@@ -2,6 +2,7 @@
 using izolabella.Discord.Commands.Attributes;
 using izolabella.Discord.Internals.Structures.Commands;
 using Mercury.Snapshot.Objects.Structures.Embeds;
+using Mercury.Snapshot.Objects.Structures.UserStructures.Financial;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Financial.Entries;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Identification;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
@@ -30,7 +31,17 @@ namespace Mercury.Snapshot.Commands
         public static async void ExpenditureLogSync(CommandArguments Args)
         {
             MercuryUser User = new(Args.SlashCommand.User.Id);
-            
+            if (User.ExpenditureLog != null)
+            {
+                await Args.SlashCommand.RespondAsync("", new Embed[] { new ExpenditureSyncEmbed(true, true).Build() }, false, true);
+                await User.ExpenditureLog.Pull();
+                await User.ExpenditureLog.Push();
+                await Args.SlashCommand.RespondAsync("", new Embed[] { new ExpenditureSyncEmbed(false, true).Build() }, false, true);
+            }
+            else
+            {
+                await Args.SlashCommand.RespondAsync("", new Embed[] { new ExpenditureSyncEmbed(false, false).Build() }, false, true);
+            }
         }
     }
 }

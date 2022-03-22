@@ -9,14 +9,15 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
         {
         }
 
-        public Task<IReadOnlyList<EmbedFieldBuilder>> RenderAsync(MercuryUser Profile)
+        public async Task<IReadOnlyList<EmbedFieldBuilder>> RenderAsync(MercuryUser Profile)
         {
             string? Id = Profile.Settings.ObjectToStore.GoogleSheetsSettings.ExpenditureSpreadsheetId;
             if (Id != null && Profile.GoogleClient.IsAuthenticated && Profile.GoogleClient.SheetsManager != null)
             {
-                IReadOnlyList<MercuryExpenditureEntry> Expenditures = Profile.GoogleClient.SheetsManager.GetUserExpenditures(Id);
+                DateTime ThisMonth = new(DateTime.Now.Year, DateTime.Now.Month, 1);
+                IReadOnlyCollection<ExpenditureEntry> Expenditures = await Profile.GoogleClient.SheetsManager.GetExpenditures(ThisMonth, ThisMonth.AddMonths(1), int.MaxValue);
                 Dictionary<string, double> Counting = new();
-                foreach (MercuryExpenditureEntry Expenditure in Expenditures)
+                foreach (ExpenditureEntry Expenditure in Expenditures)
                 {
                     if (Expenditure.PayeeOrPayer.Length > 0 && Expenditure.Timestamp.Month == DateTime.Now.Month)
                     {
@@ -31,7 +32,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                     }
                 }
                 Dictionary<string, double> Enum = Counting.OrderBy(E => E.Value).ToDictionary(Key => Key.Key, Value => Value.Value);
-                return Task.FromResult<IReadOnlyList<EmbedFieldBuilder>>(new List<EmbedFieldBuilder>()
+                return new List<EmbedFieldBuilder>()
                 {
                     {
                         new EmbedFieldBuilder()
@@ -68,11 +69,11 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                             Value = $"${Enum.ElementAt(2).Value}"
                         }
                     }
-                });
+                };
             }
             else
             {
-                return Task.FromResult<IReadOnlyList<EmbedFieldBuilder>>(new List<EmbedFieldBuilder>());
+                return new List<EmbedFieldBuilder>();
             }
         }
     }
