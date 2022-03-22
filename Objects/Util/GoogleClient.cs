@@ -33,7 +33,7 @@ namespace Mercury.Snapshot.Objects.Util
         public bool IsAuthenticated => this.CalendarManager != null && this.SheetsManager != null;
         public async Task<UserCredential?> AuthorizeAndRepairAsync()
         {
-            IRecord<TokenResponse>? Record = Registers.GoogleCredentialsRegister.GetRecord(this.UserId.ToString());
+            Record<TokenResponse>? Record = Registers.GoogleCredentialsRegister.GetRecord(this.UserId.ToString());
             if (Record != null)
             {
                 try

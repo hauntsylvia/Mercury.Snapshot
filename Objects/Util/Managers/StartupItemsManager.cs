@@ -6,19 +6,19 @@ namespace Mercury.Snapshot.Objects.Util.Managers
 {
     public class StartupItemsManager
     {
-        public StartupItemsManager(IRegister<StartupItems> RegisterReference, string Key)
+        public StartupItemsManager(Register<StartupItems> RegisterReference, string Key)
         {
             this.RegisterReference = RegisterReference;
             this.Key = Key;
         }
 
-        public IRegister<StartupItems> RegisterReference { get; }
+        public Register<StartupItems> RegisterReference { get; }
 
         public string Key { get; }
 
         public StartupItems? GetStartupItems()
         {
-            IRecord<StartupItems>? Record = this.RegisterReference.GetRecord(this.Key);
+            Record<StartupItems>? Record = this.RegisterReference.GetRecord(this.Key);
             return Record?.ObjectToStore;
         }
 

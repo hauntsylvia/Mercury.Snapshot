@@ -14,7 +14,7 @@ namespace Mercury.Snapshot.Objects.Util.HighTier.Initializers
         {
             this.StartupItems = StartupItems;
             this.DiscordSocketClient = new(new(Configurations.DiscordConfig), StartupItems.DiscordWrapperLoggingLevel);
-            this.OpenWeatherMapClient = new(StartupItems.OpenWeatherMapAppId, UnitTypes.Imperial);
+            this.OpenWeatherMapClient = new(StartupItems.OpenWeatherMapAppId, UnitTypes.Metric);
             this.GoogleOAuth2 = new(new Uri(Strings.MercuryBaseUrl), StartupItems.GoogleClientSecrets, new(Strings.GoogleFileDatastoreLocation, false), Strings.MercuryGoogleRedirectUrl, Strings.MercuryGoogleRedirectUrl, GoogleClient.Scopes);
             this.GoogleOAuth2.TokenPOSTed += this.GoogleOAuth2_TokenPOSTed;
         }
@@ -26,7 +26,7 @@ namespace Mercury.Snapshot.Objects.Util.HighTier.Initializers
 
         private void GoogleOAuth2_TokenPOSTed(UserCredential UserCredential, TokenResponse TokenResponse, izolabella.Google.Classes.OAuth2.AuthorizationRegister OriginalCall)
         {
-            IRecord<TokenResponse> CurrentRecord = Registers.GoogleCredentialsRegister.GetRecord(OriginalCall.ApplicationAppliedTag) ?? new Record<TokenResponse>(TokenResponse);
+            Record<TokenResponse> CurrentRecord = Registers.GoogleCredentialsRegister.GetRecord(OriginalCall.ApplicationAppliedTag) ?? new Record<TokenResponse>(TokenResponse);
             CurrentRecord.ObjectToStore.AccessToken = TokenResponse.AccessToken;
             if (TokenResponse.RefreshToken != null)
             {

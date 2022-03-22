@@ -19,6 +19,10 @@
             {
                 internal static string CalendarEventSuccessfullyLogged => "Event has been saved to your Mercury calendar.";
                 internal static string CalendarEventFailureToLog => "Event couldn't be saved to your Mercury calendar.";
+                internal static string CalendarEventInvalidDateSupplied => "Event couldn't be saved to your Mercury calendar because the date you supplied is written in an invalid format.";
+                internal static string CalendarSyncFailure => "Calendar sync couldn't be completed.";
+                internal static string CalendarSyncSuccess => "Calendar sync completed! <3";
+                internal static string CalendarSyncLoading => "Your calendars are syncing..";
             }
         }
     }

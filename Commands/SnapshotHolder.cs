@@ -15,7 +15,7 @@ namespace Mercury.Snapshot.Commands
             try
             {
                 MercuryUser Profile = new(Args.SlashCommand.User.Id);
-                await Args.SlashCommand.FollowupAsync("here u go . .", new[] { new EmbedBuilder()
+                await Args.SlashCommand.FollowupAsync("Here you go . .", new[] { new EmbedBuilder()
                 {
                     Color = new(0x00000),
                     Footer = new()

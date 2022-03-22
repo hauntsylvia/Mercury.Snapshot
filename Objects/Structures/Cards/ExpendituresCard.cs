@@ -9,7 +9,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
         {
         }
 
-        public IReadOnlyList<EmbedFieldBuilder> Render(MercuryUser Profile)
+        public Task<IReadOnlyList<EmbedFieldBuilder>> RenderAsync(MercuryUser Profile)
         {
             string? Id = Profile.Settings.ObjectToStore.GoogleSheetsSettings.ExpenditureSpreadsheetId;
             if (Id != null && Profile.GoogleClient.IsAuthenticated && Profile.GoogleClient.SheetsManager != null)
@@ -31,7 +31,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                     }
                 }
                 Dictionary<string, double> Enum = Counting.OrderBy(E => E.Value).ToDictionary(Key => Key.Key, Value => Value.Value);
-                return new List<EmbedFieldBuilder>()
+                return Task.FromResult<IReadOnlyList<EmbedFieldBuilder>>(new List<EmbedFieldBuilder>()
                 {
                     {
                         new EmbedFieldBuilder()
@@ -68,11 +68,11 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                             Value = $"${Enum.ElementAt(2).Value}"
                         }
                     }
-                };
+                });
             }
             else
             {
-                return new List<EmbedFieldBuilder>();
+                return Task.FromResult<IReadOnlyList<EmbedFieldBuilder>>(new List<EmbedFieldBuilder>());
             }
         }
     }

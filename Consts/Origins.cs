@@ -3,6 +3,7 @@
     public enum Origins
     {
         Google,
-        Mercury
+        Mercury,
+        Unknown,
     }
 }

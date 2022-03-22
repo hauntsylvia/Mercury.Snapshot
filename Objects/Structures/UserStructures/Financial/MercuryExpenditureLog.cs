@@ -23,7 +23,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
         {
             if (this.User.ExpenditureEntriesRegister != null)
             {
-                IReadOnlyCollection<IRecord<IExpenditureEntry>> AllExpenditures = this.User.ExpenditureEntriesRegister.GetAllRecords();
+                IReadOnlyCollection<Record<IExpenditureEntry>> AllExpenditures = this.User.ExpenditureEntriesRegister.GetAllRecords();
                 return (Task<IReadOnlyCollection<IExpenditureEntry>>)AllExpenditures.OrderByDescending(Record => Record.UTCTimestamp).Where(Record => Record.UTCTimestamp >= TimeMin && Record.UTCTimestamp <= TimeMax).SkipLast(MaxResults);
             }
             else

@@ -55,5 +55,38 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
             }
             return Task.FromResult<IReadOnlyCollection<IEvent>>(EventItems);
         }
+
+        public Task SaveEvents(params IEvent[] Events)
+        {
+            try
+            {
+                foreach (IEvent Event in Events)
+                {
+                    this.Service.Events.Insert(new Event()
+                    {
+                        Summary = Event.Summary,
+                        Description = Event.Description,
+                        Source = new Event.SourceData()
+                        {
+                            Title = "Mercury.Snapshot",
+                        },
+                        Start = new()
+                        {
+                            DateTime = Event.Start.ToUniversalTime(),
+                        },
+                        End = new()
+                        {
+                            DateTime = Event.End.ToUniversalTime(),
+                        },
+                    }, "primary");
+                }
+                return Task.CompletedTask;
+            }
+            catch(Exception Ex)
+            {
+                Console.WriteLine(Ex);
+                throw;
+            }
+        }
     }
 }

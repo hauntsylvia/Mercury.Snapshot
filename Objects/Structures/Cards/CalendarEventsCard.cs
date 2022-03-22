@@ -6,20 +6,20 @@ using Mercury.Snapshot.Objects.Util.Managers;
 
 namespace Mercury.Snapshot.Objects.Structures.Cards
 {
-    public class EventsCard : ICard
+    public class CalendarEventsCard : ICard
     {
-        public EventsCard()
+        public CalendarEventsCard()
         {
         }
 
-        public IReadOnlyList<EmbedFieldBuilder> Render(MercuryUser Profile)
+        public async Task<IReadOnlyList<EmbedFieldBuilder>> RenderAsync(MercuryUser Profile)
         {
             List<EmbedFieldBuilder> EmbedFieldBuilders = new();
             if (Profile.GoogleClient.IsAuthenticated && Profile.GoogleClient.CalendarManager != null)
             {
-                IReadOnlyCollection<IEvent> EventsToday = Profile.GoogleClient.CalendarManager.GetEvents(DateTime.Today.Date, DateTime.Today.Date.Add(new TimeSpan(23, 59, 59))).Result;
-                IReadOnlyCollection<IEvent> EventsWeek = Profile.GoogleClient.CalendarManager.GetEvents(DateTime.Today.AddDays(1), DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59))).Result;
-                IReadOnlyCollection<IEvent> EventsMonth = Profile.GoogleClient.CalendarManager.GetEvents(DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), new(DateTime.Today.Date.Year, DateTime.Today.Month + 1, 1)).Result;
+                IReadOnlyCollection<IEvent> EventsToday = await Profile.GetAllCalendarEventsAsync(DateTime.Today.Date, DateTime.Today.Date.Add(new TimeSpan(23, 59, 59)), int.MaxValue);
+                IReadOnlyCollection<IEvent> EventsWeek = await Profile.GetAllCalendarEventsAsync(DateTime.Today.AddDays(1), DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), int.MaxValue);
+                IReadOnlyCollection<IEvent> EventsMonth = await Profile.GetAllCalendarEventsAsync(DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), new(DateTime.Today.Date.Year, DateTime.Today.Month + 1, 1), int.MaxValue);
 
                 WeatherResponse? WeatherToday = WeatherManager.GetWeatherForToday(Profile.Settings.ObjectToStore.WeatherSettings.Zip).Result;
 

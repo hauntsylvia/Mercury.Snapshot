@@ -10,7 +10,7 @@ namespace Mercury.Snapshot.Objects.Util.Discord
             List<List<EmbedFieldBuilder>> CardsBuilder = new();
             foreach (ICard Card in Cards)
             {
-                IReadOnlyList<EmbedFieldBuilder> ThisSet = Card.Render(Profile);
+                IReadOnlyList<EmbedFieldBuilder> ThisSet = Card.RenderAsync(Profile).Result;
                 CardsBuilder.Add(ThisSet.ToList());
             }
             this.Cards = CardsBuilder;
