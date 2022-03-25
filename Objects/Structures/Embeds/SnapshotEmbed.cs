@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Structures.Embeds
 {
-    public class SnapshotEmbed : EmbedBuilder
+    internal class SnapshotEmbed : EmbedBuilder
     {
-        public SnapshotEmbed(CommandArguments Context, MercuryUser Profile)
+        internal SnapshotEmbed(CommandArguments Context, MercuryUser Profile)
         {
             List<EmbedFieldBuilder> Fields = new CardsBuilder(new List<ICard> { new CalendarEventsCard(), new ExpendituresCard() }, Profile).Build();
             this.Fields = Fields.Count > 0 ? Fields : new List<EmbedFieldBuilder>()

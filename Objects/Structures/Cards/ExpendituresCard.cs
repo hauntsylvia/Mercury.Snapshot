@@ -3,19 +3,19 @@ using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
 
 namespace Mercury.Snapshot.Objects.Structures.Cards
 {
-    public class ExpendituresCard : ICard
+    internal class ExpendituresCard : ICard
     {
-        public ExpendituresCard()
+        internal ExpendituresCard()
         {
         }
 
-        public async Task<IReadOnlyList<EmbedFieldBuilder>> RenderAsync(MercuryUser Profile)
+        internal async Task<IReadOnlyList<EmbedFieldBuilder>> RenderAsync(MercuryUser Profile)
         {
-            string? Id = Profile.Settings.ObjectToStore.GoogleSheetsSettings.ExpenditureSpreadsheetId;
+            string? Id = Profile.Settings.GoogleSheetsSettings.ExpenditureSpreadsheetId;
             if (Id != null && Profile.GoogleClient.IsAuthenticated && Profile.GoogleClient.SheetsManager != null)
             {
                 DateTime ThisMonth = new(DateTime.Now.Year, DateTime.Now.Month, 1);
-                IReadOnlyCollection<ExpenditureEntry> Expenditures = await Profile.GoogleClient.SheetsManager.GetExpenditures(ThisMonth, ThisMonth.AddMonths(1), int.MaxValue);
+                IReadOnlyCollection<ExpenditureEntry> Expenditures = await Profile.GoogleClient.SheetsManager.GetExpenditures(ThisMonth, ThisMonth.AddMonths(1), int.MaxValue).ConfigureAwait(false);
                 Dictionary<string, double> Counting = new();
                 foreach (ExpenditureEntry Expenditure in Expenditures)
                 {

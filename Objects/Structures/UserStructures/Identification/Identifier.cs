@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Structures.UserStructures.Identification
 {
-    public static class Identifier
+    internal static class Identifier
     {
         private static ulong lastContender = (ulong)(DateTime.UtcNow - DateTime.UnixEpoch).TotalMilliseconds;
-        public static ulong GetIdentifier()
+        internal static ulong GetIdentifier()
         {
             lastContender = Interlocked.Increment(ref lastContender);
             return lastContender;

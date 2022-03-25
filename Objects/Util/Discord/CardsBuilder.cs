@@ -3,9 +3,9 @@ using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
 
 namespace Mercury.Snapshot.Objects.Util.Discord
 {
-    public class CardsBuilder
+    internal class CardsBuilder
     {
-        public CardsBuilder(List<ICard> Cards, MercuryUser Profile)
+        internal CardsBuilder(List<ICard> Cards, MercuryUser Profile)
         {
             List<List<EmbedFieldBuilder>> CardsBuilder = new();
             foreach (ICard Card in Cards)
@@ -16,9 +16,9 @@ namespace Mercury.Snapshot.Objects.Util.Discord
             this.Cards = CardsBuilder;
         }
 
-        public List<List<EmbedFieldBuilder>> Cards { get; }
+        internal List<List<EmbedFieldBuilder>> Cards { get; }
 
-        public List<EmbedFieldBuilder> Build()
+        internal List<EmbedFieldBuilder> Build()
         {
             List<EmbedFieldBuilder> Finished = new();
             foreach (List<EmbedFieldBuilder> Set in this.Cards)

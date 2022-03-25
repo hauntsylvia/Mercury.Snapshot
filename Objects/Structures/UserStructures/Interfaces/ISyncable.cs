@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Structures.UserStructures.Interfaces
 {
-    public interface ISyncable
+    internal interface ISyncable
     {
-        public Task Pull();
-        public Task Push();
+        internal Task Pull();
+        internal Task Push();
     }
 }

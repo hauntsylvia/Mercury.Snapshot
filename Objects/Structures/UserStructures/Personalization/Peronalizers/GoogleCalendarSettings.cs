@@ -1,12 +1,12 @@
 ﻿namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization.Peronalizers
 {
-    public class GoogleCalendarSettings
+    internal class GoogleCalendarSettings
     {
-        public GoogleCalendarSettings(string CalendarId = "primary")
+        internal GoogleCalendarSettings(string CalendarId = "primary")
         {
             this.CalendarId = CalendarId;
         }
 
-        public string CalendarId { get; }
+        internal string CalendarId { get; }
     }
 }

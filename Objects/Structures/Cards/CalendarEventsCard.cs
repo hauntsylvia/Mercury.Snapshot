@@ -6,22 +6,22 @@ using Mercury.Snapshot.Objects.Util.Managers;
 
 namespace Mercury.Snapshot.Objects.Structures.Cards
 {
-    public class CalendarEventsCard : ICard
+    internal class CalendarEventsCard : ICard
     {
-        public CalendarEventsCard()
+        internal CalendarEventsCard()
         {
         }
 
-        public async Task<IReadOnlyList<EmbedFieldBuilder>> RenderAsync(MercuryUser Profile)
+        internal async Task<IReadOnlyList<EmbedFieldBuilder>> RenderAsync(MercuryUser Profile)
         {
             List<EmbedFieldBuilder> EmbedFieldBuilders = new();
             if (Profile.GoogleClient.IsAuthenticated && Profile.GoogleClient.CalendarManager != null)
             {
-                IReadOnlyCollection<CalendarEvent> EventsToday = await Profile.GetAllCalendarEventsAsync(DateTime.Today.Date, DateTime.Today.Date.Add(new TimeSpan(23, 59, 59)), int.MaxValue);
-                IReadOnlyCollection<CalendarEvent> EventsWeek = await Profile.GetAllCalendarEventsAsync(DateTime.Today.AddDays(1), DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), int.MaxValue);
-                IReadOnlyCollection<CalendarEvent> EventsMonth = await Profile.GetAllCalendarEventsAsync(DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), new(DateTime.Today.Date.Year, DateTime.Today.Month + 1, 1), int.MaxValue);
+                IReadOnlyCollection<CalendarEvent> EventsToday = await Profile.GetAllCalendarEventsAsync(DateTime.Today.Date, DateTime.Today.Date.Add(new TimeSpan(23, 59, 59)), int.MaxValue).ConfigureAwait(false);
+                IReadOnlyCollection<CalendarEvent> EventsWeek = await Profile.GetAllCalendarEventsAsync(DateTime.Today.AddDays(1), DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), int.MaxValue).ConfigureAwait(false);
+                IReadOnlyCollection<CalendarEvent> EventsMonth = await Profile.GetAllCalendarEventsAsync(DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), new(DateTime.Today.Date.Year, DateTime.Today.Month + 1, 1), int.MaxValue).ConfigureAwait(false);
 
-                WeatherResponse? WeatherToday = WeatherManager.GetWeatherForToday(Profile.Settings.ObjectToStore.WeatherSettings.Zip).Result;
+                WeatherResponse? WeatherToday = WeatherManager.GetWeatherForToday(Profile.Settings.WeatherSettings.Zip).Result;
 
                 if (EventsToday.Count > 0 || WeatherToday != null)
                 {

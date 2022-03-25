@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Structures.Embeds
 {
-    public class CalendarSyncEmbed : EmbedBuilder
+    internal class CalendarSyncEmbed : EmbedBuilder
     {
-        public CalendarSyncEmbed(bool Loading = true, bool Success = true)
+        internal CalendarSyncEmbed(bool Loading = true, bool Success = true)
         {
             this.Timestamp = DateTime.UtcNow;
             this.Description = Loading

@@ -1,8 +1,16 @@
 ﻿namespace Mercury.Snapshot.Objects.Structures.Exceptions
 {
-    public class MercuryColdStartupException : Exception
+    internal class MercuryColdStartupException : Exception
     {
-        public MercuryColdStartupException(string? message) : base(message)
+        internal MercuryColdStartupException(string? Message) : base(Message)
+        {
+        }
+
+        internal MercuryColdStartupException()
+        {
+        }
+
+        internal MercuryColdStartupException(string Message, Exception InnerException) : base(Message, InnerException)
         {
         }
     }

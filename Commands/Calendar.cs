@@ -11,10 +11,10 @@ using Mercury.Unification.IO.File.Records;
 
 namespace Mercury.Snapshot.Commands
 {
-    public class Calendar
+    internal class Calendar
     {
         [Command(new string[] { "log-calendar-event" }, "Log a calendar event.", Defer = false, LocalOnly = true)]
-        public static async void LogCalendarEvent(CommandArguments Args, string Title, string Description, string StartsAt, string EndsAt)
+        internal static async void LogCalendarEvent(CommandArguments Args, string Title, string Description, string StartsAt, string EndsAt)
         {
             string GeneralDate = "yyyy-MM-dd";
             string GeneralDateTime = "yyyy-MM-dd HH:mm:ss";
@@ -25,33 +25,33 @@ namespace Mercury.Snapshot.Commands
                     DateTime.TryParseExact(EndsAt, new string[] { GeneralDate, GeneralDateTime }, null, System.Globalization.DateTimeStyles.AllowWhiteSpaces, out DateTime End)) || DateTime.TryParse(EndsAt, out End)))
                 {
                     MercuryCalendarEvent Event = new(Title, Description, DateTime.UtcNow, DateTime.UtcNow, Start, End, Origins.Mercury, Identifier.GetIdentifier());
-                    await User.Calendar.SaveEvents(Event);
-                    await Args.SlashCommand.RespondAsync(Strings.EmbedStrings.Calendars.CalendarEventSuccessfullyLogged, new Embed[] { new CalendarEventLoggedEmbed(Event).Build() }, false, true);
+                    await User.Calendar.SaveEvents(Event).ConfigureAwait(false);
+                    await Args.SlashCommand.RespondAsync(Strings.EmbedStrings.Calendars.CalendarEventSuccessfullyLogged, new Embed[] { new CalendarEventLoggedEmbed(Event).Build() }, false, true).ConfigureAwait(false);
                 }
                 else
                 {
-                    await Args.SlashCommand.RespondAsync(Strings.EmbedStrings.Calendars.CalendarEventFailureToLog, null, false, true);
+                    await Args.SlashCommand.RespondAsync(Strings.EmbedStrings.Calendars.CalendarEventFailureToLog, null, false, true).ConfigureAwait(false);
                 }
             }
             else
             {
-                await Args.SlashCommand.RespondAsync(Strings.EmbedStrings.Calendars.CalendarEventFailureToLog, null, false, true);
+                await Args.SlashCommand.RespondAsync(Strings.EmbedStrings.Calendars.CalendarEventFailureToLog, null, false, true).ConfigureAwait(false);
             }
         }
         [Command(new string[] { "sync-calendars" }, "Sync all connected calendars.", Defer = false, LocalOnly = true)]
-        public static async void CalendarSync(CommandArguments Args)
+        internal static async void CalendarSync(CommandArguments Args)
         {
             MercuryUser User = new(Args.SlashCommand.User.Id);
             if (User.Calendar != null)
             {
-                await Args.SlashCommand.RespondAsync("", new Embed[] { new CalendarSyncEmbed(true, true).Build() }, false, true);
-                await User.Calendar.Pull();
-                await User.Calendar.Push();
-                await Args.SlashCommand.FollowupAsync("", new Embed[] { new CalendarSyncEmbed(false, true).Build() }, false, true);
+                await Args.SlashCommand.RespondAsync("", new Embed[] { new CalendarSyncEmbed(true, true).Build() }, false, true).ConfigureAwait(false);
+                await User.Calendar.Pull().ConfigureAwait(false);
+                await User.Calendar.Push().ConfigureAwait(false);
+                await Args.SlashCommand.FollowupAsync("", new Embed[] { new CalendarSyncEmbed(false, true).Build() }, false, true).ConfigureAwait(false);
             }
             else
             {
-                await Args.SlashCommand.FollowupAsync("", new Embed[] { new CalendarSyncEmbed(false, false).Build() }, false, true);
+                await Args.SlashCommand.FollowupAsync("", new Embed[] { new CalendarSyncEmbed(false, false).Build() }, false, true).ConfigureAwait(false);
             }
         }
     }

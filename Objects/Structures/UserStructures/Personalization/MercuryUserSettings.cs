@@ -3,17 +3,17 @@
 namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class MercuryUserSettings
+    internal class MercuryUserSettings
     {
         [JsonConstructor]
-        public MercuryUserSettings(GoogleCalendarSettings GoogleCalendarSettings, GoogleSheetsSettings GoogleSheetsSettings, WeatherSettings WeatherSettings)
+        internal MercuryUserSettings(GoogleCalendarSettings GoogleCalendarSettings, GoogleSheetsSettings GoogleSheetsSettings, WeatherSettings WeatherSettings)
         {
             this.GoogleCalendarSettings = GoogleCalendarSettings;
             this.GoogleSheetsSettings = GoogleSheetsSettings;
             this.WeatherSettings = WeatherSettings;
         }
 
-        public MercuryUserSettings()
+        internal MercuryUserSettings()
         {
             this.GoogleCalendarSettings = new();
             this.GoogleSheetsSettings = new(null);
@@ -21,12 +21,12 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization
         }
 
         [JsonProperty("GoogleCalendarSettings")]
-        public GoogleCalendarSettings GoogleCalendarSettings { get; }
+        internal GoogleCalendarSettings GoogleCalendarSettings { get; }
 
         [JsonProperty("GoogleSheetsSettings")]
-        public GoogleSheetsSettings GoogleSheetsSettings { get; }
+        internal GoogleSheetsSettings GoogleSheetsSettings { get; }
 
         [JsonProperty("WeatherSettings")]
-        public WeatherSettings WeatherSettings { get; }
+        internal WeatherSettings WeatherSettings { get; }
     }
 }

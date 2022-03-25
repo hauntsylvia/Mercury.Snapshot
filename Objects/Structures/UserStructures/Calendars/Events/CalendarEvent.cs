@@ -2,9 +2,9 @@
 
 namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars.Events
 {
-    public class CalendarEvent : ISaveable
+    internal class CalendarEvent : ISaveable
     {
-        public CalendarEvent(string Summary, string Description, DateTime LastUpdated, DateTime Created, DateTime Start, DateTime End, Origins Origin, ulong Id)
+        internal CalendarEvent(string Summary, string Description, DateTime LastUpdated, DateTime Created, DateTime Start, DateTime End, Origins Origin, ulong Id)
         {
             this.Summary = Summary;
             this.Description = Description;
@@ -16,18 +16,18 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars.Events
             this.Id = Id;
         }
 
-        public string Summary { get; }
-        public string Description { get; }
-        public DateTime LastUpdated { get; }
-        public DateTime Created { get; }
-        public DateTime Start { get; }
-        public DateTime End { get; }
+        internal string Summary { get; }
+        internal string Description { get; }
+        internal DateTime LastUpdated { get; }
+        internal DateTime Created { get; }
+        internal DateTime Start { get; }
+        internal DateTime End { get; }
 
         /// <summary>
         /// From where this event originates.
         /// </summary>
-        public Origins Origin { get; }
+        internal Origins Origin { get; }
 
-        public ulong Id { get; }
+        internal ulong Id { get; }
     }
 }

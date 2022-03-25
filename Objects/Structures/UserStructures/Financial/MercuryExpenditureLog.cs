@@ -1,23 +1,23 @@
 ﻿using Mercury.Snapshot.Objects.Structures.UserStructures.Financial.Entries;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Interfaces;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
-using Mercury.Snapshot.Objects.Util.Managers;
 using Mercury.Unification.IO.File.Records;
 using Mercury.Unification.IO.File.Registers;
+using Mercury.Unification.Util.ObjectComparisons;
 using System.Reflection;
 
 namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
 {
-    public class MercuryExpenditureLog : IExpenditureLog, IMercuryExpenditureLog, ISyncable
+    internal class MercuryExpenditureLog : IExpenditureLog, IMercuryExpenditureLog, ISyncable
     {
-        public MercuryExpenditureLog(MercuryUser User)
+        internal MercuryExpenditureLog(MercuryUser User)
         {
             this.User = User;
         }
 
-        public MercuryUser User { get; }
+        internal MercuryUser User { get; }
 
-        public Task<IReadOnlyCollection<ExpenditureEntry>> GetExpenditures(DateTime TimeMin, DateTime TimeMax, int MaxResults)
+        internal Task<IReadOnlyCollection<ExpenditureEntry>> GetExpenditures(DateTime TimeMin, DateTime TimeMax, int MaxResults)
         {
             if (this.User.ExpenditureEntriesRegister != null)
             {
@@ -30,7 +30,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
             }
         }
 
-        public Task SaveExpenditures(params ExpenditureEntry[] Entries)
+        internal Task SaveExpenditures(params ExpenditureEntry[] Entries)
         {
             if (this.User.ExpenditureEntriesRegister != null)
             {
@@ -58,34 +58,34 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
 
         private async Task RecursivePull(DateTime Min, DateTime Max, List<IExpenditureLog?> LogsToSync, ExpenditureEntry[] Buffer)
         {
-            IReadOnlyCollection<ExpenditureEntry> MercuryExpEntries = await this.GetExpenditures(Min, Max, Buffer.Length);
+            IReadOnlyCollection<ExpenditureEntry> MercuryExpEntries = await this.GetExpenditures(Min, Max, Buffer.Length).ConfigureAwait(false);
             foreach (IExpenditureLog? ExpLog in LogsToSync.ToList())
             {
                 if (ExpLog != null)
                 {
-                    Buffer = (await ExpLog.GetExpenditures(Min, Max, Buffer.Length)).ToArray();
-                    List<ExpenditureEntry> NonMatching = await GetAllNonMatchingAsync(Buffer, MercuryExpEntries.ToArray());
+                    Buffer = (await ExpLog.GetExpenditures(Min, Max, Buffer.Length).ConfigureAwait(false)).ToArray();
+                    List<ExpenditureEntry> NonMatching = await GetAllNonMatchingAsync(Buffer, MercuryExpEntries.ToArray()).ConfigureAwait(false);
                     if (Buffer.All(X => X != null) && NonMatching.Count > 0)
                     {
-                        await this.SaveExpenditures(NonMatching.ToArray());
+                        await this.SaveExpenditures(NonMatching.ToArray()).ConfigureAwait(false);
                     }
                     else
                     {
                         LogsToSync.Remove(ExpLog);
                     }
-                    await this.RecursivePull(NonMatching.Count > 0 ? NonMatching.Last().Timestamp : Min, Max, LogsToSync, new ExpenditureEntry[Buffer.Length]);
+                    await this.RecursivePull(NonMatching.Count > 0 ? NonMatching.Last().Timestamp : Min, Max, LogsToSync, new ExpenditureEntry[Buffer.Length]).ConfigureAwait(false);
                 }
             }
         }
 
-        public async Task Pull()
+        internal async Task Pull()
         {
-            await this.RecursivePull(DateTime.MinValue, DateTime.MaxValue, this.User.ExpenditureLogs.ToList(), new ExpenditureEntry[2048]);
+            await this.RecursivePull(DateTime.MinValue, DateTime.MaxValue, this.User.ExpenditureLogs.ToList(), new ExpenditureEntry[2048]).ConfigureAwait(false);
         }
 
-        public async Task Push()
+        internal async Task Push()
         {
-            IReadOnlyCollection<ExpenditureEntry> MercuryExps = await this.GetExpenditures(DateTime.MinValue, DateTime.MaxValue, int.MaxValue);
+            IReadOnlyCollection<ExpenditureEntry> MercuryExps = await this.GetExpenditures(DateTime.MinValue, DateTime.MaxValue, int.MaxValue).ConfigureAwait(false);
             foreach (IExpenditureLog? ExpLog in this.User.Calendars)
             {
                 if (ExpLog != null)
@@ -94,7 +94,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
                     {
                         if (Exp.Origin == Origins.Mercury)
                         {
-                            await ExpLog.SaveExpenditures(Exp);
+                            await ExpLog.SaveExpenditures(Exp).ConfigureAwait(false);
                         }
                     }
                 }

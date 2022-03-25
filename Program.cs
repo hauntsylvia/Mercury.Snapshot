@@ -11,10 +11,10 @@ using Mercury.Snapshot.Objects.Util.Managers;
 
 namespace Mercury.Snapshot
 {
-    public class Program
+    internal class Program
     {
-        public static MercurySnapshotProgram CurrentApp { get; set; } = new(new MercurySnapshotInitializer(GetStartupItems(null)));
-        public static StartupItems GetStartupItems(StartupItems? Items = null)
+        internal static MercurySnapshotProgram CurrentApp { get; set; } = new(new MercurySnapshotInitializer(GetStartupItems(null)));
+        internal static StartupItems GetStartupItems(StartupItems? Items = null)
         {
             StartupItemsManager ConfigManager = new(Registers.MercuryStartupItemsRegister, Strings.MercuryStartupItemsKey);
             Items ??= ConfigManager.GetStartupItems();
@@ -39,13 +39,13 @@ namespace Mercury.Snapshot
             }
             return GetStartupItems(Items);
         }
-        public static async Task Main()
+        internal static async Task Main()
         {
-            await CurrentApp.Initializer.GoogleOAuth2.StopListener();
+            await CurrentApp.Initializer.GoogleOAuth2.StopListener().ConfigureAwait(false);
             StartupItems Items = GetStartupItems(null);
             CurrentApp = new(new MercurySnapshotInitializer(Items));
             CurrentApp.RunProgram();
-            await Task.Delay(-1);
+            await Task.Delay(-1).ConfigureAwait(false);
         }
     }
 }

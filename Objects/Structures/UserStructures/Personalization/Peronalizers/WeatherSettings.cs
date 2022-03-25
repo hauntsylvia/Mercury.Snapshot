@@ -1,12 +1,12 @@
 ﻿namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization.Peronalizers
 {
-    public class WeatherSettings
+    internal class WeatherSettings
     {
-        public WeatherSettings(string Zip)
+        internal WeatherSettings(string Zip)
         {
             this.Zip = Zip;
         }
 
-        public string Zip { get; }
+        internal string Zip { get; }
     }
 }

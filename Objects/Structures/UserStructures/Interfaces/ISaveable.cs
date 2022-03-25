@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Structures.UserStructures.Interfaces
 {
-    public interface ISaveable
+    internal interface ISaveable
     {
-        public ulong Id { get; }
+        internal ulong Id { get; }
     }
 }

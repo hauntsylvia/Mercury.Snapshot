@@ -2,9 +2,9 @@
 
 namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
 {
-    public interface ICalendar
+    internal interface ICalendar
     {
-        public Task<IReadOnlyCollection<CalendarEvent>> GetEvents(DateTime TimeMin, DateTime TimeMax, int MaxResults);
-        public Task SaveEvents(params CalendarEvent[] Events);
+        internal Task<IReadOnlyCollection<CalendarEvent>> GetEvents(DateTime TimeMin, DateTime TimeMax, int MaxResults);
+        internal Task SaveEvents(params CalendarEvent[] Events);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial.Entries
 {
-    public class ExpenditureEntry : ISaveable
+    internal class ExpenditureEntry : ISaveable
     {
-        public ExpenditureEntry(DateTime Timestamp, double DollarAmount, string PayeeOrPayer, string Category, Origins Origin, ulong Id)
+        internal ExpenditureEntry(DateTime Timestamp, double DollarAmount, string PayeeOrPayer, string Category, Origins Origin, ulong Id)
         {
             this.Timestamp = Timestamp;
             this.DollarAmount = DollarAmount;
@@ -14,11 +14,11 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial.Entries
             this.Id = Id;
         }
 
-        public DateTime Timestamp { get; }
-        public double DollarAmount { get; }
-        public string PayeeOrPayer { get; }
-        public string Category { get; }
-        public Origins Origin { get; }
-        public ulong Id { get; }
+        internal DateTime Timestamp { get; }
+        internal double DollarAmount { get; }
+        internal string PayeeOrPayer { get; }
+        internal string Category { get; }
+        internal Origins Origin { get; }
+        internal ulong Id { get; }
     }
 }

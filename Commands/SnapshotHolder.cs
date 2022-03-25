@@ -7,10 +7,10 @@ using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
 
 namespace Mercury.Snapshot.Commands
 {
-    public static class SnapshotHolder
+    internal static class SnapshotHolder
     {
         [Command(new string[] { "snapshot" }, "Receive a general rundown.", Defer = true, LocalOnly = true)]
-        public static async Task Snap(CommandArguments Args)
+        internal static async Task Snap(CommandArguments Args)
         {
             try
             {
@@ -23,12 +23,12 @@ namespace Mercury.Snapshot.Commands
                         Text = "-☿-"
                     },
                     Description = "<a:loadinghearts:950503533910835241>"
-                }.Build() }, false, true);
+                }.Build() }, false, true).ConfigureAwait(false);
                 await Args.SlashCommand.ModifyOriginalResponseAsync(MessageInfo =>
                 {
                     MessageInfo.Embed = new SnapshotEmbed(Args, Profile).Build();
                     MessageInfo.Content = "";
-                });
+                }).ConfigureAwait(false);
             }
             catch (Exception E)
             {

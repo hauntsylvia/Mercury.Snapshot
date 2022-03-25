@@ -9,9 +9,9 @@ using Mercury.Snapshot.Objects.Util;
 
 namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
 {
-    public class GoogleCalendar : ICalendar
+    internal class GoogleCalendar : ICalendar
     {
-        public GoogleCalendar(UserCredential Credential)
+        internal GoogleCalendar(UserCredential Credential)
         {
             this.Service = new(new BaseClientService.Initializer()
             {
@@ -20,9 +20,9 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
             });
         }
 
-        public CalendarService Service { get; set; }
+        internal CalendarService Service { get; set; }
 
-        public Task<IReadOnlyCollection<CalendarEvent>> GetEvents(DateTime TimeMin, DateTime TimeMax, int MaxResults = 2500)
+        internal Task<IReadOnlyCollection<CalendarEvent>> GetEvents(DateTime TimeMin, DateTime TimeMax, int MaxResults = 2500)
         {
             EventsResource.ListRequest Request = this.Service.Events.List("primary");
             Request.TimeMin = TimeMin;
@@ -56,7 +56,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
             return Task.FromResult<IReadOnlyCollection<CalendarEvent>>(EventItems);
         }
 
-        public Task SaveEvents(params CalendarEvent[] Events)
+        internal Task SaveEvents(params CalendarEvent[] Events)
         {
             try
             {

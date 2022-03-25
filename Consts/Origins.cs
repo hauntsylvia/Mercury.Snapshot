@@ -1,6 +1,6 @@
 ﻿namespace Mercury.Snapshot.Consts
 {
-    public enum Origins
+    internal enum Origins
     {
         Google,
         Mercury,

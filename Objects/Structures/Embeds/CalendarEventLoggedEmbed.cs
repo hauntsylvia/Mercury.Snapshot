@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Structures.Embeds
 {
-    public class CalendarEventLoggedEmbed : EmbedBuilder
+    internal class CalendarEventLoggedEmbed : EmbedBuilder
     {
-        public CalendarEventLoggedEmbed(CalendarEvent Event)
+        internal CalendarEventLoggedEmbed(CalendarEvent Event)
         {
             this.Description = $"{Event.Start.ToLongDateString()} at {Event.Start.ToShortTimeString()}\n```{Event.Description}```";
             this.Title = Event.Summary;

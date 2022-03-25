@@ -10,37 +10,37 @@ using Mercury.Unification.IO.File.Records;
 
 namespace Mercury.Snapshot.Commands
 {
-    public class Expenditure
+    internal class Expenditure
     {
         [Command(new string[] { "log-expenditure" }, "Log an expenditure.", Defer = false, LocalOnly = true)]
-        public static async void LogExpenditure(CommandArguments Args, double Amount, string PayerOrPayee, string Category, bool Credit = false)
+        internal static async void LogExpenditure(CommandArguments Args, double Amount, string PayerOrPayee, string Category, bool Credit = false)
         {
             MercuryUser User = new(Args.SlashCommand.User.Id);
             if (User.ExpenditureEntriesRegister != null)
             {
                 MercuryExpenditureEntry Entry = new(DateTime.UtcNow, Credit ? (Math.Abs(Amount)) : (-Math.Abs(Amount)), PayerOrPayee, Category ?? string.Empty, Origins.Mercury, Identifier.GetIdentifier());
-                await User.ExpenditureLog.SaveExpenditures(Entry);
-                await Args.SlashCommand.RespondAsync(Strings.EmbedStrings.Expenditures.ExpenditureSuccessfullyLogged, new Embed[] { new ExpenditureLoggedEmbed(Entry).Build() }, false, true);
+                await User.ExpenditureLog.SaveExpenditures(Entry).ConfigureAwait(false);
+                await Args.SlashCommand.RespondAsync(Strings.EmbedStrings.Expenditures.ExpenditureSuccessfullyLogged, new Embed[] { new ExpenditureLoggedEmbed(Entry).Build() }, false, true).ConfigureAwait(false);
             }
             else
             {
-                await Args.SlashCommand.RespondAsync(Strings.EmbedStrings.Expenditures.ExpenditureLogFailed, null, false, true);
+                await Args.SlashCommand.RespondAsync(Strings.EmbedStrings.Expenditures.ExpenditureLogFailed, null, false, true).ConfigureAwait(false);
             }
         }
         [Command(new string[] { "sync-expenditurelogs" }, "Sync all expenditure logs.", Defer = false, LocalOnly = true)]
-        public static async void ExpenditureLogSync(CommandArguments Args)
+        internal static async void ExpenditureLogSync(CommandArguments Args)
         {
             MercuryUser User = new(Args.SlashCommand.User.Id);
             if (User.ExpenditureLog != null)
             {
-                await Args.SlashCommand.RespondAsync("", new Embed[] { new ExpenditureSyncEmbed(true, true).Build() }, false, true);
-                await User.ExpenditureLog.Pull();
-                await User.ExpenditureLog.Push();
-                await Args.SlashCommand.RespondAsync("", new Embed[] { new ExpenditureSyncEmbed(false, true).Build() }, false, true);
+                await Args.SlashCommand.RespondAsync("", new Embed[] { new ExpenditureSyncEmbed(true, true).Build() }, false, true).ConfigureAwait(false);
+                await User.ExpenditureLog.Pull().ConfigureAwait(false);
+                await User.ExpenditureLog.Push().ConfigureAwait(false);
+                await Args.SlashCommand.RespondAsync("", new Embed[] { new ExpenditureSyncEmbed(false, true).Build() }, false, true).ConfigureAwait(false);
             }
             else
             {
-                await Args.SlashCommand.RespondAsync("", new Embed[] { new ExpenditureSyncEmbed(false, false).Build() }, false, true);
+                await Args.SlashCommand.RespondAsync("", new Embed[] { new ExpenditureSyncEmbed(false, false).Build() }, false, true).ConfigureAwait(false);
             }
         }
     }

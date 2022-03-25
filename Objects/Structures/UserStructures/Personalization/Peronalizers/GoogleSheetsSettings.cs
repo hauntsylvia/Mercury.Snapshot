@@ -1,12 +1,12 @@
 ﻿namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization.Peronalizers
 {
-    public class GoogleSheetsSettings
+    internal class GoogleSheetsSettings
     {
-        public GoogleSheetsSettings(string? ExpenditureSpreadsheetId)
+        internal GoogleSheetsSettings(string? ExpenditureSpreadsheetId)
         {
             this.ExpenditureSpreadsheetId = ExpenditureSpreadsheetId;
         }
 
-        public string? ExpenditureSpreadsheetId { get; }
+        internal string? ExpenditureSpreadsheetId { get; }
     }
 }

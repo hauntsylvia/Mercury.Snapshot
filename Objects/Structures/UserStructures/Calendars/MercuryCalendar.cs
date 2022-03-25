@@ -1,22 +1,22 @@
 ﻿using Mercury.Snapshot.Objects.Structures.UserStructures.Calendars.Events;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Interfaces;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
-using Mercury.Snapshot.Objects.Util.Managers;
 using Mercury.Unification.IO.File.Records;
 using Mercury.Unification.IO.File.Registers;
+using Mercury.Unification.Util.ObjectComparisons;
 using System.Reflection;
 
 namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
 {
-    public class MercuryCalendar : ICalendar, IMercuryCalendar, ISyncable
+    internal class MercuryCalendar : ICalendar, IMercuryCalendar, ISyncable
     {
-        public MercuryCalendar(MercuryUser User)
+        internal MercuryCalendar(MercuryUser User)
         {
             this.User = User;
         }
 
-        public MercuryUser User { get; }
-        public Task<IReadOnlyCollection<CalendarEvent>> GetEvents(DateTime TimeMin, DateTime TimeMax, int MaxResults)
+        internal MercuryUser User { get; }
+        internal Task<IReadOnlyCollection<CalendarEvent>> GetEvents(DateTime TimeMin, DateTime TimeMax, int MaxResults)
         {
             List<CalendarEvent> Events = new();
             if (this.User.CalendarEventsRegister != null)
@@ -26,7 +26,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
             return Task.FromResult<IReadOnlyCollection<CalendarEvent>>(Events.SkipLast(Events.Count - MaxResults).ToList());
         }
 
-        public Task SaveEvents(params CalendarEvent[] Events)
+        internal Task SaveEvents(params CalendarEvent[] Events)
         {
             if (this.User.CalendarEventsRegister != null)
             {
@@ -54,22 +54,22 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
 
         private async Task RecursivePull(DateTime Min, DateTime Max, List<ICalendar?> CalendarsToSync, CalendarEvent[] Buffer)
         {
-            IReadOnlyCollection<CalendarEvent> MercuryEvents = await this.GetEvents(Min, Max, Buffer.Length);
+            IReadOnlyCollection<CalendarEvent> MercuryEvents = await this.GetEvents(Min, Max, Buffer.Length).ConfigureAwait(false);
             foreach(ICalendar? Calendar in CalendarsToSync.ToList())
             {
                 if (Calendar != null)
                 {
-                    Buffer = (await Calendar.GetEvents(Min, Max, Buffer.Length)).ToArray();
-                    List<CalendarEvent> NonMatching = await GetAllNonMatchingAsync(Buffer, MercuryEvents.ToArray());
+                    Buffer = (await Calendar.GetEvents(Min, Max, Buffer.Length).ConfigureAwait(false)).ToArray();
+                    List<CalendarEvent> NonMatching = await GetAllNonMatchingAsync(Buffer, MercuryEvents.ToArray()).ConfigureAwait(false);
                     if (Buffer.All(X => X != null) && NonMatching.Count > 0)
                     {
-                        await this.SaveEvents(NonMatching.ToArray());
+                        await this.SaveEvents(NonMatching.ToArray()).ConfigureAwait(false);
                     }
                     else
                     {
                         CalendarsToSync.Remove(Calendar);
                     }
-                    await this.RecursivePull(NonMatching.Count > 0 ? NonMatching.Last().Start : Min, Max, CalendarsToSync, new CalendarEvent[Buffer.Length]);
+                    await this.RecursivePull(NonMatching.Count > 0 ? NonMatching.Last().Start : Min, Max, CalendarsToSync, new CalendarEvent[Buffer.Length]).ConfigureAwait(false);
                 }
             }
         }
@@ -81,14 +81,14 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
         /// iteration.
         /// </summary>
         /// <returns></returns>
-        public async Task Pull()
+        internal async Task Pull()
         {
-            await this.RecursivePull(DateTime.MinValue, DateTime.MaxValue, this.User.Calendars.ToList(), new CalendarEvent[512]);
+            await this.RecursivePull(DateTime.MinValue, DateTime.MaxValue, this.User.Calendars.ToList(), new CalendarEvent[512]).ConfigureAwait(false);
         }
 
-        public async Task Push()
+        internal async Task Push()
         {
-            IReadOnlyCollection<CalendarEvent> MercuryEvents = await this.GetEvents(DateTime.MinValue, DateTime.MaxValue, int.MaxValue);
+            IReadOnlyCollection<CalendarEvent> MercuryEvents = await this.GetEvents(DateTime.MinValue, DateTime.MaxValue, int.MaxValue).ConfigureAwait(false);
             foreach(ICalendar? Calendar in this.User.Calendars)
             {
                 if(Calendar != null)
@@ -97,7 +97,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
                     {
                         if(Event.Origin == Origins.Mercury)
                         {
-                            await Calendar.SaveEvents(Event);
+                            await Calendar.SaveEvents(Event).ConfigureAwait(false);
                         }
                     }
                 }

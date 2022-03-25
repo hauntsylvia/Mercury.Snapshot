@@ -7,30 +7,30 @@ namespace Mercury.Snapshot.Objects.Util.HighTier.Programs
     /// <summary>
     /// Handles the initialized clients.
     /// </summary>
-    public class MercurySnapshotProgram
+    internal class MercurySnapshotProgram
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MercurySnapshotProgram"/> class.
         /// </summary>
         /// <param name="Initializer">A group of objects that should be initialized by startup.</param>
-        public MercurySnapshotProgram(MercurySnapshotInitializer Initializer)
+        internal MercurySnapshotProgram(MercurySnapshotInitializer Initializer)
         {
             this.Initializer = Initializer;
         }
-        public MercurySnapshotProgram()
+        internal MercurySnapshotProgram()
         {
             this.Initializer = new(new StartupItems());
         }
 
-        public MercurySnapshotInitializer Initializer { get; }
+        internal MercurySnapshotInitializer Initializer { get; }
 
-        public async void RunProgram()
+        internal async void RunProgram()
         {
             if (this.Initializer != null && !this.Initializer.StartupItems.IsCold)
             {
                 this.Initializer.DiscordSocketClient.Client.Ready += this.Client_Ready;
-                await this.Initializer.DiscordSocketClient.Client.LoginAsync(TokenType.Bot, this.Initializer.StartupItems.DiscordToken, true);
-                await this.Initializer.DiscordSocketClient.Client.StartAsync();
+                await this.Initializer.DiscordSocketClient.Client.LoginAsync(TokenType.Bot, this.Initializer.StartupItems.DiscordToken, true).ConfigureAwait(false);
+                await this.Initializer.DiscordSocketClient.Client.StartAsync().ConfigureAwait(false);
             }
             else
             {
@@ -40,7 +40,7 @@ namespace Mercury.Snapshot.Objects.Util.HighTier.Programs
 
         private async Task Client_Ready()
         {
-            await this.Initializer.DiscordSocketClient.CommandHandler.StartReceiving();
+            await this.Initializer.DiscordSocketClient.CommandHandler.StartReceiving().ConfigureAwait(false);
         }
     }
 }

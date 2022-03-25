@@ -8,9 +8,9 @@ using Mercury.Unification.IO.File.Records;
 
 namespace Mercury.Snapshot.Objects.Util.HighTier.Initializers
 {
-    public class MercurySnapshotInitializer
+    internal class MercurySnapshotInitializer
     {
-        public MercurySnapshotInitializer(StartupItems StartupItems)
+        internal MercurySnapshotInitializer(StartupItems StartupItems)
         {
             this.StartupItems = StartupItems;
             this.DiscordSocketClient = new(new(Configurations.DiscordConfig), StartupItems.DiscordWrapperLoggingLevel);
@@ -19,10 +19,10 @@ namespace Mercury.Snapshot.Objects.Util.HighTier.Initializers
             this.GoogleOAuth2.TokenPOSTed += this.GoogleOAuth2_TokenPOSTed;
         }
 
-        public StartupItems StartupItems { get; }
-        public DiscordWrapper DiscordSocketClient { get; private set; }
-        public OpenWeatherMapClient OpenWeatherMapClient { get; private set; }
-        public GoogleOAuth2Handler GoogleOAuth2 { get; private set; }
+        internal StartupItems StartupItems { get; }
+        internal DiscordWrapper DiscordSocketClient { get; private set; }
+        internal OpenWeatherMapClient OpenWeatherMapClient { get; private set; }
+        internal GoogleOAuth2Handler GoogleOAuth2 { get; private set; }
 
         private void GoogleOAuth2_TokenPOSTed(UserCredential UserCredential, TokenResponse TokenResponse, izolabella.Google.Classes.OAuth2.AuthorizationRegister OriginalCall)
         {
