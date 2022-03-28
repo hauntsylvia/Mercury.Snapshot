@@ -2,7 +2,7 @@
 
 namespace Mercury.Snapshot.Objects.Structures.Cards
 {
-    internal interface ICard
+    public interface ICard
     {
         Task<IReadOnlyList<EmbedFieldBuilder>> RenderAsync(MercuryUser Profile);
     }

@@ -3,13 +3,13 @@ using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
 
 namespace Mercury.Snapshot.Objects.Structures.Cards
 {
-    internal class ExpendituresCard : ICard
+    public class ExpendituresCard : ICard
     {
-        internal ExpendituresCard()
+        public ExpendituresCard()
         {
         }
 
-        internal async Task<IReadOnlyList<EmbedFieldBuilder>> RenderAsync(MercuryUser Profile)
+        public async Task<IReadOnlyList<EmbedFieldBuilder>> RenderAsync(MercuryUser Profile)
         {
             string? Id = Profile.Settings.GoogleSheetsSettings.ExpenditureSpreadsheetId;
             if (Id != null && Profile.GoogleClient.IsAuthenticated && Profile.GoogleClient.SheetsManager != null)

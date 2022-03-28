@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Consts
 {
-    internal static class EmbedDefaults
+    public static class EmbedDefaults
     {
-        internal static EmbedBuilder FullEmbed => new()
+        public static EmbedBuilder FullEmbed => new()
         {
             Color = new Color(0xe5e5e5),
             Timestamp = DateTime.UtcNow,

@@ -1,8 +1,8 @@
 ﻿namespace Mercury.Snapshot.Objects.Structures.Embeds
 {
-    internal class GoogleAuthPrompt : EmbedBuilder
+    public class GoogleAuthPrompt : EmbedBuilder
     {
-        internal GoogleAuthPrompt(string AuthorizationUrl)
+        public GoogleAuthPrompt(string AuthorizationUrl)
         {
             this.Color = new(0x00000);
             this.Footer = new()

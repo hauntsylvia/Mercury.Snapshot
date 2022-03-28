@@ -4,25 +4,25 @@ using Mercury.Unification.IO.File.Registers;
 
 namespace Mercury.Snapshot.Objects.Util.Managers
 {
-    internal class StartupItemsManager
+    public class StartupItemsManager
     {
-        internal StartupItemsManager(Register<StartupItems> RegisterReference, string Key)
+        public StartupItemsManager(Register<StartupItems> RegisterReference, string Key)
         {
             this.RegisterReference = RegisterReference;
             this.Key = Key;
         }
 
-        internal Register<StartupItems> RegisterReference { get; }
+        public Register<StartupItems> RegisterReference { get; }
 
-        internal string Key { get; }
+        public string Key { get; }
 
-        internal StartupItems? GetStartupItems()
+        public StartupItems? GetStartupItems()
         {
             Record<StartupItems>? Record = this.RegisterReference.GetRecord(this.Key);
             return Record?.ObjectToStore;
         }
 
-        internal void SaveStartupItems(StartupItems StartupItemsToSave)
+        public void SaveStartupItems(StartupItems StartupItemsToSave)
         {
             this.RegisterReference.SaveRecord(this.Key, new Record<StartupItems>(StartupItemsToSave));
         }

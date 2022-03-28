@@ -8,9 +8,9 @@ using Mercury.Unification.IO.File.Registers;
 
 namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization
 {
-    internal class MercuryUser
+    public class MercuryUser
     {
-        internal MercuryUser(ulong DiscordId, MercuryUserSettings Settings)
+        public MercuryUser(ulong DiscordId, MercuryUserSettings Settings)
         {
             this.DiscordId = DiscordId;
             this.Settings = Settings;
@@ -18,22 +18,22 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization
             this.CalendarEventsRegister = Registers.CalendarsRegister.GetSubRegister<ICalendar>(this.DiscordId)?.GetSubRegister<CalendarEvent>(this.DiscordId);
         }
 
-        internal MercuryUser(ulong DiscordId)
+        public MercuryUser(ulong DiscordId)
         {
             this.DiscordId = DiscordId;
             this.GoogleClient = new(this);
             this.CalendarEventsRegister = Registers.CalendarsRegister.GetSubRegister<ICalendar>(this.DiscordId)?.GetSubRegister<CalendarEvent>(this.DiscordId);
         }
 
-        internal GoogleClient GoogleClient { get; }
+        public GoogleClient GoogleClient { get; }
 
-        internal MercuryUserSettings Settings
+        public MercuryUserSettings Settings
         {
-            get => Registers.MercurySettingsRegister.GetRecord(this.DiscordId.ToString())?.ObjectToStore ?? new();
-            set => Registers.MercurySettingsRegister.SaveRecord(this.DiscordId.ToString(), new Record<MercuryUserSettings>(value));
+            get => Registers.MercurySettingsRegister.GetRecord(this.DiscordId)?.ObjectToStore ?? new();
+            set => Registers.MercurySettingsRegister.SaveRecord(this.DiscordId, new Record<MercuryUserSettings>(value));
         }
         
-        internal async Task<IReadOnlyCollection<CalendarEvent>> GetAllCalendarEventsAsync(DateTime TimeMin, DateTime TimeMax, int MaxResults)
+        public async Task<IReadOnlyCollection<CalendarEvent>> GetAllCalendarEventsAsync(DateTime TimeMin, DateTime TimeMax, int MaxResults)
         {
             List<CalendarEvent> Events = new();
             foreach (ICalendar? Calendar in this.Calendars)
@@ -56,7 +56,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization
             }
             return Events;
         }
-        internal IReadOnlyCollection<ICalendar?> Calendars
+        public IReadOnlyCollection<ICalendar?> Calendars
         {
             get => new List<ICalendar?>()
             {
@@ -64,13 +64,13 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization
                 this.Calendar
             };
         }
-        internal MercuryCalendar Calendar
+        public MercuryCalendar Calendar
         {
             get => Registers.CalendarsRegister.GetSubRegister<MercuryCalendar>(this.DiscordId)?.GetRecord("primary")?.ObjectToStore ?? new MercuryCalendar(this);
             set => Registers.CalendarsRegister.GetSubRegister<MercuryCalendar>(this.DiscordId)?.SaveRecord("primary", new Record<MercuryCalendar>(value));
         }
 
-        internal IReadOnlyCollection<IExpenditureLog?> ExpenditureLogs
+        public IReadOnlyCollection<IExpenditureLog?> ExpenditureLogs
         {
             get => new List<IExpenditureLog?>()
             {
@@ -78,15 +78,15 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization
                 this.GoogleClient.IsAuthenticated ? this.GoogleClient.SheetsManager : null
             };
         }
-        internal MercuryExpenditureLog ExpenditureLog
+        public MercuryExpenditureLog ExpenditureLog
         {
             get => Registers.ExpenditureLogsRegister.GetSubRegister<MercuryExpenditureLog>(this.DiscordId)?.GetRecord("primary")?.ObjectToStore ?? new MercuryExpenditureLog(this);
             set => Registers.ExpenditureLogsRegister.GetSubRegister<MercuryExpenditureLog>(this.DiscordId)?.SaveRecord("primary", new Record<MercuryExpenditureLog>(value));
         }
 
-        internal Register<CalendarEvent>? CalendarEventsRegister { get; }
-        internal Register<ExpenditureEntry>? ExpenditureEntriesRegister { get; }
+        public Register<CalendarEvent>? CalendarEventsRegister { get; }
+        public Register<ExpenditureEntry>? ExpenditureEntriesRegister { get; }
 
-        internal ulong DiscordId { get; }
+        public ulong DiscordId { get; }
     }
 }

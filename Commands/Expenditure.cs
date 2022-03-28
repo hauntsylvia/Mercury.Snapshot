@@ -10,10 +10,10 @@ using Mercury.Unification.IO.File.Records;
 
 namespace Mercury.Snapshot.Commands
 {
-    internal class Expenditure
+    public class Expenditure
     {
         [Command(new string[] { "log-expenditure" }, "Log an expenditure.", Defer = false, LocalOnly = true)]
-        internal static async void LogExpenditure(CommandArguments Args, double Amount, string PayerOrPayee, string Category, bool Credit = false)
+        public static async void LogExpenditure(CommandArguments Args, double Amount, string PayerOrPayee, string Category, bool Credit = false)
         {
             MercuryUser User = new(Args.SlashCommand.User.Id);
             if (User.ExpenditureEntriesRegister != null)
@@ -28,7 +28,7 @@ namespace Mercury.Snapshot.Commands
             }
         }
         [Command(new string[] { "sync-expenditurelogs" }, "Sync all expenditure logs.", Defer = false, LocalOnly = true)]
-        internal static async void ExpenditureLogSync(CommandArguments Args)
+        public static async void ExpenditureLogSync(CommandArguments Args)
         {
             MercuryUser User = new(Args.SlashCommand.User.Id);
             if (User.ExpenditureLog != null)

@@ -1,8 +1,8 @@
 ﻿namespace Mercury.Snapshot.Consts
 {
-    internal static class Configurations
+    public static class Configurations
     {
-        internal static DiscordSocketConfig DiscordConfig => new()
+        public static DiscordSocketConfig DiscordConfig => new()
         {
             UseSystemClock = false,
             MessageCacheSize = 20,

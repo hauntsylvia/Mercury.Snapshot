@@ -11,12 +11,12 @@ using Mercury.Unification.IO.File.Records;
 
 namespace Mercury.Snapshot.Objects.Util
 {
-    internal class GoogleClient
+    public class GoogleClient
     {
-        internal static readonly string[] Scopes = { CalendarService.Scope.CalendarReadonly, SheetsService.Scope.SpreadsheetsReadonly };
-        internal static readonly string ApplicationName = "MercuryDOTSnapshot";
+        public static string[] Scopes => new string[] { CalendarService.Scope.CalendarReadonly, SheetsService.Scope.SpreadsheetsReadonly };
+        public static string ApplicationName => "MercuryDOTSnapshot";
 
-        internal GoogleClient(MercuryUser UserInstance)
+        public GoogleClient(MercuryUser UserInstance)
         {
             this.UserInstance = UserInstance;
             UserCredential? Credential = this.AuthorizeAndRepairAsync().Result;
@@ -28,15 +28,15 @@ namespace Mercury.Snapshot.Objects.Util
                 this.SheetsManager = ExpSheetId != null ? new(Credential, ExpSheetId) : null;
             }
         }
-        internal MercuryUser UserInstance { get; }
-        internal UserCredential? LastUsedCredential { get; }
-        internal bool IsAuthenticated => this.LastUsedCredential != null && !this.LastUsedCredential.Token.IsExpired(new Clock());
-        internal GoogleCalendar? CalendarManager { get; private set; }
-        internal GoogleSheetsExpenditureLog? SheetsManager { get; private set; }
+        public MercuryUser UserInstance { get; }
+        public UserCredential? LastUsedCredential { get; }
+        public bool IsAuthenticated => this.LastUsedCredential != null && !this.LastUsedCredential.Token.IsExpired(new Clock());
+        public GoogleCalendar? CalendarManager { get; private set; }
+        public GoogleSheetsExpenditureLog? SheetsManager { get; private set; }
 
-        internal async Task<UserCredential?> AuthorizeAndRepairAsync()
+        public async Task<UserCredential?> AuthorizeAndRepairAsync()
         {
-            Record<TokenResponse>? Record = Registers.GoogleCredentialsRegister.GetRecord(this.UserInstance.DiscordId.ToString());
+            Record<TokenResponse>? Record = Registers.GoogleCredentialsRegister.GetRecord(this.UserInstance.DiscordId.ToString(this.UserInstance.Settings.CultureSettings.Culture));
             if (Record != null)
             {
                 try
@@ -51,7 +51,7 @@ namespace Mercury.Snapshot.Objects.Util
                 {
                     if (Ex is AggregateException || Ex is TokenResponseException)
                     {
-                        Registers.GoogleCredentialsRegister.DeleteRecord(this.UserInstance.DiscordId.ToString());
+                        Registers.GoogleCredentialsRegister.DeleteRecord(this.UserInstance.DiscordId);
                     }
                     else
                     {

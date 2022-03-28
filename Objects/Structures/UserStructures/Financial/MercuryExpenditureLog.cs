@@ -8,16 +8,16 @@ using System.Reflection;
 
 namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
 {
-    internal class MercuryExpenditureLog : IExpenditureLog, IMercuryExpenditureLog, ISyncable
+    public class MercuryExpenditureLog : IExpenditureLog, ISyncable
     {
-        internal MercuryExpenditureLog(MercuryUser User)
+        public MercuryExpenditureLog(MercuryUser User)
         {
             this.User = User;
         }
 
-        internal MercuryUser User { get; }
+        public MercuryUser User { get; }
 
-        internal Task<IReadOnlyCollection<ExpenditureEntry>> GetExpenditures(DateTime TimeMin, DateTime TimeMax, int MaxResults)
+        public Task<IReadOnlyCollection<ExpenditureEntry>> GetExpenditures(DateTime TimeMin, DateTime TimeMax, int MaxResults)
         {
             if (this.User.ExpenditureEntriesRegister != null)
             {
@@ -30,7 +30,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
             }
         }
 
-        internal Task SaveExpenditures(params ExpenditureEntry[] Entries)
+        public Task SaveExpenditures(params ExpenditureEntry[] Entries)
         {
             if (this.User.ExpenditureEntriesRegister != null)
             {
@@ -78,12 +78,12 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
             }
         }
 
-        internal async Task Pull()
+        public async Task Pull()
         {
             await this.RecursivePull(DateTime.MinValue, DateTime.MaxValue, this.User.ExpenditureLogs.ToList(), new ExpenditureEntry[2048]).ConfigureAwait(false);
         }
 
-        internal async Task Push()
+        public async Task Push()
         {
             IReadOnlyCollection<ExpenditureEntry> MercuryExps = await this.GetExpenditures(DateTime.MinValue, DateTime.MaxValue, int.MaxValue).ConfigureAwait(false);
             foreach (IExpenditureLog? ExpLog in this.User.Calendars)

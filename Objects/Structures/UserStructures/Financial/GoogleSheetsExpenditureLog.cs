@@ -10,9 +10,9 @@ using Mercury.Snapshot.Objects.Structures.UserStructures.Interfaces;
 
 namespace Mercury.Snapshot.Objects.Util.Managers
 {
-    internal class GoogleSheetsExpenditureLog : IExpenditureLog
+    public class GoogleSheetsExpenditureLog : IExpenditureLog
     {
-        internal GoogleSheetsExpenditureLog(UserCredential Credential, string SpreadsheetId)
+        public GoogleSheetsExpenditureLog(UserCredential Credential, string SpreadsheetId)
         {
             this.Service = new(new BaseClientService.Initializer()
             {
@@ -22,10 +22,10 @@ namespace Mercury.Snapshot.Objects.Util.Managers
             this.SpreadsheetId = SpreadsheetId;
         }
 
-        internal string SpreadsheetId { get; }
+        public string SpreadsheetId { get; }
         private SheetsService Service { get; set; }
 
-        internal Task<IReadOnlyCollection<ExpenditureEntry>> GetExpenditures(DateTime TimeMin, DateTime TimeMax, int MaxResults)
+        public Task<IReadOnlyCollection<ExpenditureEntry>> GetExpenditures(DateTime TimeMin, DateTime TimeMax, int MaxResults)
         {
             SpreadsheetsResource.ValuesResource.GetRequest GetCells = this.Service.Spreadsheets.Values.Get(this.SpreadsheetId, "Expenditure!A:D");
             ValueRange Response = GetCells.Execute();
@@ -45,12 +45,12 @@ namespace Mercury.Snapshot.Objects.Util.Managers
             return Task.FromResult<IReadOnlyCollection<ExpenditureEntry>>(Expenditures);
         }
 
-        internal Task SaveExpenditures(params ExpenditureEntry[] Entries)
+        public Task SaveExpenditures(params ExpenditureEntry[] Entries)
         {
             throw new NotImplementedException();
         }
 
-        internal decimal? GetUserBalance(string SpreadsheetId)
+        public decimal? GetUserBalance(string SpreadsheetId)
         {
             SpreadsheetsResource.ValuesResource.GetRequest GetCells = this.Service.Spreadsheets.Values.Get(SpreadsheetId, "Expenditure!G2");
             ValueRange Response = GetCells.Execute();

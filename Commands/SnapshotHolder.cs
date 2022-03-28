@@ -7,10 +7,10 @@ using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
 
 namespace Mercury.Snapshot.Commands
 {
-    internal static class SnapshotHolder
+    public static class SnapshotHolder
     {
         [Command(new string[] { "snapshot" }, "Receive a general rundown.", Defer = true, LocalOnly = true)]
-        internal static async Task Snap(CommandArguments Args)
+        public static async Task Snap(CommandArguments Args)
         {
             try
             {

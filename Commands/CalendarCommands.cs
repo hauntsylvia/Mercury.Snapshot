@@ -11,7 +11,7 @@ using Mercury.Unification.IO.File.Records;
 
 namespace Mercury.Snapshot.Commands
 {
-    internal class Calendar
+    internal class CalendarCommands
     {
         [Command(new string[] { "log-calendar-event" }, "Log a calendar event.", Defer = false, LocalOnly = true)]
         internal static async void LogCalendarEvent(CommandArguments Args, string Title, string Description, string StartsAt, string EndsAt)

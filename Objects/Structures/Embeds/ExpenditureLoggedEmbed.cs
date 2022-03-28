@@ -7,14 +7,17 @@ using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Structures.Embeds
 {
-    internal class ExpenditureLoggedEmbed : EmbedBuilder
+    public class ExpenditureLoggedEmbed : EmbedBuilder
     {
-        internal ExpenditureLoggedEmbed(ExpenditureEntry Entry)
+        public ExpenditureLoggedEmbed(ExpenditureEntry Entry)
         {
             this.Description = $"`${Math.Abs(Entry.DollarAmount)}` {(Entry.DollarAmount < 0 ? "paid to" : "paid from")} `{Entry.PayeeOrPayer}`";
             this.Title = Entry.Category;
             this.Timestamp = Entry.Timestamp;
-            this.WithFooter("Timestamp of expenditure");
+            this.Footer = new()
+            {
+                Text = "Timestamp of expenditure"
+            };
         }
     }
 }

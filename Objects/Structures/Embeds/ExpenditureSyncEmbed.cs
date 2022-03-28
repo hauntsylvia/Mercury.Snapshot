@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Structures.Embeds
 {
-    internal class ExpenditureSyncEmbed : EmbedBuilder
+    public class ExpenditureSyncEmbed : EmbedBuilder
     {
-        internal ExpenditureSyncEmbed(bool Loading = true, bool Success = true)
+        public ExpenditureSyncEmbed(bool Loading = true, bool Success = true)
         {
             this.Timestamp = DateTime.UtcNow;
             this.Description = Loading

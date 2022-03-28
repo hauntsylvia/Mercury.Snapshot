@@ -8,13 +8,13 @@ using Mercury.Unification.IO.File.Registers;
 
 namespace Mercury.Snapshot.Consts
 {
-    internal static class Registers
+    public static class Registers
     {
-        internal static Register<TokenResponse> GoogleCredentialsRegister => new("Google User Credentials");
-        internal static Register<MercuryUserSettings> MercurySettingsRegister => new("Mercury User Settings");
-        internal static Register<StartupItems> MercuryStartupItemsRegister => new("Mercury Startup Items");
+        public static Register<TokenResponse> GoogleCredentialsRegister => new("Google User Credentials");
+        public static Register<MercuryUserSettings> MercurySettingsRegister => new("Mercury User Settings");
+        public static Register<StartupItems> MercuryStartupItemsRegister => new("Mercury Startup Items");
 
-        internal static Register<MercuryCalendar> CalendarsRegister => new("Calendars");
-        internal static Register<MercuryExpenditureLog> ExpenditureLogsRegister => new("Expenditure Logs");
+        public static Register<MercuryCalendar> CalendarsRegister => new("Calendars");
+        public static Register<MercuryExpenditureLog> ExpenditureLogsRegister => new("Expenditure Logs");
     }
 }

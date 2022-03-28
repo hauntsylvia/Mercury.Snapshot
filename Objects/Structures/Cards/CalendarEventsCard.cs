@@ -6,13 +6,13 @@ using Mercury.Snapshot.Objects.Util.Managers;
 
 namespace Mercury.Snapshot.Objects.Structures.Cards
 {
-    internal class CalendarEventsCard : ICard
+    public class CalendarEventsCard : ICard
     {
-        internal CalendarEventsCard()
+        public CalendarEventsCard()
         {
         }
 
-        internal async Task<IReadOnlyList<EmbedFieldBuilder>> RenderAsync(MercuryUser Profile)
+        public async Task<IReadOnlyList<EmbedFieldBuilder>> RenderAsync(MercuryUser Profile)
         {
             List<EmbedFieldBuilder> EmbedFieldBuilders = new();
             if (Profile.GoogleClient.IsAuthenticated && Profile.GoogleClient.CalendarManager != null)

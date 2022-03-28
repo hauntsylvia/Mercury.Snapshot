@@ -7,24 +7,24 @@ namespace Mercury.Snapshot.Objects.Util.HighTier.Programs
     /// <summary>
     /// Handles the initialized clients.
     /// </summary>
-    internal class MercurySnapshotProgram
+    public class MercurySnapshotProgram
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MercurySnapshotProgram"/> class.
         /// </summary>
         /// <param name="Initializer">A group of objects that should be initialized by startup.</param>
-        internal MercurySnapshotProgram(MercurySnapshotInitializer Initializer)
+        public MercurySnapshotProgram(MercurySnapshotInitializer Initializer)
         {
             this.Initializer = Initializer;
         }
-        internal MercurySnapshotProgram()
+        public MercurySnapshotProgram()
         {
             this.Initializer = new(new StartupItems());
         }
 
-        internal MercurySnapshotInitializer Initializer { get; }
+        public MercurySnapshotInitializer Initializer { get; }
 
-        internal async void RunProgram()
+        public async void RunProgram()
         {
             if (this.Initializer != null && !this.Initializer.StartupItems.IsCold)
             {
@@ -34,7 +34,9 @@ namespace Mercury.Snapshot.Objects.Util.HighTier.Programs
             }
             else
             {
+#pragma warning disable CA2201 // go fuck urself
                 throw new NullReferenceException("No initializer is present.");
+#pragma warning restore CA2201 // Do not raise reserved exception types
             }
         }
 
