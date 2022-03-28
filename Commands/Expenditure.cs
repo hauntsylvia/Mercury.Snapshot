@@ -1,6 +1,7 @@
 ﻿using izolabella.Discord.Commands.Arguments;
 using izolabella.Discord.Commands.Attributes;
 using izolabella.Discord.Internals.Structures.Commands;
+using Mercury.Snapshot.Consts.Enums;
 using Mercury.Snapshot.Objects.Structures.Embeds;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Financial;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Financial.Entries;

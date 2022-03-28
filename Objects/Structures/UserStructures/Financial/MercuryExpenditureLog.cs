@@ -1,4 +1,5 @@
-﻿using Mercury.Snapshot.Objects.Structures.UserStructures.Financial.Entries;
+﻿using Mercury.Snapshot.Consts.Enums;
+using Mercury.Snapshot.Objects.Structures.UserStructures.Financial.Entries;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Interfaces;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
 using Mercury.Unification.IO.File.Records;

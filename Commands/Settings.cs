@@ -9,11 +9,6 @@ using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Commands
 {
-    public enum Test
-    {
-        ABC = 0,
-        BBB = 2
-    }
     public static class Settings
     {
         [Command(new[] { "assign-settings" }, "Tells me what settings to use for personalized responses.", Defer = false, LocalOnly = true)]

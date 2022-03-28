@@ -3,12 +3,13 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
-using Mercury.Snapshot.Objects.Structures.UserStructures.Financial;
+using Mercury.Snapshot.Consts.Enums;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Financial.Entries;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Identification;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Interfaces;
+using Mercury.Snapshot.Objects.Util;
 
-namespace Mercury.Snapshot.Objects.Util.Managers
+namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
 {
     public class GoogleSheetsExpenditureLog : IExpenditureLog
     {

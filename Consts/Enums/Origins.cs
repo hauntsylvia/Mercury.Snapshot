@@ -1,4 +1,4 @@
-﻿namespace Mercury.Snapshot.Consts
+﻿namespace Mercury.Snapshot.Consts.Enums
 {
     public enum Origins
     {
