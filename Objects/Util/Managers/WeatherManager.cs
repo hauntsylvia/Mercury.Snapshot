@@ -5,10 +5,17 @@ namespace Mercury.Snapshot.Objects.Util.Managers
 {
     public static class WeatherManager
     {
-        public static async Task<WeatherResponse?> GetWeatherForToday(string Zip, string CountryCode = "US")
+        public static async Task<WeatherResponse?> GetWeatherForToday(string? Zip, string CountryCode = "US")
         {
-            WeatherResponse? Weather = await Program.CurrentApp.Initializer.OpenWeatherMapClient.Processors.CurrentWeatherDataProcessor.GetWeatherByZipCodeAsync(Zip, CountryCode).ConfigureAwait(false);
-            return Weather;
+            if(Zip != null)
+            {
+                WeatherResponse? Weather = await Program.CurrentApp.Initializer.OpenWeatherMapClient.Processors.CurrentWeatherDataProcessor.GetWeatherByZipCodeAsync(Zip, CountryCode).ConfigureAwait(false);
+                return Weather;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

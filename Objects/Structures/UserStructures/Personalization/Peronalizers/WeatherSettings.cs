@@ -2,11 +2,11 @@
 {
     public class WeatherSettings
     {
-        public WeatherSettings(string Zip)
+        public WeatherSettings(string? Zip)
         {
             this.Zip = Zip;
         }
 
-        public string Zip { get; }
+        public string? Zip { get; }
     }
 }

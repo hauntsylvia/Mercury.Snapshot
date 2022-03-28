@@ -6,15 +6,15 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization
     public class MercuryUserSettings
     {
         [JsonConstructor]
-        public MercuryUserSettings(GoogleCalendarSettings GoogleCalendarSettings,
-                                   GoogleSheetsSettings GoogleSheetsSettings,
-                                   WeatherSettings WeatherSettings,
-                                   CultureSettings CultureSettings)
+        public MercuryUserSettings(GoogleCalendarSettings? GoogleCalendarSettings,
+                                   GoogleSheetsSettings? GoogleSheetsSettings,
+                                   WeatherSettings? WeatherSettings,
+                                   CultureSettings? CultureSettings)
         {
-            this.GoogleCalendarSettings = GoogleCalendarSettings;
-            this.GoogleSheetsSettings = GoogleSheetsSettings;
-            this.WeatherSettings = WeatherSettings;
-            this.CultureSettings = CultureSettings;
+            this.GoogleCalendarSettings = GoogleCalendarSettings ?? new();
+            this.GoogleSheetsSettings = GoogleSheetsSettings ?? new(null);
+            this.WeatherSettings = WeatherSettings ?? new(null);
+            this.CultureSettings = CultureSettings ?? new();
         }
 
         public MercuryUserSettings()
