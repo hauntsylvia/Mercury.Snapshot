@@ -17,14 +17,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization.Per
 
         public CultureSettings(string CultureISOCode)
         {
-            try
-            {
-                this.Culture = CultureInfo.GetCultureInfo(CultureISOCode);
-            }
-            catch(CultureNotFoundException)
-            {
-
-            }
+            this.Culture = CultureInfo.GetCultureInfo(CultureISOCode);
         }
 
         [JsonConstructor]

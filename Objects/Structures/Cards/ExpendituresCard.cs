@@ -5,11 +5,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
 {
     public class ExpendituresCard : ICard
     {
-        public ExpendituresCard()
-        {
-        }
-
-        public async Task<IReadOnlyList<EmbedFieldBuilder>> RenderAsync(MercuryUser Profile)
+        public async Task<IReadOnlyCollection<EmbedFieldBuilder>> RenderAsync(MercuryUser Profile)
         {
             string? Id = Profile.Settings.GoogleSheetsSettings.ExpenditureSpreadsheetId;
             if (Id != null && Profile.GoogleClient.IsAuthenticated && Profile.GoogleClient.SheetsManager != null)

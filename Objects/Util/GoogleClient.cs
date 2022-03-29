@@ -13,7 +13,7 @@ namespace Mercury.Snapshot.Objects.Util
 {
     public class GoogleClient
     {
-        public static string[] Scopes => new string[] { CalendarService.Scope.CalendarReadonly, SheetsService.Scope.SpreadsheetsReadonly };
+        
         public static string ApplicationName => "MercuryDOTSnapshot";
 
         public GoogleClient(MercuryUser UserInstance)
@@ -24,8 +24,7 @@ namespace Mercury.Snapshot.Objects.Util
             {
                 this.LastUsedCredential = Credential;
                 this.CalendarManager = new(Credential);
-                string? ExpSheetId = UserInstance.Settings.GoogleSheetsSettings.ExpenditureSpreadsheetId;
-                this.SheetsManager = ExpSheetId != null ? new(Credential, ExpSheetId) : null;
+                this.SheetsManager = new(Credential, UserInstance);
             }
         }
         public MercuryUser UserInstance { get; }
@@ -42,8 +41,7 @@ namespace Mercury.Snapshot.Objects.Util
                 try
                 {
                     UserCredential C = await Program.CurrentApp.Initializer.GoogleOAuth2.GetUserCredentialFromTokenResponseAsync(Record.ObjectToStore).ConfigureAwait(false);
-                    string? ExpSheetId = this.UserInstance?.Settings.GoogleSheetsSettings.ExpenditureSpreadsheetId;
-                    this.SheetsManager = ExpSheetId != null ? new(C, ExpSheetId) : null;
+                    this.SheetsManager = this.UserInstance != null ? new(C, this.UserInstance) : null;
                     this.CalendarManager = new(C);
                     return C;
                 }

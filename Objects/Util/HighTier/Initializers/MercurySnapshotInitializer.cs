@@ -15,7 +15,7 @@ namespace Mercury.Snapshot.Objects.Util.HighTier.Initializers
             this.StartupItems = StartupItems;
             this.DiscordSocketClient = new(new(Configurations.DiscordConfig), StartupItems.DiscordWrapperLoggingLevel);
             this.OpenWeatherMapClient = new(StartupItems.OpenWeatherMapAppId, UnitTypes.Metric);
-            this.GoogleOAuth2 = new(new Uri(Strings.MercuryBaseUrl), StartupItems.GoogleClientSecrets, new(Strings.GoogleFileDatastoreLocation, false), Strings.MercuryGoogleRedirectUrl, Strings.MercuryGoogleRedirectUrl, GoogleClient.Scopes);
+            this.GoogleOAuth2 = new(new Uri(Strings.MercuryBaseUrl), StartupItems.GoogleClientSecrets, new(Strings.GoogleStrings.GoogleFileDatastoreLocation, false), Strings.GoogleStrings.MercuryGoogleRedirectUrl, Strings.GoogleStrings.MercuryGoogleRedirectUrl, Strings.GoogleStrings.Scopes);
             this.GoogleOAuth2.TokenPOSTed += this.GoogleOAuth2_TokenPOSTed;
         }
 

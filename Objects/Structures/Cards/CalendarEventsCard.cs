@@ -9,11 +9,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
 {
     public class CalendarEventsCard : ICard
     {
-        public CalendarEventsCard()
-        {
-        }
-
-        public async Task<IReadOnlyList<EmbedFieldBuilder>> RenderAsync(MercuryUser Profile)
+        public async Task<IReadOnlyCollection<EmbedFieldBuilder>> RenderAsync(MercuryUser Profile)
         {
             CultureInfo UserCulture = Profile.Settings.CultureSettings.Culture;
             List<EmbedFieldBuilder> EmbedFieldBuilders = new();
@@ -33,9 +29,9 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                     };
                     if (WeatherToday != null)
                     {
-                        decimal Temperature = WeatherToday.Main.Temp;
-                        decimal TemperatureMax = WeatherToday.Main.TempMaximum;
-                        decimal TemperatureMin = WeatherToday.Main.TempMinimum;
+                        double Temperature = WeatherToday.Main.Temp;
+                        double TemperatureMax = WeatherToday.Main.TempMaximum;
+                        double TemperatureMin = WeatherToday.Main.TempMinimum;
                         Today.Value = $"{Temperature.ToString(UserCulture)}°C - {WeatherToday.CityName}\nH: {TemperatureMax.ToString(UserCulture)}°C L: {TemperatureMin.ToString(UserCulture)}°C\n";
                     }
                     foreach (CalendarEvent Event in EventsToday)

@@ -12,28 +12,21 @@ namespace Mercury.Snapshot.Commands
         [Command(new string[] { "snapshot" }, "Receive a general rundown.", Defer = true, LocalOnly = true)]
         public static async Task Snap(CommandArguments Args)
         {
-            try
+            MercuryUser Profile = new(Args.SlashCommand.User.Id);
+            await Args.SlashCommand.FollowupAsync("Here you go . .", new[] { new EmbedBuilder()
             {
-                MercuryUser Profile = new(Args.SlashCommand.User.Id);
-                await Args.SlashCommand.FollowupAsync("Here you go . .", new[] { new EmbedBuilder()
+                Color = new(0x00000),
+                Footer = new()
                 {
-                    Color = new(0x00000),
-                    Footer = new()
-                    {
-                        Text = "-☿-"
-                    },
-                    Description = "<a:loadinghearts:950503533910835241>"
-                }.Build() }, false, true).ConfigureAwait(false);
-                await Args.SlashCommand.ModifyOriginalResponseAsync(MessageInfo =>
-                {
-                    MessageInfo.Embed = new SnapshotEmbed(Args, Profile).Build();
-                    MessageInfo.Content = "";
-                }).ConfigureAwait(false);
-            }
-            catch (Exception E)
+                    Text = "-☿-"
+                },
+                Description = "<a:loadinghearts:950503533910835241>"
+            }.Build() }, false, true).ConfigureAwait(false);
+            await Args.SlashCommand.ModifyOriginalResponseAsync(MessageInfo =>
             {
-                PrettyConsole.Log("Snapshot Error", E, LoggingLevel.Errors);
-            }
+                MessageInfo.Embed = new SnapshotEmbed(Args, Profile).Build();
+                MessageInfo.Content = "";
+            }).ConfigureAwait(false);
         }
     }
 }

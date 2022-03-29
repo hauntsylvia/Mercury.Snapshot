@@ -1,7 +1,6 @@
 ﻿global using Discord;
 global using Discord.WebSocket;
 global using Mercury.Snapshot.Consts;
-global using Mercury.Snapshot.Objects.Util.Discord;
 global using Newtonsoft.Json;
 using Google.Apis.Auth.OAuth2;
 using Mercury.Snapshot.Objects.Structures.MercurySnapshot;
@@ -23,13 +22,13 @@ namespace Mercury.Snapshot
                 ConfigManager.SaveStartupItems(Items);
                 return Items;
             }
-            else if (File.Exists(Strings.GoogleCredentialsFileLocation))
+            else if (File.Exists(Strings.GoogleStrings.GoogleCredentialsFileLocation))
             {
                 Console.WriteLine("Input OpenWeatherMap application id.");
                 string? OpenWeatherMapAppId = Console.ReadLine();
                 Console.WriteLine("Input Discord token.");
                 string? DiscordAuthorization = Console.ReadLine();
-                using FileStream FileStream = new(Strings.GoogleCredentialsFileLocation, FileMode.Open, FileAccess.Read);
+                using FileStream FileStream = new(Strings.GoogleStrings.GoogleCredentialsFileLocation, FileMode.Open, FileAccess.Read);
                 ClientSecrets Secrets = GoogleClientSecrets.FromStream(FileStream).Secrets;
                 if (OpenWeatherMapAppId != null && DiscordAuthorization != null && Secrets != null)
                 {

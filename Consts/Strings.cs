@@ -1,12 +1,21 @@
-﻿namespace Mercury.Snapshot.Consts
+﻿using Google.Apis.Calendar.v3;
+using Google.Apis.Sheets.v4;
+
+namespace Mercury.Snapshot.Consts
 {
     public static class Strings
     {
+        public static string MercuryEmbedDelimiter => "───────────────⊹⊱-☿-⊰⊹───────────────";
         public static string MercuryStartupItemsKey => "Startup Items";
         public static string MercuryBaseUrl => "https://mercury-bot.ml:443/";
-        public static string MercuryGoogleRedirectUrl => "https://mercury-bot.ml:443/google-oauth2/GoogleAuthReceiver/";
-        public static string GoogleFileDatastoreLocation => "Tokens";
-        public static string GoogleCredentialsFileLocation => "Google Credentials.json";
+        public static class GoogleStrings
+        {
+            public static string GoogleFileDatastoreLocation => "Tokens";
+            public static string GoogleCredentialsFileLocation => "Google Credentials.json";
+            public static string MercuryGoogleRedirectUrl => "https://mercury-bot.ml:443/google-oauth2/GoogleAuthReceiver/";
+            public static string[] Scopes => new string[] { CalendarService.Scope.CalendarReadonly, SheetsService.Scope.Spreadsheets };
+
+        }
         public static class SettingsStrings
         {
             public static string SettingsSaved => "Your settings have been saved.";

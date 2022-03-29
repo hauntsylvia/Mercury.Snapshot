@@ -67,9 +67,10 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
             {
                 if (ExpLog != null)
                 {
+                    IReadOnlyCollection<ExpenditureEntry> EntriesOfThisLog = await ExpLog.GetExpenditures(DateTime.MinValue, DateTime.MaxValue, int.MaxValue);
                     foreach (ExpenditureEntry Exp in MercuryExps)
                     {
-                        if (Exp.Origin == Origins.Mercury)
+                        if (Exp.Origin == Origins.Mercury && EntriesOfThisLog.All(E => E.Id != Exp.Id))
                         {
                             await ExpLog.SaveExpenditures(Exp).ConfigureAwait(false);
                         }

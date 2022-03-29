@@ -57,36 +57,27 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
             return Task.FromResult<IReadOnlyCollection<CalendarEvent>>(EventItems);
         }
 
-        public Task SaveEvents(params CalendarEvent[] Events)
+        public async Task SaveEvents(params CalendarEvent[] Events)
         {
-            try
+            foreach (CalendarEvent Event in Events)
             {
-                foreach (CalendarEvent Event in Events)
+                await this.Service.Events.Insert(new Event()
                 {
-                    this.Service.Events.Insert(new Event()
+                    Summary = Event.Summary,
+                    Description = Event.Description,
+                    Source = new Event.SourceData()
                     {
-                        Summary = Event.Summary,
-                        Description = Event.Description,
-                        Source = new Event.SourceData()
-                        {
-                            Title = "Mercury.Snapshot",
-                        },
-                        Start = new()
-                        {
-                            DateTime = Event.Start.ToUniversalTime(),
-                        },
-                        End = new()
-                        {
-                            DateTime = Event.End.ToUniversalTime(),
-                        },
-                    }, "primary");
-                }
-                return Task.CompletedTask;
-            }
-            catch(Exception Ex)
-            {
-                Console.WriteLine(Ex);
-                throw;
+                        Title = "Mercury.Snapshot",
+                    },
+                    Start = new()
+                    {
+                        DateTime = Event.Start.ToUniversalTime(),
+                    },
+                    End = new()
+                    {
+                        DateTime = Event.End.ToUniversalTime(),
+                    },
+                }, "primary").ExecuteAsync();
             }
         }
     }

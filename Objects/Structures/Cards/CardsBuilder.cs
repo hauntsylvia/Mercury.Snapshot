@@ -1,7 +1,6 @@
-﻿using Mercury.Snapshot.Objects.Structures.Cards;
-using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
+﻿using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
 
-namespace Mercury.Snapshot.Objects.Util.Discord
+namespace Mercury.Snapshot.Objects.Structures.Cards
 {
     public class CardsBuilder
     {
@@ -10,7 +9,7 @@ namespace Mercury.Snapshot.Objects.Util.Discord
             List<List<EmbedFieldBuilder>> CardsBuilder = new();
             foreach (ICard Card in Cards)
             {
-                IReadOnlyList<EmbedFieldBuilder> ThisSet = Card.RenderAsync(Profile).Result;
+                IReadOnlyCollection<EmbedFieldBuilder> ThisSet = Card.RenderAsync(Profile).Result;
                 CardsBuilder.Add(ThisSet.ToList());
             }
             this.Cards = CardsBuilder;
@@ -32,7 +31,7 @@ namespace Mercury.Snapshot.Objects.Util.Discord
                         string? TrimmedName = Last.Name.ToString()?.Trim(new[] { '\u200b', ' ', '\n' });
                         Last.Value = TrimmedValue ?? Last.Value;
                         Last.Name = TrimmedName ?? Last.Name;
-                        Last.Value += "\u200b\n────────⊹⊱-☿-⊰⊹────────";
+                        Last.Value += $"\u200b\n{Strings.MercuryEmbedDelimiter}";
                     }
                     Finished.AddRange(Set);
                 }

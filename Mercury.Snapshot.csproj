@@ -30,23 +30,23 @@
     <PackageReference Include="Google.Apis.Sheets.v4" Version="1.56.0.2623" />
     <PackageReference Include="izolabella.Google" Version="0.2.1" />
     <PackageReference Include="izolabella.OpenWeatherMap.NET" Version="3.0.1" />
+    <PackageReference Include="ZipCoords" Version="1.2.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\izolabella.Discord\izolabella.Discord.csproj" />
+    <ProjectReference Include="..\izolabella.OpenWeatherMap.NET\izolabella.OpenWeatherMap.NET\izolabella.OpenWeatherMap.NET.csproj" />
     <ProjectReference Include="..\Mercury.Unification\Mercury.Unification.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Discord Token.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Google Credentials.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="OpenWeatherMap App Id.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Objects\Util\Discord\" />
   </ItemGroup>
 
 </Project>
