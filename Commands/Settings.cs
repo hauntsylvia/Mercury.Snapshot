@@ -12,10 +12,18 @@ namespace Mercury.Snapshot.Commands
     public static class Settings
     {
         [Command(new[] { "assign-settings" }, "Tells me what settings to use for personalized responses.", Defer = false, LocalOnly = true)]
-        public static async void ChangeSettings(CommandArguments Args, string ExpenditureSheetId, string ZipCode, Test AAA)
+        public static async void ChangeSettings(CommandArguments Args, string? ExpenditureSheetId, string? ZipCode)
         {
             MercuryUser User = new(Args.SlashCommand.User.Id);
-            User.Settings = new(new("primary"), new(ExpenditureSheetId), new(ZipCode), new());
+            User.Settings = new(User.Settings.GoogleCalendarSettings, new(ExpenditureSheetId), new(ZipCode), User.Settings.CultureSettings);
+            await Args.SlashCommand.RespondAsync(Strings.SettingsStrings.SettingsSaved, null, false, true).ConfigureAwait(false);
+        }
+
+        [Command(new[] { "assign-language-settings" }, "Personalizes things such as decimal delimiters and dates.", Defer = false, LocalOnly = true)]
+        public static async void ChangeSettings(CommandArguments Args, string ISOLanguageCode)
+        {
+            MercuryUser User = new(Args.SlashCommand.User.Id);
+            User.Settings = new(User.Settings.GoogleCalendarSettings, User.Settings.GoogleSheetsSettings, User.Settings.WeatherSettings, new(ISOLanguageCode));
             await Args.SlashCommand.RespondAsync(Strings.SettingsStrings.SettingsSaved, null, false, true).ConfigureAwait(false);
         }
     }

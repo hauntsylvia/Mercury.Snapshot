@@ -27,7 +27,7 @@ namespace Mercury.Snapshot.Commands
                 {
                     MercuryCalendarEvent Event = new(Title, Description, DateTime.UtcNow, DateTime.UtcNow, Start, End, Origins.Mercury, Identifier.GetIdentifier());
                     await User.Calendar.SaveEvents(Event).ConfigureAwait(false);
-                    await Args.SlashCommand.RespondAsync(Strings.EmbedStrings.Calendars.CalendarEventSuccessfullyLogged, new Embed[] { new CalendarEventLoggedEmbed(Event).Build() }, false, true).ConfigureAwait(false);
+                    await Args.SlashCommand.RespondAsync(Strings.EmbedStrings.Calendars.CalendarEventSuccessfullyLogged, new Embed[] { new CalendarEventLoggedEmbed(Event, User.Settings.CultureSettings.Culture).Build() }, false, true).ConfigureAwait(false);
                 }
                 else
                 {

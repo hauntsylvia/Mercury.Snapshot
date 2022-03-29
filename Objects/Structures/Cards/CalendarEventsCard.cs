@@ -3,6 +3,7 @@ using izolabella.OpenWeatherMap.NET.Classes.Responses.CurrentWeatherData;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Calendars.Events;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
 using Mercury.Snapshot.Objects.Util.Managers;
+using System.Globalization;
 
 namespace Mercury.Snapshot.Objects.Structures.Cards
 {
@@ -14,12 +15,13 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
 
         public async Task<IReadOnlyList<EmbedFieldBuilder>> RenderAsync(MercuryUser Profile)
         {
+            CultureInfo UserCulture = Profile.Settings.CultureSettings.Culture;
             List<EmbedFieldBuilder> EmbedFieldBuilders = new();
             if (Profile.GoogleClient.IsAuthenticated && Profile.GoogleClient.CalendarManager != null)
             {
-                IReadOnlyCollection<CalendarEvent> EventsToday = await Profile.GetAllCalendarEventsAsync(DateTime.Today.Date, DateTime.Today.Date.Add(new TimeSpan(23, 59, 59)), int.MaxValue).ConfigureAwait(false);
-                IReadOnlyCollection<CalendarEvent> EventsWeek = await Profile.GetAllCalendarEventsAsync(DateTime.Today.AddDays(1), DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), int.MaxValue).ConfigureAwait(false);
-                IReadOnlyCollection<CalendarEvent> EventsMonth = await Profile.GetAllCalendarEventsAsync(DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), new(DateTime.Today.Date.Year, DateTime.Today.Month + 1, 1), int.MaxValue).ConfigureAwait(false);
+                IReadOnlyCollection<CalendarEvent> EventsToday = await Profile.Calendar.GetEvents(DateTime.Today.Date, DateTime.Today.Date.Add(new TimeSpan(23, 59, 59)), int.MaxValue).ConfigureAwait(false);
+                IReadOnlyCollection<CalendarEvent> EventsWeek = await Profile.Calendar.GetEvents(DateTime.Today.AddDays(1), DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), int.MaxValue).ConfigureAwait(false);
+                IReadOnlyCollection<CalendarEvent> EventsMonth = await Profile.Calendar.GetEvents(DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), new(DateTime.Today.Date.Year, DateTime.Today.Month + 1, 1), int.MaxValue).ConfigureAwait(false);
 
                 WeatherResponse? WeatherToday = WeatherManager.GetWeatherForToday(Profile.Settings.WeatherSettings.Zip).Result;
 
@@ -27,18 +29,18 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                 {
                     EmbedFieldBuilder Today = new()
                     {
-                        Name = $"TODAY • {DateTime.Today.ToLongDateString()}",
+                        Name = $"TODAY • {DateTime.Today.ToString(UserCulture.DateTimeFormat.LongDatePattern, UserCulture)}",
                     };
                     if (WeatherToday != null)
                     {
                         decimal Temperature = WeatherToday.Main.Temp;
                         decimal TemperatureMax = WeatherToday.Main.TempMaximum;
                         decimal TemperatureMin = WeatherToday.Main.TempMinimum;
-                        Today.Value = $"{Temperature}°C - {WeatherToday.CityName}\nH: {TemperatureMax}°C L: {TemperatureMin}°C\n";
+                        Today.Value = $"{Temperature.ToString(UserCulture)}°C - {WeatherToday.CityName}\nH: {TemperatureMax.ToString(UserCulture)}°C L: {TemperatureMin.ToString(UserCulture)}°C\n";
                     }
                     foreach (CalendarEvent Event in EventsToday)
                     {
-                        Today.Value += $"\n{Event.Start.ToShortTimeString()}\n```\n{Event.Summary}\n{Event.Description}\n```";
+                        Today.Value += $"\n{Event.Start.ToString(UserCulture.DateTimeFormat.ShortTimePattern, UserCulture)}\n```\n{Event.Summary}\n{Event.Description}\n```";
                     }
                     Today.Value += "\u200b\n";
                     EmbedFieldBuilders.Add(Today);
@@ -52,7 +54,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                     };
                     foreach (CalendarEvent Event in EventsWeek)
                     {
-                        Week.Value += $"\n{Event.Start.ToShortDateString()} {Event.Start.ToShortTimeString()}\n```\n{Event.Summary}\n```";
+                        Week.Value += $"\n{Event.Start.ToString(UserCulture.DateTimeFormat.ShortDatePattern, UserCulture)} {Event.Start.ToString(UserCulture.DateTimeFormat.ShortTimePattern, UserCulture)}\n```\n{Event.Summary}\n```";
                     }
                     Week.Value += "\u200b\n";
                     EmbedFieldBuilders.Add(Week);
@@ -67,7 +69,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                     };
                     foreach (CalendarEvent Event in EventsMonth)
                     {
-                        string ToAppend = $"\n{Event.Start.ToShortDateString()} {Event.Start.ToShortTimeString()}\n```\n{Event.Summary}\n```";
+                        string ToAppend = $"\n{Event.Start.ToString(UserCulture.DateTimeFormat.ShortDatePattern, UserCulture)} {Event.Start.ToString(UserCulture.DateTimeFormat.ShortTimePattern, UserCulture)}\n```\n{Event.Summary}\n```";
                         string? MonthValue = Month.Value.ToString();
                         if (MonthValue != null)
                         {
@@ -77,7 +79,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                             }
                             else
                             {
-                                Month.Value += $"\n_. . and {EventsMonth.Count} more events this month_.";
+                                Month.Value += $"\n_. . and {EventsMonth.Count.ToString(UserCulture)} more events this month_.";
                                 break;
                             }
                         }

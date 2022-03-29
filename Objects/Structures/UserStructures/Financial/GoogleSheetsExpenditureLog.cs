@@ -51,12 +51,12 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
             throw new NotImplementedException();
         }
 
-        public decimal? GetUserBalance(string SpreadsheetId)
+        public double? GetUserBalance(string SpreadsheetId)
         {
             SpreadsheetsResource.ValuesResource.GetRequest GetCells = this.Service.Spreadsheets.Values.Get(SpreadsheetId, "Expenditure!G2");
             ValueRange Response = GetCells.Execute();
             IList<IList<object>> Values = Response.Values;
-            return Values != null && Values.Count > 0 && decimal.TryParse(((string)Values[0][0]).Remove(((string)Values[0][0]).LastIndexOf('$'), 1), out decimal Amount)
+            return Values != null && Values.Count > 0 && double.TryParse(((string)Values[0][0]).Remove(((string)Values[0][0]).LastIndexOf('$'), 1), out double Amount)
                 ? Amount
                 : null;
         }

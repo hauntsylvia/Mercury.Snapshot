@@ -16,6 +16,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization
             this.Settings = Settings;
             this.GoogleClient = new(this);
             this.CalendarEventsRegister = Registers.CalendarsRegister.GetSubRegister<ICalendar>(this.DiscordId)?.GetSubRegister<CalendarEvent>(this.DiscordId);
+            this.ExpenditureEntriesRegister = Registers.ExpenditureLogsRegister.GetSubRegister<IExpenditureLog>(this.DiscordId)?.GetSubRegister<ExpenditureEntry>(this.DiscordId);
         }
 
         public MercuryUser(ulong DiscordId)
@@ -23,6 +24,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization
             this.DiscordId = DiscordId;
             this.GoogleClient = new(this);
             this.CalendarEventsRegister = Registers.CalendarsRegister.GetSubRegister<ICalendar>(this.DiscordId)?.GetSubRegister<CalendarEvent>(this.DiscordId);
+            this.ExpenditureEntriesRegister = Registers.ExpenditureLogsRegister.GetSubRegister<IExpenditureLog>(this.DiscordId)?.GetSubRegister<ExpenditureEntry>(this.DiscordId);
         }
 
         public GoogleClient GoogleClient { get; }

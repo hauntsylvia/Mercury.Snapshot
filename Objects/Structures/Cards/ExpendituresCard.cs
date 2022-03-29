@@ -32,13 +32,14 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                     }
                 }
                 Dictionary<string, double> Enum = Counting.OrderBy(E => E.Value).ToDictionary(Key => Key.Key, Value => Value.Value);
+                double? CurrentBal = Profile.GoogleClient.SheetsManager.GetUserBalance(Id);
                 return new List<EmbedFieldBuilder>()
                 {
                     {
                         new EmbedFieldBuilder()
                         {
                             Name = $"Current Balance",
-                            Value = $"${Profile.GoogleClient.SheetsManager.GetUserBalance(Id)}\n\u200b"
+                            Value = $"{(CurrentBal != null ? "$" + ((double)CurrentBal).ToString(Profile.Settings.CultureSettings.Culture) : "not found")}\n\u200b"
                         }
                     },
                     {
@@ -52,21 +53,21 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                         new EmbedFieldBuilder()
                         {
                             Name = $"{Enum.First().Key}",
-                            Value = $"${Enum.First().Value}"
+                            Value = $"${Enum.First().Value.ToString(Profile.Settings.CultureSettings.Culture)}"
                         }
                     },
                     {
                         new EmbedFieldBuilder()
                         {
                             Name = $"{Enum.ElementAt(1).Key}",
-                            Value = $"${Enum.ElementAt(1).Value}"
+                            Value = $"${Enum.ElementAt(1).Value.ToString(Profile.Settings.CultureSettings.Culture)}"
                         }
                     },
                     {
                         new EmbedFieldBuilder()
                         {
                             Name = $"{Enum.ElementAt(2).Key}",
-                            Value = $"${Enum.ElementAt(2).Value}"
+                            Value = $"${Enum.ElementAt(2).Value.ToString(Profile.Settings.CultureSettings.Culture)}"
                         }
                     }
                 };

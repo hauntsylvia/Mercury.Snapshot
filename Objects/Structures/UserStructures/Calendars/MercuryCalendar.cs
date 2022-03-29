@@ -39,52 +39,24 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
             return Task.CompletedTask;
         }
 
-        private static Task<List<CalendarEvent>> GetAllNonMatchingAsync(CalendarEvent[] A, CalendarEvent[] B)
-        {
-            List<CalendarEvent> Events = new();
-            foreach(CalendarEvent EventA in A)
-            {
-                CalendarEvent? MatchingEvent = B.FirstOrDefault(Event => ObjectEqualityManager.PropertiesAreEqual(Event, EventA));
-                if(MatchingEvent == null)
-                {
-                    Events.Add(EventA);
-                }
-            }
-            return Task.FromResult(Events);
-        }
-
-        private async Task RecursivePull(DateTime Min, DateTime Max, List<ICalendar?> CalendarsToSync, CalendarEvent[] Buffer)
-        {
-            IReadOnlyCollection<CalendarEvent> MercuryEvents = await this.GetEvents(Min, Max, Buffer.Length).ConfigureAwait(false);
-            foreach(ICalendar? Calendar in CalendarsToSync.ToList())
-            {
-                if (Calendar != null)
-                {
-                    Buffer = (await Calendar.GetEvents(Min, Max, Buffer.Length).ConfigureAwait(false)).ToArray();
-                    List<CalendarEvent> NonMatching = await GetAllNonMatchingAsync(Buffer, MercuryEvents.ToArray()).ConfigureAwait(false);
-                    if (Buffer.All(X => X != null) && NonMatching.Count > 0)
-                    {
-                        await this.SaveEvents(NonMatching.ToArray()).ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        CalendarsToSync.Remove(Calendar);
-                    }
-                    await this.RecursivePull(NonMatching.Count > 0 ? NonMatching.Last().Start : Min, Max, CalendarsToSync, new CalendarEvent[Buffer.Length]).ConfigureAwait(false);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Pulls using a maximum value to download at a time from each calendar in <see cref="MercuryUser.Calendars"/> to prevent heavy memory use. This calls every
-        /// calendar's <see cref="ICalendar.GetEvents(DateTime, DateTime, int)"/> method recursively until all events have been 
-        /// retrieved. This method will also download every event by calling <see cref="ICalendar.SaveEvents(CalendarEvent[])"/> for each
-        /// iteration.
-        /// </summary>
-        /// <returns></returns>
         public async Task Pull()
         {
-            await this.RecursivePull(DateTime.MinValue, DateTime.MaxValue, this.User.Calendars.ToList(), new CalendarEvent[512]).ConfigureAwait(false);
+            IReadOnlyCollection<CalendarEvent> MercuryEvents = await this.GetEvents(DateTime.MinValue, DateTime.Today.AddYears(1), int.MaxValue);
+            foreach(ICalendar? Calendar in this.User.Calendars)
+            {
+                if(Calendar != null && Calendar.GetType() != typeof(MercuryCalendar))
+                {
+                    IReadOnlyCollection<CalendarEvent> ThisCalendarsEvents = await Calendar.GetEvents(DateTime.MinValue, DateTime.Today.AddYears(1), int.MaxValue);
+                    foreach(CalendarEvent CEvent in ThisCalendarsEvents)
+                    {
+                        CalendarEvent? MatchingEvent = MercuryEvents.FirstOrDefault(MEvent => ObjectEqualityManager.PropertiesAreEqual(MEvent, CEvent));
+                        if (MatchingEvent == null)
+                        {
+                            await this.SaveEvents(CEvent);
+                        }
+                    }
+                }
+            }
         }
 
         public async Task Push()
