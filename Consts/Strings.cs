@@ -5,7 +5,6 @@ namespace Mercury.Snapshot.Consts
 {
     public static class Strings
     {
-        public static string MercuryEmbedDelimiter => "───────────────⊹⊱-☿-⊰⊹───────────────";
         public static string MercuryStartupItemsKey => "Startup Items";
         public static string MercuryBaseUrl => "https://mercury-bot.ml:443/";
         public static class GoogleStrings

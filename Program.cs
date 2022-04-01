@@ -3,6 +3,7 @@ global using Discord.WebSocket;
 global using Mercury.Snapshot.Consts;
 global using Newtonsoft.Json;
 using Google.Apis.Auth.OAuth2;
+using izolabella.ConsoleHelper;
 using Mercury.Snapshot.Objects.Structures.MercurySnapshot;
 using Mercury.Snapshot.Objects.Util.HighTier.Initializers;
 using Mercury.Snapshot.Objects.Util.HighTier.Programs;

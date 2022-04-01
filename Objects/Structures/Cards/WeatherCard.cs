@@ -1,4 +1,5 @@
-﻿using izolabella.OpenWeatherMap.NET.Classes.Responses;
+﻿using izolabella.OpenWeatherMap.NET;
+using izolabella.OpenWeatherMap.NET.Classes.Responses;
 using izolabella.OpenWeatherMap.NET.Classes.Responses.CurrentWeatherData;
 using izolabella.OpenWeatherMap.NET.Classes.Responses.OneCall;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
@@ -16,23 +17,26 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
     {
         public async Task<IReadOnlyCollection<EmbedFieldBuilder>> RenderAsync(MercuryUser Profile)
         {
+            UnitTypes Units = Profile.Settings.CultureSettings.Units;
+            string DegreeType = Units == UnitTypes.Imperial ? "F" :
+                                (Units == UnitTypes.Metric ? "C" : "K");
             List<EmbedFieldBuilder> Builders = new();
             CultureInfo UserCulture = Profile.Settings.CultureSettings.Culture;
-            OneCallWeatherResponse? Weather = await WeatherManager.GetWeather(Profile.Settings.WeatherSettings.Zip);
+            OneCallWeatherResponse? Weather = await WeatherManager.GetWeather(Profile.Settings.CultureSettings.Units, Profile.Settings.WeatherSettings.Zip);
             if(Weather != null)
             {
                 double Temperature = Weather.Current.Temperature;
-                double TemperatureMax = 0;
-                double TemperatureMin = 0;
-                foreach(DailyWeatherData Data in Weather.Daily)
+                double TemperatureMax = double.MinValue;
+                double TemperatureMin = double.MaxValue;
+                foreach(HourlyWeatherData Data in Weather.Hourly.Where(Hr => Hr.WeatherTime.ToLocalTime().Date == DateTime.Today))
                 {
-                    if(TemperatureMax < Data.Temperature.Max)
+                    if(TemperatureMax < Data.Temperature)
                     {
-                        TemperatureMax = Data.Temperature.Max;
+                        TemperatureMax = Data.Temperature;
                     }
-                    if(TemperatureMin > Data.Temperature.Min)
+                    if(TemperatureMin > Data.Temperature)
                     {
-                        TemperatureMin = Data.Temperature.Min;
+                        TemperatureMin = Data.Temperature;
                     }
                 }
                 EmbedFieldBuilder Today = new()
@@ -40,11 +44,11 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                     Name = $"TODAY'S WEATHER • {DateTime.Today.ToString(UserCulture.DateTimeFormat.LongDatePattern, UserCulture)}",
                 };
                 Today.Value = $"" +
-                    $"{Temperature.ToString(UserCulture)}°C - {Weather.Current.CityName}\n" +
-                    $"H: {TemperatureMax.ToString(UserCulture)}°C L: {TemperatureMin.ToString(UserCulture)}°C\n\n";
+                    $"{Temperature.ToString(UserCulture)}°{DegreeType} - {(Weather.Current.CityName != null ? $"{Weather.Current.CityName}" : "Currently")}\n" +
+                    $"H: {TemperatureMax.ToString(UserCulture)}°{DegreeType} L: {TemperatureMin.ToString(UserCulture)}°{DegreeType}\n\n";
                 foreach(HourlyWeatherData? Wt in Weather.Hourly.Where(Hr => Hr.WeatherTime.ToLocalTime().Date == DateTime.Today))
                 {
-                    Today.Value += $"{Wt.WeatherTime.ToLocalTime().ToShortTimeString()}: {Wt.Temperature}°C\n";
+                    Today.Value += $"{Wt.WeatherTime.ToLocalTime().ToShortTimeString()}: {Wt.Temperature}°{DegreeType}\n";
                 }
                 Builders.Add(Today);
             }

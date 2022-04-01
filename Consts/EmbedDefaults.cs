@@ -8,14 +8,7 @@ namespace Mercury.Snapshot.Consts
 {
     public static class EmbedDefaults
     {
-        public static EmbedBuilder FullEmbed => new()
-        {
-            Color = new Color(0xe5e5e5),
-            Timestamp = DateTime.UtcNow,
-            Footer = new()
-            {
-                Text = "-☿-"
-            }
-        };
+        public static Color EmbedColor => new(0x373B49);
+        public static string MercuryEmbedDelimiter => "───────────────⊹⊱-☿-⊰⊹───────────────";
     }
 }

@@ -4,7 +4,7 @@
     {
         public GoogleAuthPrompt(string AuthorizationUrl)
         {
-            this.Color = new(0x00000);
+            this.Color = new(0x0F9D58);
             this.Footer = new()
             {
                 Text = "-☿-"

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using izolabella.OpenWeatherMap.NET;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -15,18 +16,23 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization.Per
 
         }
 
-        public CultureSettings(string CultureISOCode)
+        public CultureSettings(string CultureISOCode, UnitTypes Units)
         {
             this.Culture = CultureInfo.GetCultureInfo(CultureISOCode);
+            this.Units = Units;
         }
 
         [JsonConstructor]
-        public CultureSettings(CultureInfo Culture)
+        public CultureSettings(CultureInfo Culture, UnitTypes Units)
         {
             this.Culture = Culture;
+            this.Units = Units;
         }
 
         [JsonProperty("Culture")]
         public CultureInfo Culture { get; } = CultureInfo.GetCultureInfo("en-US");
+
+        [JsonProperty("Units")]
+        public UnitTypes Units { get; } = UnitTypes.Metric;
     }
 }

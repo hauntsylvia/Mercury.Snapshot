@@ -50,11 +50,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
                     IReadOnlyCollection<ExpenditureEntry> ThisLogExpsEntries = await ExpLog.GetExpenditures(DateTime.MinValue, DateTime.Today.AddYears(1), int.MaxValue);
                     foreach (ExpenditureEntry CEntry in ThisLogExpsEntries)
                     {
-                        ExpenditureEntry? MatchingEvent = MercuryExps.FirstOrDefault(MEntry => ObjectEqualityManager.PropertiesAreEqual(MEntry, CEntry));
-                        if (MatchingEvent == null)
-                        {
-                            await this.SaveExpenditures(CEntry);
-                        }
+                        await this.SaveExpenditures(CEntry);
                     }
                 }
             }

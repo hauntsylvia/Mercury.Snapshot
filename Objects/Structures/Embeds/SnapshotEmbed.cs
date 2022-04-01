@@ -13,7 +13,7 @@ namespace Mercury.Snapshot.Objects.Structures.Embeds
     {
         public SnapshotEmbed(CommandArguments Context, MercuryUser Profile)
         {
-            this.Color = new(0x00000);
+            this.Color = EmbedDefaults.EmbedColor;
             this.Footer = new()
             {
                 Text = "-☿-"

@@ -1,12 +1,15 @@
-﻿namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization.Peronalizers
+﻿using System.Globalization;
+
+namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization.Peronalizers
 {
     public class WeatherSettings
     {
-        public WeatherSettings(string? Zip)
+        public WeatherSettings(int? Zip)
         {
-            this.Zip = Zip;
+            this.zip = Zip?.ToString(new CultureInfo("en-US"));
         }
 
-        public string? Zip { get; }
+        private readonly string? zip;
+        public string? Zip => this.zip?.PadLeft(5, '0');
     }
 }

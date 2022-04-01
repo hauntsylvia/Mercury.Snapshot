@@ -19,21 +19,12 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                 IReadOnlyCollection<CalendarEvent> EventsWeek = await Profile.Calendar.GetEvents(DateTime.Today.AddDays(1), DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), int.MaxValue).ConfigureAwait(false);
                 IReadOnlyCollection<CalendarEvent> EventsMonth = await Profile.Calendar.GetEvents(DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), new(DateTime.Today.Date.Year, DateTime.Today.Month + 1, 1), int.MaxValue).ConfigureAwait(false);
 
-                WeatherResponse? WeatherToday = WeatherManager.GetWeatherForToday(Profile.Settings.WeatherSettings.Zip).Result;
-
-                if (EventsToday.Count > 0 || WeatherToday != null)
+                if (EventsToday.Count > 0)
                 {
                     EmbedFieldBuilder Today = new()
                     {
                         Name = $"TODAY • {DateTime.Today.ToString(UserCulture.DateTimeFormat.LongDatePattern, UserCulture)}",
                     };
-                    if (WeatherToday != null)
-                    {
-                        double Temperature = WeatherToday.Main.Temp;
-                        double TemperatureMax = WeatherToday.Main.TempMaximum;
-                        double TemperatureMin = WeatherToday.Main.TempMinimum;
-                        Today.Value = $"{Temperature.ToString(UserCulture)}°C - {WeatherToday.CityName}\nH: {TemperatureMax.ToString(UserCulture)}°C L: {TemperatureMin.ToString(UserCulture)}°C\n";
-                    }
                     foreach (CalendarEvent Event in EventsToday)
                     {
                         Today.Value += $"\n{Event.Start.ToString(UserCulture.DateTimeFormat.ShortTimePattern, UserCulture)}\n```\n{Event.Summary}\n{Event.Description}\n```";

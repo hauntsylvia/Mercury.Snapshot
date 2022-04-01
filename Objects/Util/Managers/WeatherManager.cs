@@ -1,4 +1,5 @@
-﻿using izolabella.OpenWeatherMap.NET.Classes;
+﻿using izolabella.OpenWeatherMap.NET;
+using izolabella.OpenWeatherMap.NET.Classes;
 using izolabella.OpenWeatherMap.NET.Classes.Responses;
 using izolabella.OpenWeatherMap.NET.Classes.Responses.CurrentWeatherData;
 
@@ -19,17 +20,17 @@ namespace Mercury.Snapshot.Objects.Util.Managers
             }
         }
 
-        public static async Task<OneCallWeatherResponse?> GetWeather(double Lat, double Lon)
+        public static async Task<OneCallWeatherResponse?> GetWeather(UnitTypes Units, double Lat, double Lon)
         {
-            OneCallWeatherResponse? Weather = await Program.CurrentApp.Initializer.OpenWeatherMapClient.Processors.OneCallProcessor.CallAsync(Lat, Lon);
+            OneCallWeatherResponse? Weather = await Program.CurrentApp.Initializer.OpenWeatherMapClient.Processors.OneCallProcessor.CallAsync(Lat, Lon, Units);
             return Weather;
         }
-        public static async Task<OneCallWeatherResponse?> GetWeather(string? Zip)
+        public static async Task<OneCallWeatherResponse?> GetWeather(UnitTypes Units, string? Zip)
         {
             if (Zip != null)
             {
                 double[] Coords = ZipCoords.GetCoordinates(Zip);
-                return await GetWeather(Coords[0], Coords[1]);
+                return await GetWeather(Units, Coords[0], Coords[1]);
             }
             else
             {

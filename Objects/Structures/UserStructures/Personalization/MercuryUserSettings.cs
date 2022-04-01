@@ -21,7 +21,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization
         {
             this.GoogleCalendarSettings = new();
             this.GoogleSheetsSettings = new(null);
-            this.WeatherSettings = new("04614");
+            this.WeatherSettings = new(null);
             this.CultureSettings = new();
         }
 

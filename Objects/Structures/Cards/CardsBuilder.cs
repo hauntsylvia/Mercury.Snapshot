@@ -31,7 +31,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                         string? TrimmedName = Last.Name.ToString()?.Trim(new[] { '\u200b', ' ', '\n' });
                         Last.Value = TrimmedValue ?? Last.Value;
                         Last.Name = TrimmedName ?? Last.Name;
-                        Last.Value += $"\u200b\n{Strings.MercuryEmbedDelimiter}";
+                        Last.Value += $"\u200b\n{EmbedDefaults.MercuryEmbedDelimiter}";
                     }
                     Finished.AddRange(Set);
                 }
