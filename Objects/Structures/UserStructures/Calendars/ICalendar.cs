@@ -6,6 +6,5 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
     {
         public Task<IReadOnlyCollection<CalendarEvent>> GetEvents(DateTime TimeMin, DateTime TimeMax, int MaxResults);
         public Task SaveEvents(params CalendarEvent[] Events);
-        public Task DeleteEvents(params CalendarEvent[] Events);
     }
 }

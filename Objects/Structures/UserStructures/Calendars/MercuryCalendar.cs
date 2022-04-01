@@ -42,7 +42,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
         public async Task Pull()
         {
             IReadOnlyCollection<CalendarEvent> MercuryEvents = await this.GetEvents(DateTime.MinValue, DateTime.Today.AddYears(1), int.MaxValue);
-            await this.DeleteEvents(MercuryEvents);
+            await this.DeleteEvents(MercuryEvents.ToArray());
             foreach(ICalendar? Calendar in this.User.Calendars)
             {
                 if(Calendar != null && Calendar.GetType() != typeof(MercuryCalendar))

@@ -7,6 +7,5 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
     {
         public Task<IReadOnlyCollection<ExpenditureEntry>> GetExpenditures(DateTime TimeMin, DateTime TimeMax, int MaxResults);
         public Task SaveExpenditures(params ExpenditureEntry[] Entries);
-        public Task DeleteExpenditures(params ExpenditureEntry[] Entries);
     }
 }
