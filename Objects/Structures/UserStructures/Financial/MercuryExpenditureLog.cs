@@ -74,5 +74,21 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
                 }
             }
         }
+
+        public async Task DeleteExpenditures(params ExpenditureEntry[] Entries)
+        {
+            IReadOnlyCollection<ExpenditureEntry> MercuryExps = await this.GetExpenditures(DateTime.MinValue, DateTime.Today.AddYears(1), int.MaxValue);
+            foreach (ExpenditureEntry CEntry in Entries)
+            {
+                ExpenditureEntry? MatchingExp = MercuryExps.FirstOrDefault(MEvent => ObjectEqualityManager.PropertiesAreEqual(MEvent, CEntry));
+                if (MatchingExp != null)
+                {
+                    if (this.User.ExpenditureEntriesRegister != null)
+                    {
+                        this.User.ExpenditureEntriesRegister.DeleteRecord(MatchingExp.Id);
+                    }
+                }
+            }
+        }
     }
 }

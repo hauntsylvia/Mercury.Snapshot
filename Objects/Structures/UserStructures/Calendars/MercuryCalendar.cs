@@ -42,6 +42,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
         public async Task Pull()
         {
             IReadOnlyCollection<CalendarEvent> MercuryEvents = await this.GetEvents(DateTime.MinValue, DateTime.Today.AddYears(1), int.MaxValue);
+            await this.DeleteEvents(MercuryEvents);
             foreach(ICalendar? Calendar in this.User.Calendars)
             {
                 if(Calendar != null && Calendar.GetType() != typeof(MercuryCalendar))
@@ -49,11 +50,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
                     IReadOnlyCollection<CalendarEvent> ThisCalendarsEvents = await Calendar.GetEvents(DateTime.MinValue, DateTime.Today.AddYears(1), int.MaxValue);
                     foreach(CalendarEvent CEvent in ThisCalendarsEvents)
                     {
-                        CalendarEvent? MatchingEvent = MercuryEvents.FirstOrDefault(MEvent => ObjectEqualityManager.PropertiesAreEqual(MEvent, CEvent));
-                        if (MatchingEvent == null)
-                        {
-                            await this.SaveEvents(CEvent);
-                        }
+                        await this.SaveEvents(CEvent);
                     }
                 }
             }
@@ -72,6 +69,22 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
                         {
                             await Calendar.SaveEvents(Event).ConfigureAwait(false);
                         }
+                    }
+                }
+            }
+        }
+
+        public async Task DeleteEvents(params CalendarEvent[] Events)
+        {
+            IReadOnlyCollection<CalendarEvent> MercuryEvents = await this.GetEvents(DateTime.MinValue, DateTime.Today.AddYears(1), int.MaxValue);
+            foreach (CalendarEvent CEvent in Events)
+            {
+                CalendarEvent? MatchingEvent = MercuryEvents.FirstOrDefault(MEvent => ObjectEqualityManager.PropertiesAreEqual(MEvent, CEvent));
+                if (MatchingEvent != null)
+                {
+                    if (this.User.CalendarEventsRegister != null)
+                    {
+                        this.User.CalendarEventsRegister.DeleteRecord(MatchingEvent.Id);
                     }
                 }
             }
