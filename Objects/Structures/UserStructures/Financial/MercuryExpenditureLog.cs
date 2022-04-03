@@ -42,15 +42,14 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
 
         public async Task Pull()
         {
-            IReadOnlyCollection<ExpenditureEntry> MercuryExps = await this.GetExpenditures(DateTime.MinValue, DateTime.Today.AddYears(1), int.MaxValue);
             foreach (IExpenditureLog? ExpLog in this.User.ExpenditureLogs)
             {
                 if (ExpLog != null && ExpLog.GetType() != typeof(MercuryExpenditureLog))
                 {
-                    IReadOnlyCollection<ExpenditureEntry> ThisLogExpsEntries = await ExpLog.GetExpenditures(DateTime.MinValue, DateTime.Today.AddYears(1), int.MaxValue);
+                    IReadOnlyCollection<ExpenditureEntry> ThisLogExpsEntries = await ExpLog.GetExpenditures(DateTime.MinValue, DateTime.Today.AddYears(1), int.MaxValue).ConfigureAwait(false);
                     foreach (ExpenditureEntry CEntry in ThisLogExpsEntries)
                     {
-                        await this.SaveExpenditures(CEntry);
+                        await this.SaveExpenditures(CEntry).ConfigureAwait(false);
                     }
                 }
             }
@@ -63,7 +62,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
             {
                 if (ExpLog != null)
                 {
-                    IReadOnlyCollection<ExpenditureEntry> EntriesOfThisLog = await ExpLog.GetExpenditures(DateTime.MinValue, DateTime.MaxValue, int.MaxValue);
+                    IReadOnlyCollection<ExpenditureEntry> EntriesOfThisLog = await ExpLog.GetExpenditures(DateTime.MinValue, DateTime.MaxValue, int.MaxValue).ConfigureAwait(false);
                     foreach (ExpenditureEntry Exp in MercuryExps)
                     {
                         if (Exp.Origin == Origins.Mercury && EntriesOfThisLog.All(E => E.Id != Exp.Id))
@@ -77,7 +76,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
 
         public async Task DeleteExpenditures(params ExpenditureEntry[] Entries)
         {
-            IReadOnlyCollection<ExpenditureEntry> MercuryExps = await this.GetExpenditures(DateTime.MinValue, DateTime.Today.AddYears(1), int.MaxValue);
+            IReadOnlyCollection<ExpenditureEntry> MercuryExps = await this.GetExpenditures(DateTime.MinValue, DateTime.Today.AddYears(1), int.MaxValue).ConfigureAwait(false);
             foreach (ExpenditureEntry CEntry in Entries)
             {
                 ExpenditureEntry? MatchingExp = MercuryExps.FirstOrDefault(MEvent => ObjectEqualityManager.PropertiesAreEqual(MEvent, CEntry));

@@ -5,21 +5,26 @@ namespace Mercury.Snapshot.Consts
 {
     public static class Strings
     {
-        public static string MercuryStartupItemsKey => "Startup Items";
-        public static string MercuryBaseUrl => "https://mercury-bot.ml:443/";
-        public static class GoogleStrings
+        internal static class MercuryStrings
+        {
+            public static string InputOWMAppId => "Input OpenWeatherMap application id.";
+            public static string InputDiscordToken => "Input Discord token.";
+            public static string MercuryStartupItemsKey => "Startup Items";
+            public static Uri MercuryBaseUrl => new("https://mercury-bot.ml:443/");
+        }
+        internal static class GoogleStrings
         {
             public static string GoogleFileDatastoreLocation => "Tokens";
             public static string GoogleCredentialsFileLocation => "Google Credentials.json";
-            public static string MercuryGoogleRedirectUrl => "https://mercury-bot.ml:443/google-oauth2/GoogleAuthReceiver/";
+            public static Uri MercuryGoogleRedirectUrl => new("https://mercury-bot.ml:443/google-oauth2/GoogleAuthReceiver/");
             public static string[] Scopes => new string[] { CalendarService.Scope.CalendarReadonly, SheetsService.Scope.Spreadsheets };
 
         }
-        public static class SettingsStrings
+        internal static class SettingsStrings
         {
             public static string SettingsSaved => "Your settings have been saved.";
         }
-        public static class EmbedStrings
+        internal static class EmbedStrings
         {
             public static class Expenditures
             {

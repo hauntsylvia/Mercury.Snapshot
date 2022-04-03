@@ -2,7 +2,7 @@
 {
     public class GoogleAuthPrompt : EmbedBuilder
     {
-        public GoogleAuthPrompt(string AuthorizationUrl)
+        public GoogleAuthPrompt(Uri AuthorizationUrl)
         {
             this.Color = new(0x0F9D58);
             this.Footer = new()

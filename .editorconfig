@@ -1,0 +1,10 @@
+﻿[*.cs]
+
+# Default severity for analyzer diagnostics with category 'Design'
+dotnet_analyzer_diagnostic.category-Design.severity = none
+
+# Default severity for all analyzer diagnostics
+dotnet_analyzer_diagnostic.severity = none
+
+# CA1062: Validate arguments of public methods
+dotnet_diagnostic.CA1062.severity = none

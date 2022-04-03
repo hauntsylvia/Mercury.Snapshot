@@ -49,7 +49,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
             if (this.SpreadsheetId != null)
             {
                 SpreadsheetsResource.ValuesResource.GetRequest GetCells = this.Service.Spreadsheets.Values.Get(this.SpreadsheetId, "Expenditure!A:E");
-                ValueRange Response = await GetCells.ExecuteAsync();
+                ValueRange Response = await GetCells.ExecuteAsync().ConfigureAwait(false);
                 IList<IList<object>> Rows = Response.Values;
                 ValueRange ValRange = new()
                 {
@@ -91,7 +91,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
                     Data = new List<ValueRange>() { ValRange },
                     ValueInputOption = "USER_ENTERED",
                     IncludeValuesInResponse = true,
-                }, this.SpreadsheetId).ExecuteAsync();
+                }, this.SpreadsheetId).ExecuteAsync().ConfigureAwait(false);
             }
 
             return Expenditures;
@@ -101,7 +101,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
         {
             if(this.SpreadsheetId != null)
             {
-                int LastRow = (await this.GetExpenditures(DateTime.MinValue, DateTime.MaxValue, int.MaxValue)).Count;
+                int LastRow = (await this.GetExpenditures(DateTime.MinValue, DateTime.MaxValue, int.MaxValue).ConfigureAwait(false)).Count;
                 List<IList<object>> NewVals = new();
                 foreach (ExpenditureEntry Entry in Entries)
                 {
@@ -114,7 +114,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
                     Data = new List<ValueRange>() { new() { Values = NewVals, Range = $"Expenditure!{LastRow}:{NewVals.Count + LastRow}" } },
                     ValueInputOption = "RAW",
                     IncludeValuesInResponse = true,
-                }, this.SpreadsheetId).ExecuteAsync();
+                }, this.SpreadsheetId).ExecuteAsync().ConfigureAwait(false);
             }
         }
 

@@ -11,7 +11,7 @@ using Mercury.Unification.IO.File.Records;
 
 namespace Mercury.Snapshot.Commands
 {
-    public class ExpenditureCommands
+    public static class ExpenditureCommands
     {
         [Command(new string[] { "log-expenditure" }, "Log an expenditure.", Defer = false, LocalOnly = true)]
         public static async void LogExpenditure(CommandArguments Args, double Amount, string PayerOrPayee, string Category, bool Credit = false)

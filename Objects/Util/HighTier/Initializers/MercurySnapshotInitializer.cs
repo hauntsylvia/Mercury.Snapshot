@@ -13,9 +13,10 @@ namespace Mercury.Snapshot.Objects.Util.HighTier.Initializers
         public MercurySnapshotInitializer(StartupItems StartupItems)
         {
             this.StartupItems = StartupItems;
-            this.DiscordSocketClient = new(new(Configurations.DiscordConfig), StartupItems.DiscordWrapperLoggingLevel);
+            using DiscordSocketClient Client = new(Configurations.DiscordConfig);
+            this.DiscordSocketClient = new(Client, (StartupItems ?? throw new ArgumentNullException(paramName: nameof(StartupItems))).DiscordWrapperLoggingLevel);
             this.OpenWeatherMapClient = new(StartupItems.OpenWeatherMapAppId, UnitTypes.Metric);
-            this.GoogleOAuth2 = new(new Uri(Strings.MercuryBaseUrl), StartupItems.GoogleClientSecrets, new(Strings.GoogleStrings.GoogleFileDatastoreLocation, false), Strings.GoogleStrings.MercuryGoogleRedirectUrl, Strings.GoogleStrings.MercuryGoogleRedirectUrl, Strings.GoogleStrings.Scopes);
+            this.GoogleOAuth2 = new(Strings.MercuryStrings.MercuryBaseUrl, StartupItems.GoogleClientSecrets, new(Strings.GoogleStrings.GoogleFileDatastoreLocation, false), Strings.GoogleStrings.MercuryGoogleRedirectUrl.AbsolutePath, Strings.GoogleStrings.MercuryGoogleRedirectUrl.AbsolutePath, Strings.GoogleStrings.Scopes);
             this.GoogleOAuth2.TokenPOSTed += this.GoogleOAuth2_TokenPOSTed;
         }
 
@@ -26,13 +27,13 @@ namespace Mercury.Snapshot.Objects.Util.HighTier.Initializers
 
         private void GoogleOAuth2_TokenPOSTed(UserCredential UserCredential, TokenResponse TokenResponse, izolabella.Google.Classes.OAuth2.AuthorizationRegister OriginalCall)
         {
-            Record<TokenResponse> CurrentRecord = Registers.GoogleCredentialsRegister.GetRecord(OriginalCall.ApplicationAppliedTag) ?? new Record<TokenResponse>(TokenResponse);
+            Record<TokenResponse> CurrentRecord = CommonRegisters.GoogleCredentialsRegister.GetRecord(OriginalCall.ApplicationAppliedTag) ?? new Record<TokenResponse>(TokenResponse);
             CurrentRecord.ObjectToStore.AccessToken = TokenResponse.AccessToken;
             if (TokenResponse.RefreshToken != null)
             {
                 CurrentRecord.ObjectToStore.RefreshToken = TokenResponse.RefreshToken;
             }
-            Registers.GoogleCredentialsRegister.SaveRecord(OriginalCall.ApplicationAppliedTag, CurrentRecord);
+            CommonRegisters.GoogleCredentialsRegister.SaveRecord(OriginalCall.ApplicationAppliedTag, CurrentRecord);
         }
     }
 }

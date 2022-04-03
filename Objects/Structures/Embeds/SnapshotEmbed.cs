@@ -20,7 +20,7 @@ namespace Mercury.Snapshot.Objects.Structures.Embeds
             };
             if (Profile != null && Context != null)
             {
-                List<EmbedFieldBuilder> Fields = new CardsBuilder(new List<ICard> { new WeatherCard(), new CalendarEventsCard(), new ExpendituresCard() }, Profile).Build();
+                List<EmbedFieldBuilder> Fields = new CardsBuilder(new List<ICard> { new WeatherCard(), new CalendarEventsCard(), new ExpendituresCard() }, Profile).Build().ToList();
                 this.Fields = Fields.Count > 0 ? Fields : new List<EmbedFieldBuilder>()
                 {
                     new EmbedFieldBuilder()

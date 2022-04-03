@@ -4,7 +4,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
 {
     public class CardsBuilder
     {
-        public CardsBuilder(List<ICard> Cards, MercuryUser Profile)
+        public CardsBuilder(IReadOnlyCollection<ICard> Cards, MercuryUser Profile)
         {
             List<List<EmbedFieldBuilder>> CardsBuilder = new();
             foreach (ICard Card in Cards)
@@ -15,9 +15,9 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
             this.Cards = CardsBuilder;
         }
 
-        public List<List<EmbedFieldBuilder>> Cards { get; }
+        public IReadOnlyCollection<IReadOnlyCollection<EmbedFieldBuilder>> Cards { get; }
 
-        public List<EmbedFieldBuilder> Build()
+        public IReadOnlyCollection<EmbedFieldBuilder> Build()
         {
             List<EmbedFieldBuilder> Finished = new();
             foreach (List<EmbedFieldBuilder> Set in this.Cards)

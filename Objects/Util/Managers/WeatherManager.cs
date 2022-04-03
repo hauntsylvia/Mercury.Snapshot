@@ -22,7 +22,7 @@ namespace Mercury.Snapshot.Objects.Util.Managers
 
         public static async Task<OneCallWeatherResponse?> GetWeather(UnitTypes Units, double Lat, double Lon)
         {
-            OneCallWeatherResponse? Weather = await Program.CurrentApp.Initializer.OpenWeatherMapClient.Processors.OneCallProcessor.CallAsync(Lat, Lon, Units);
+            OneCallWeatherResponse? Weather = await Program.CurrentApp.Initializer.OpenWeatherMapClient.Processors.OneCallProcessor.CallAsync(Lat, Lon, Units).ConfigureAwait(false);
             return Weather;
         }
         public static async Task<OneCallWeatherResponse?> GetWeather(UnitTypes Units, string? Zip)
@@ -30,7 +30,7 @@ namespace Mercury.Snapshot.Objects.Util.Managers
             if (Zip != null)
             {
                 double[] Coords = ZipCoords.GetCoordinates(Zip);
-                return await GetWeather(Units, Coords[0], Coords[1]);
+                return await GetWeather(Units, Coords[0], Coords[1]).ConfigureAwait(false);
             }
             else
             {

@@ -23,7 +23,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
 
         public CalendarService Service { get; set; }
 
-        public Task<IReadOnlyCollection<CalendarEvent>> GetEvents(DateTime TimeMin, DateTime TimeMax, int MaxResults = 2500)
+        public async Task<IReadOnlyCollection<CalendarEvent>> GetEvents(DateTime TimeMin, DateTime TimeMax, int MaxResults = 2500)
         {
             EventsResource.ListRequest Request = this.Service.Events.List("primary");
             Request.TimeMin = TimeMin;
@@ -32,7 +32,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
             Request.SingleEvents = true;
             Request.MaxResults = MaxResults;
             Request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
-            Google.Apis.Calendar.v3.Data.Events Events = Request.Execute();
+            Google.Apis.Calendar.v3.Data.Events Events = await Request.ExecuteAsync().ConfigureAwait(false);
             List<CalendarEvent> EventItems = new();
             foreach (Event Event in Events.Items)
             {
@@ -54,7 +54,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
 
                 EventItems.Add(new MercuryCalendarEvent(Event.Summary, Event.Description, Updated, Created, Start, End, Origins.Google, Identifier.GetIdentifier()));
             }
-            return Task.FromResult<IReadOnlyCollection<CalendarEvent>>(EventItems);
+            return EventItems;
         }
 
         public async Task SaveEvents(params CalendarEvent[] Events)
@@ -77,7 +77,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
                     {
                         DateTime = Event.End.ToUniversalTime(),
                     },
-                }, "primary").ExecuteAsync();
+                }, "primary").ExecuteAsync().ConfigureAwait(false);
             }
         }
     }

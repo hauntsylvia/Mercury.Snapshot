@@ -10,7 +10,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
             List<EmbedFieldBuilder> Fields = new();
             double CurrentBal = 0.1;
             Dictionary<string, double> PersonAmount = new();
-            IReadOnlyCollection<ExpenditureEntry> Entries = await Profile.ExpenditureLog.GetExpenditures(DateTime.MinValue, DateTime.MaxValue, int.MaxValue);
+            IReadOnlyCollection<ExpenditureEntry> Entries = await Profile.ExpenditureLog.GetExpenditures(DateTime.MinValue, DateTime.MaxValue, int.MaxValue).ConfigureAwait(false);
             foreach (ExpenditureEntry Entry in Entries)
             {
                 CurrentBal += Entry.DollarAmount;

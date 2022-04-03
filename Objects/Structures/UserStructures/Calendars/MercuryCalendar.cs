@@ -41,16 +41,16 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
 
         public async Task Pull()
         {
-            IReadOnlyCollection<CalendarEvent> MercuryEvents = await this.GetEvents(DateTime.MinValue, DateTime.Today.AddYears(1), int.MaxValue);
-            await this.DeleteEvents(MercuryEvents.ToArray());
+            IReadOnlyCollection<CalendarEvent> MercuryEvents = await this.GetEvents(DateTime.MinValue, DateTime.Today.AddYears(1), int.MaxValue).ConfigureAwait(false);
+            await this.DeleteEvents(MercuryEvents.ToArray()).ConfigureAwait(false);
             foreach(ICalendar? Calendar in this.User.Calendars)
             {
                 if(Calendar != null && Calendar.GetType() != typeof(MercuryCalendar))
                 {
-                    IReadOnlyCollection<CalendarEvent> ThisCalendarsEvents = await Calendar.GetEvents(DateTime.MinValue, DateTime.Today.AddYears(1), int.MaxValue);
+                    IReadOnlyCollection<CalendarEvent> ThisCalendarsEvents = await Calendar.GetEvents(DateTime.MinValue, DateTime.Today.AddYears(1), int.MaxValue).ConfigureAwait(false);
                     foreach(CalendarEvent CEvent in ThisCalendarsEvents)
                     {
-                        await this.SaveEvents(CEvent);
+                        await this.SaveEvents(CEvent).ConfigureAwait(false);
                     }
                 }
             }
@@ -76,7 +76,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
 
         public async Task DeleteEvents(params CalendarEvent[] Events)
         {
-            IReadOnlyCollection<CalendarEvent> MercuryEvents = await this.GetEvents(DateTime.MinValue, DateTime.Today.AddYears(1), int.MaxValue);
+            IReadOnlyCollection<CalendarEvent> MercuryEvents = await this.GetEvents(DateTime.MinValue, DateTime.Today.AddYears(1), int.MaxValue).ConfigureAwait(false);
             foreach (CalendarEvent CEvent in Events)
             {
                 CalendarEvent? MatchingEvent = MercuryEvents.FirstOrDefault(MEvent => ObjectEqualityManager.PropertiesAreEqual(MEvent, CEvent));

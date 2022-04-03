@@ -35,7 +35,7 @@ namespace Mercury.Snapshot.Objects.Util
 
         public async Task<UserCredential?> AuthorizeAndRepairAsync()
         {
-            Record<TokenResponse>? Record = Registers.GoogleCredentialsRegister.GetRecord(this.UserInstance.DiscordId.ToString(this.UserInstance.Settings.CultureSettings.Culture));
+            Record<TokenResponse>? Record = CommonRegisters.GoogleCredentialsRegister.GetRecord(this.UserInstance.DiscordId.ToString(this.UserInstance.Settings.CultureSettings.Culture));
             if (Record != null)
             {
                 try
@@ -49,7 +49,7 @@ namespace Mercury.Snapshot.Objects.Util
                 {
                     if (Ex is AggregateException || Ex is TokenResponseException)
                     {
-                        Registers.GoogleCredentialsRegister.DeleteRecord(this.UserInstance.DiscordId);
+                        CommonRegisters.GoogleCredentialsRegister.DeleteRecord(this.UserInstance.DiscordId);
                     }
                     else
                     {

@@ -11,12 +11,12 @@ using Mercury.Snapshot.Objects.Util.Managers;
 
 namespace Mercury.Snapshot
 {
-    public class Program
+    public static class Program
     {
         public static MercurySnapshotProgram CurrentApp { get; set; } = new(new MercurySnapshotInitializer(GetStartupItems(null)));
         public static StartupItems GetStartupItems(StartupItems? Items = null)
         {
-            StartupItemsManager ConfigManager = new(Registers.MercuryStartupItemsRegister, Strings.MercuryStartupItemsKey);
+            StartupItemsManager ConfigManager = new(CommonRegisters.MercuryStartupItemsRegister, Strings.MercuryStrings.MercuryStartupItemsKey);
             Items ??= ConfigManager.GetStartupItems();
             if (Items != null)
             {
@@ -25,9 +25,9 @@ namespace Mercury.Snapshot
             }
             else if (File.Exists(Strings.GoogleStrings.GoogleCredentialsFileLocation))
             {
-                Console.WriteLine("Input OpenWeatherMap application id.");
+                Console.WriteLine(Strings.MercuryStrings.InputOWMAppId);
                 string? OpenWeatherMapAppId = Console.ReadLine();
-                Console.WriteLine("Input Discord token.");
+                Console.WriteLine(Strings.MercuryStrings.InputDiscordToken);
                 string? DiscordAuthorization = Console.ReadLine();
                 using FileStream FileStream = new(Strings.GoogleStrings.GoogleCredentialsFileLocation, FileMode.Open, FileAccess.Read);
                 ClientSecrets Secrets = GoogleClientSecrets.FromStream(FileStream).Secrets;

@@ -17,27 +17,14 @@ namespace Mercury.Snapshot.Objects.Util.HighTier.Programs
         {
             this.Initializer = Initializer;
         }
-        public MercurySnapshotProgram()
-        {
-            this.Initializer = new(new StartupItems());
-        }
 
         public MercurySnapshotInitializer Initializer { get; }
 
         public async void RunProgram()
         {
-            if (this.Initializer != null && !this.Initializer.StartupItems.IsCold)
-            {
-                this.Initializer.DiscordSocketClient.Client.Ready += this.Client_Ready;
-                await this.Initializer.DiscordSocketClient.Client.LoginAsync(TokenType.Bot, this.Initializer.StartupItems.DiscordToken, true).ConfigureAwait(false);
-                await this.Initializer.DiscordSocketClient.Client.StartAsync().ConfigureAwait(false);
-            }
-            else
-            {
-#pragma warning disable CA2201 // go fuck urself
-                throw new NullReferenceException("No initializer is present.");
-#pragma warning restore CA2201 // Do not raise reserved exception types
-            }
+            this.Initializer.DiscordSocketClient.Client.Ready += this.Client_Ready;
+            await this.Initializer.DiscordSocketClient.Client.LoginAsync(TokenType.Bot, this.Initializer.StartupItems.DiscordToken, true).ConfigureAwait(false);
+            await this.Initializer.DiscordSocketClient.Client.StartAsync().ConfigureAwait(false);
         }
 
         private async Task Client_Ready()

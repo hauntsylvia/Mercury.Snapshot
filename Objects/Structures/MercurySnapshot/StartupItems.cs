@@ -10,32 +10,20 @@ namespace Mercury.Snapshot.Objects.Structures.MercurySnapshot
         [JsonConstructor]
         public StartupItems(string OpenWeatherMapAppId, string DiscordToken, ClientSecrets GoogleClientSecrets, LoggingLevel DiscordWrapperLoggingLevel)
         {
-            this.openWeatherMapAppId = OpenWeatherMapAppId;
-            this.discordToken = DiscordToken;
-            this.googleClientSecrets = GoogleClientSecrets;
+            this.OpenWeatherMapAppId = OpenWeatherMapAppId;
+            this.DiscordToken = DiscordToken;
+            this.GoogleClientSecrets = GoogleClientSecrets;
             this.DiscordWrapperLoggingLevel = DiscordWrapperLoggingLevel;
         }
-        public StartupItems()
-        {
-        }
 
-        /// <summary>
-        /// If true, none of the credentials inside of this app are legitimate, or at least one of them is null.
-        /// </summary>
-        [JsonProperty("IsCold")]
-        public bool IsCold => this.openWeatherMapAppId == null || this.discordToken == null || this.googleClientSecrets == null;
-
-        private readonly string? openWeatherMapAppId;
         [JsonProperty("OpenWeatherMapAppId")]
-        public string OpenWeatherMapAppId => this.openWeatherMapAppId ?? throw new MercuryColdStartupException(nameof(this.OpenWeatherMapAppId));
+        public string OpenWeatherMapAppId { get; }
 
-        private readonly string? discordToken;
         [JsonProperty("DiscordAuthorization")]
-        public string DiscordToken => this.discordToken ?? throw new MercuryColdStartupException(nameof(this.DiscordToken));
+        public string DiscordToken { get; }
 
-        private readonly ClientSecrets? googleClientSecrets;
         [JsonProperty("GoogleClientSecrets")]
-        public ClientSecrets GoogleClientSecrets => this.googleClientSecrets ?? throw new MercuryColdStartupException(nameof(this.GoogleClientSecrets));
+        public ClientSecrets GoogleClientSecrets { get; }
 
         [JsonProperty("DiscordWrapperLoggingLevel")]
         public LoggingLevel DiscordWrapperLoggingLevel { get; } = LoggingLevel.All;

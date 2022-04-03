@@ -15,24 +15,24 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization
             this.DiscordId = DiscordId;
             this.Settings = Settings;
             this.GoogleClient = new(this);
-            this.CalendarEventsRegister = Registers.CalendarsRegister.GetSubRegister<ICalendar>(this.DiscordId)?.GetSubRegister<CalendarEvent>(this.DiscordId);
-            this.ExpenditureEntriesRegister = Registers.ExpenditureLogsRegister.GetSubRegister<IExpenditureLog>(this.DiscordId)?.GetSubRegister<ExpenditureEntry>(this.DiscordId);
+            this.CalendarEventsRegister = CommonRegisters.CalendarsRegister.GetSubRegister<ICalendar>(this.DiscordId)?.GetSubRegister<CalendarEvent>(this.DiscordId);
+            this.ExpenditureEntriesRegister = CommonRegisters.ExpenditureLogsRegister.GetSubRegister<IExpenditureLog>(this.DiscordId)?.GetSubRegister<ExpenditureEntry>(this.DiscordId);
         }
 
         public MercuryUser(ulong DiscordId)
         {
             this.DiscordId = DiscordId;
             this.GoogleClient = new(this);
-            this.CalendarEventsRegister = Registers.CalendarsRegister.GetSubRegister<ICalendar>(this.DiscordId)?.GetSubRegister<CalendarEvent>(this.DiscordId);
-            this.ExpenditureEntriesRegister = Registers.ExpenditureLogsRegister.GetSubRegister<IExpenditureLog>(this.DiscordId)?.GetSubRegister<ExpenditureEntry>(this.DiscordId);
+            this.CalendarEventsRegister = CommonRegisters.CalendarsRegister.GetSubRegister<ICalendar>(this.DiscordId)?.GetSubRegister<CalendarEvent>(this.DiscordId);
+            this.ExpenditureEntriesRegister = CommonRegisters.ExpenditureLogsRegister.GetSubRegister<IExpenditureLog>(this.DiscordId)?.GetSubRegister<ExpenditureEntry>(this.DiscordId);
         }
 
         public GoogleClient GoogleClient { get; }
 
         public MercuryUserSettings Settings
         {
-            get => Registers.MercurySettingsRegister.GetRecord(this.DiscordId)?.ObjectToStore ?? new();
-            set => Registers.MercurySettingsRegister.SaveRecord(this.DiscordId, new Record<MercuryUserSettings>(value));
+            get => CommonRegisters.MercurySettingsRegister.GetRecord(this.DiscordId)?.ObjectToStore ?? new();
+            set => CommonRegisters.MercurySettingsRegister.SaveRecord(this.DiscordId, new Record<MercuryUserSettings>(value));
         }
         
         public async Task<IReadOnlyCollection<CalendarEvent>> GetAllCalendarEventsAsync(DateTime TimeMin, DateTime TimeMax, int MaxResults)
@@ -68,8 +68,8 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization
         }
         public MercuryCalendar Calendar
         {
-            get => Registers.CalendarsRegister.GetSubRegister<MercuryCalendar>(this.DiscordId)?.GetRecord("primary")?.ObjectToStore ?? new MercuryCalendar(this);
-            set => Registers.CalendarsRegister.GetSubRegister<MercuryCalendar>(this.DiscordId)?.SaveRecord("primary", new Record<MercuryCalendar>(value));
+            get => CommonRegisters.CalendarsRegister.GetSubRegister<MercuryCalendar>(this.DiscordId)?.GetRecord("primary")?.ObjectToStore ?? new MercuryCalendar(this);
+            set => CommonRegisters.CalendarsRegister.GetSubRegister<MercuryCalendar>(this.DiscordId)?.SaveRecord("primary", new Record<MercuryCalendar>(value));
         }
 
         public IReadOnlyCollection<IExpenditureLog?> ExpenditureLogs
@@ -82,8 +82,8 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization
         }
         public MercuryExpenditureLog ExpenditureLog
         {
-            get => Registers.ExpenditureLogsRegister.GetSubRegister<MercuryExpenditureLog>(this.DiscordId)?.GetRecord("primary")?.ObjectToStore ?? new MercuryExpenditureLog(this);
-            set => Registers.ExpenditureLogsRegister.GetSubRegister<MercuryExpenditureLog>(this.DiscordId)?.SaveRecord("primary", new Record<MercuryExpenditureLog>(value));
+            get => CommonRegisters.ExpenditureLogsRegister.GetSubRegister<MercuryExpenditureLog>(this.DiscordId)?.GetRecord("primary")?.ObjectToStore ?? new MercuryExpenditureLog(this);
+            set => CommonRegisters.ExpenditureLogsRegister.GetSubRegister<MercuryExpenditureLog>(this.DiscordId)?.SaveRecord("primary", new Record<MercuryExpenditureLog>(value));
         }
 
         public Register<CalendarEvent>? CalendarEventsRegister { get; }

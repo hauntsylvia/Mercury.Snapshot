@@ -22,7 +22,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                                 (Units == UnitTypes.Metric ? "C" : "K");
             List<EmbedFieldBuilder> Builders = new();
             CultureInfo UserCulture = Profile.Settings.CultureSettings.Culture;
-            OneCallWeatherResponse? Weather = await WeatherManager.GetWeather(Profile.Settings.CultureSettings.Units, Profile.Settings.WeatherSettings.Zip);
+            OneCallWeatherResponse? Weather = await WeatherManager.GetWeather(Profile.Settings.CultureSettings.Units, Profile.Settings.WeatherSettings.Zip).ConfigureAwait(false);
             if(Weather != null)
             {
                 double Temperature = Weather.Current.Temperature;
