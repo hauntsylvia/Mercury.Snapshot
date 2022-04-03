@@ -13,7 +13,8 @@ namespace Mercury.Snapshot
 {
     public static class Program
     {
-        public static MercurySnapshotProgram CurrentApp { get; set; } = new(new MercurySnapshotInitializer(GetStartupItems(null)));
+        public static DiscordSocketClient Client { get; set; } = new(Configurations.DiscordConfig);
+        public static MercurySnapshotProgram CurrentApp { get; set; } = new(new MercurySnapshotInitializer(GetStartupItems(null), Client));
         public static StartupItems GetStartupItems(StartupItems? Items = null)
         {
             StartupItemsManager ConfigManager = new(CommonRegisters.MercuryStartupItemsRegister, Strings.MercuryStrings.MercuryStartupItemsKey);
@@ -42,10 +43,14 @@ namespace Mercury.Snapshot
         public static async Task Main()
         {
             await CurrentApp.Initializer.GoogleOAuth2.StopListener().ConfigureAwait(false);
-            StartupItems Items = GetStartupItems(null);
-            CurrentApp = new(new MercurySnapshotInitializer(Items));
             CurrentApp.RunProgram();
+            CurrentApp.Initializer.DiscordSocketClient.Client.Disconnected += Client_Disconnected;
             await Task.Delay(-1).ConfigureAwait(false);
+        }
+
+        private static async Task Client_Disconnected(Exception Arg)
+        {
+            await CurrentApp.Initializer.DiscordSocketClient.Client.DisposeAsync().ConfigureAwait(false);
         }
     }
 }

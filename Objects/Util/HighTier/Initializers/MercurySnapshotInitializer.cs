@@ -10,10 +10,9 @@ namespace Mercury.Snapshot.Objects.Util.HighTier.Initializers
 {
     public class MercurySnapshotInitializer
     {
-        public MercurySnapshotInitializer(StartupItems StartupItems)
+        public MercurySnapshotInitializer(StartupItems StartupItems, DiscordSocketClient Client)
         {
             this.StartupItems = StartupItems;
-            using DiscordSocketClient Client = new(Configurations.DiscordConfig);
             this.DiscordSocketClient = new(Client, (StartupItems ?? throw new ArgumentNullException(paramName: nameof(StartupItems))).DiscordWrapperLoggingLevel);
             this.OpenWeatherMapClient = new(StartupItems.OpenWeatherMapAppId, UnitTypes.Metric);
             this.GoogleOAuth2 = new(Strings.MercuryStrings.MercuryBaseUrl, StartupItems.GoogleClientSecrets, new(Strings.GoogleStrings.GoogleFileDatastoreLocation, false), Strings.GoogleStrings.MercuryGoogleRedirectUrl.AbsolutePath, Strings.GoogleStrings.MercuryGoogleRedirectUrl.AbsolutePath, Strings.GoogleStrings.Scopes);
