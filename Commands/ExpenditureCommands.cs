@@ -29,7 +29,7 @@ namespace Mercury.Snapshot.Commands
             }
         }
         [Command(new string[] { "sync-expenditurelogs" }, "Sync all expenditure logs.", Defer = false, LocalOnly = true)]
-        public static async void ExpenditureLogSync(CommandArguments Args)
+        public static async Task ExpenditureLogSync(CommandArguments Args)
         {
             MercuryUser User = new(Args.SlashCommand.User.Id);
             if (User.ExpenditureLog != null)

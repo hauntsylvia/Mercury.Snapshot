@@ -5,10 +5,10 @@ using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
 
 namespace Mercury.Snapshot.Commands
 {
-    public static class GoogleConnect
+    public static class GoogleCommands
     {
         [Command(new string[] { "google-connect" }, "Connect your Google account to Mercury.", Defer = false, LocalOnly = true)]
-        public static async void Sync(CommandArguments Args)
+        public static async void Google(CommandArguments Args)
         {
             MercuryUser Profile = new(Args.SlashCommand.User.Id);
             Uri ToSend = new(Program.CurrentApp.Initializer.GoogleOAuth2.CreateAuthorizationRequest(new(Args.SlashCommand.User.Id.ToString(Profile.Settings.CultureSettings.Culture))));

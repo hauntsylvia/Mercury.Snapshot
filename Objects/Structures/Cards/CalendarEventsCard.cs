@@ -17,7 +17,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
             {
                 IReadOnlyCollection<CalendarEvent> EventsToday = await Profile.Calendar.GetEvents(DateTime.Today.Date, DateTime.Today.Date.Add(new TimeSpan(23, 59, 59)), int.MaxValue).ConfigureAwait(false);
                 IReadOnlyCollection<CalendarEvent> EventsWeek = await Profile.Calendar.GetEvents(DateTime.Today.AddDays(1), DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), int.MaxValue).ConfigureAwait(false);
-                IReadOnlyCollection<CalendarEvent> EventsMonth = await Profile.Calendar.GetEvents(DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), new(DateTime.Today.Date.Year, DateTime.Today.Month + 1, 1), int.MaxValue).ConfigureAwait(false);
+                IReadOnlyCollection<CalendarEvent> EventsMonth = await Profile.Calendar.GetEvents(DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7).Date.Add(new TimeSpan(23, 59, 59)), new(DateTime.Today.Date.Year, DateTime.Today.Month + 1, 1), 8).ConfigureAwait(false);
 
                 if (EventsToday.Count > 0)
                 {

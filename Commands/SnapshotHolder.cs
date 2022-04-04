@@ -9,10 +9,12 @@ namespace Mercury.Snapshot.Commands
 {
     public static class SnapshotHolder
     {
-        [Command(new string[] { "snapshot" }, "Receive a general rundown.", Defer = true, LocalOnly = true)]
+        [Command(new string[] { "snapshot" }, "Syncs calendar events and expenditures before sending a life summary.", Defer = true, LocalOnly = true)]
         public static async Task Snap(CommandArguments Args)
         {
             MercuryUser Profile = new(Args.SlashCommand.User.Id);
+            await Profile.Calendar.Pull().ConfigureAwait(false);
+            await Profile.ExpenditureLog.Pull().ConfigureAwait(false);
             await Args.SlashCommand.FollowupAsync("Here you go . .", new[] { new EmbedBuilder()
             {
                 Color = new(0x00000),

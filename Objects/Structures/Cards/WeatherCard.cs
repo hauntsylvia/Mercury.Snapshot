@@ -22,6 +22,7 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                                 (Units == UnitTypes.Metric ? "C" : "K");
             List<EmbedFieldBuilder> Builders = new();
             CultureInfo UserCulture = Profile.Settings.CultureSettings.Culture;
+            DateTime UserTime = TimeZoneInfo.ConvertTime(DateTime.UtcNow, Profile.Settings.CultureSettings.TimeZone);
             OneCallWeatherResponse? Weather = await WeatherManager.GetWeather(Profile.Settings.CultureSettings.Units, Profile.Settings.WeatherSettings.Zip).ConfigureAwait(false);
             if(Weather != null)
             {
@@ -41,14 +42,15 @@ namespace Mercury.Snapshot.Objects.Structures.Cards
                 }
                 EmbedFieldBuilder Today = new()
                 {
-                    Name = $"TODAY'S WEATHER • {DateTime.Today.ToString(UserCulture.DateTimeFormat.LongDatePattern, UserCulture)}",
+                    Name = $"TODAY'S WEATHER • {UserTime.ToString(UserCulture.DateTimeFormat.LongDatePattern, UserCulture)}",
                 };
                 Today.Value = $"" +
                     $"{Temperature.ToString(UserCulture)}°{DegreeType} - {(Weather.Current.CityName != null ? $"{Weather.Current.CityName}" : "Currently")}\n" +
                     $"H: {TemperatureMax.ToString(UserCulture)}°{DegreeType} L: {TemperatureMin.ToString(UserCulture)}°{DegreeType}\n\n";
                 foreach(HourlyWeatherData? Wt in Weather.Hourly.Where(Hr => Hr.WeatherTime.ToLocalTime().Date == DateTime.Today))
                 {
-                    Today.Value += $"{Wt.WeatherTime.ToLocalTime().ToShortTimeString()}: {Wt.Temperature}°{DegreeType}\n";
+                    DateTime WeatherTimeUserLocal = TimeZoneInfo.ConvertTime(Wt.WeatherTime, Profile.Settings.CultureSettings.TimeZone);
+                    Today.Value += $"{ WeatherTimeUserLocal.ToString(UserCulture.DateTimeFormat.ShortTimePattern, UserCulture)}: {Wt.Temperature.ToString(UserCulture)}°{DegreeType}\n";
                 }
                 Builders.Add(Today);
             }

@@ -40,7 +40,7 @@ namespace Mercury.Snapshot.Commands
             }
         }
         [Command(new string[] { "sync-calendars" }, "Sync all connected calendars.", Defer = false, LocalOnly = true)]
-        internal static async void CalendarSync(CommandArguments Args)
+        internal static async Task CalendarSync(CommandArguments Args)
         {
             MercuryUser User = new(Args.SlashCommand.User.Id);
             if (User.Calendar != null)

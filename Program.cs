@@ -42,7 +42,6 @@ namespace Mercury.Snapshot
         }
         public static async Task Main()
         {
-            await CurrentApp.Initializer.GoogleOAuth2.StopListener().ConfigureAwait(false);
             CurrentApp.RunProgram();
             CurrentApp.Initializer.DiscordSocketClient.Client.Disconnected += Client_Disconnected;
             await Task.Delay(-1).ConfigureAwait(false);
