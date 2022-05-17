@@ -1,6 +1,4 @@
-﻿using izolabella.ConsoleHelper;
-using Mercury.Snapshot.Objects.Structures.MercurySnapshot;
-using Mercury.Snapshot.Objects.Util.HighTier.Initializers;
+﻿using Mercury.Snapshot.Objects.Util.HighTier.Initializers;
 
 namespace Mercury.Snapshot.Objects.Util.HighTier.Programs
 {

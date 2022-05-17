@@ -1,13 +1,10 @@
 ﻿using izolabella.Discord.Commands.Arguments;
 using izolabella.Discord.Commands.Attributes;
-using izolabella.Discord.Internals.Structures.Commands;
 using Mercury.Snapshot.Consts.Enums;
 using Mercury.Snapshot.Objects.Structures.Embeds;
-using Mercury.Snapshot.Objects.Structures.UserStructures.Financial;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Financial.Entries;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Identification;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
-using Mercury.Unification.IO.File.Records;
 
 namespace Mercury.Snapshot.Commands
 {
@@ -28,13 +25,13 @@ namespace Mercury.Snapshot.Commands
                 await Args.SlashCommand.RespondAsync(Strings.EmbedStrings.Expenditures.ExpenditureLogFailed, null, false, true).ConfigureAwait(false);
             }
         }
-        [Command(new string[] { "sync-expenditurelogs" }, "Sync all expenditure logs.", Defer = false, LocalOnly = true)]
+        [Command(new string[] { "sync-expenditurelogs" }, "Sync all expenditure logs.", Defer = true, LocalOnly = true)]
         public static async Task ExpenditureLogSync(CommandArguments Args)
         {
             MercuryUser User = new(Args.SlashCommand.User.Id);
             if (User.ExpenditureLog != null)
             {
-                await Args.SlashCommand.RespondAsync("", new Embed[] { new ExpenditureSyncEmbed(true, true).Build() }, false, true).ConfigureAwait(false);
+                await Args.SlashCommand.FollowupAsync("", new Embed[] { new ExpenditureSyncEmbed(true, true).Build() }, false, true).ConfigureAwait(false);
                 await User.ExpenditureLog.Pull().ConfigureAwait(false);
                 await User.ExpenditureLog.Push().ConfigureAwait(false);
                 await Args.SlashCommand.FollowupAsync("", new Embed[] { new ExpenditureSyncEmbed(false, true).Build() }, false, true).ConfigureAwait(false);

@@ -1,6 +1,5 @@
 ﻿using Google.Apis.Auth.OAuth2;
 using izolabella.ConsoleHelper;
-using Mercury.Snapshot.Objects.Structures.Exceptions;
 
 namespace Mercury.Snapshot.Objects.Structures.MercurySnapshot
 {

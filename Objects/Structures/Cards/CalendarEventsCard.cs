@@ -1,8 +1,5 @@
-﻿using izolabella.OpenWeatherMap.NET.Classes;
-using izolabella.OpenWeatherMap.NET.Classes.Responses.CurrentWeatherData;
-using Mercury.Snapshot.Objects.Structures.UserStructures.Calendars.Events;
+﻿using Mercury.Snapshot.Objects.Structures.UserStructures.Calendars.Events;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
-using Mercury.Snapshot.Objects.Util.Managers;
 using System.Globalization;
 
 namespace Mercury.Snapshot.Objects.Structures.Cards

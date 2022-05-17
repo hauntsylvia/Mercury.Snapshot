@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mercury.Snapshot.Consts
+﻿namespace Mercury.Snapshot.Consts
 {
     public static class EmbedDefaults
     {

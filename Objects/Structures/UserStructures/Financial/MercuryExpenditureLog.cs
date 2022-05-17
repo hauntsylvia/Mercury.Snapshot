@@ -3,9 +3,7 @@ using Mercury.Snapshot.Objects.Structures.UserStructures.Financial.Entries;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Interfaces;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
 using Mercury.Unification.IO.File.Records;
-using Mercury.Unification.IO.File.Registers;
 using Mercury.Unification.Util.ObjectComparisons;
-using System.Reflection;
 
 namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
 {

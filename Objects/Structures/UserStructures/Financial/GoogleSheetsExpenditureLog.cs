@@ -6,7 +6,6 @@ using Google.Apis.Sheets.v4.Data;
 using Mercury.Snapshot.Consts.Enums;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Financial.Entries;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Identification;
-using Mercury.Snapshot.Objects.Structures.UserStructures.Interfaces;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
 using Mercury.Snapshot.Objects.Util;
 
@@ -25,6 +24,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
         }
 
         public string? SpreadsheetId => this.User.Settings.GoogleSheetsSettings.ExpenditureSpreadsheetId;
+        public string? SpreadsheetName => this.User.Settings.GoogleSheetsSettings.ExpenditureSpreadsheetName;
         private SheetsService Service { get; set; }
         public MercuryUser User { get; }
 
@@ -48,7 +48,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
             List<ExpenditureEntry> Expenditures = new();
             if (this.SpreadsheetId != null)
             {
-                SpreadsheetsResource.ValuesResource.GetRequest GetCells = this.Service.Spreadsheets.Values.Get(this.SpreadsheetId, "Expenditure!A:E");
+                SpreadsheetsResource.ValuesResource.GetRequest GetCells = this.Service.Spreadsheets.Values.Get(this.SpreadsheetId, $"{SpreadsheetName}!A:E");
                 ValueRange Response = await GetCells.ExecuteAsync().ConfigureAwait(false);
                 IList<IList<object>> Rows = Response.Values;
                 ValueRange ValRange = new()
@@ -66,7 +66,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
                         {
                             Expenditures.Add(E);
                             ((List<object>)ValRange.Values[Index]).AddRange(GetFormatForEntries(E));
-                            ValRange.Range = $"Expenditure!{2}:{2 + Index}";
+                            ValRange.Range = $"{SpreadsheetName}!{2}:{2 + Index}";
                             Index++;
                         }
                     }
@@ -82,7 +82,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
                         Ordered[Index].Add(ExpEntry);
                     }
                 }
-                for(int Index = 0; Index < Ordered.Count; Index++)
+                for (int Index = 0; Index < Ordered.Count; Index++)
                 {
                     Ordered[Index] = Ordered[Index].OrderBy(Entry => Entry.Timestamp).ToList();
                 }
@@ -99,7 +99,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
 
         public async Task SaveExpenditures(params ExpenditureEntry[] Entries)
         {
-            if(this.SpreadsheetId != null)
+            if (this.SpreadsheetId != null)
             {
                 int LastRow = (await this.GetExpenditures(DateTime.MinValue, DateTime.MaxValue, int.MaxValue).ConfigureAwait(false)).Count;
                 List<IList<object>> NewVals = new();
@@ -111,7 +111,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
                 }
                 await this.Service.Spreadsheets.Values.BatchUpdate(new()
                 {
-                    Data = new List<ValueRange>() { new() { Values = NewVals, Range = $"Expenditure!{LastRow}:{NewVals.Count + LastRow}" } },
+                    Data = new List<ValueRange>() { new() { Values = NewVals, Range = $"{SpreadsheetName}!{LastRow}:{NewVals.Count + LastRow}" } },
                     ValueInputOption = "RAW",
                     IncludeValuesInResponse = true,
                 }, this.SpreadsheetId).ExecuteAsync().ConfigureAwait(false);
@@ -120,7 +120,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Financial
 
         public double? GetUserBalance(string SpreadsheetId)
         {
-            SpreadsheetsResource.ValuesResource.GetRequest GetCells = this.Service.Spreadsheets.Values.Get(SpreadsheetId, "Expenditure!G2");
+            SpreadsheetsResource.ValuesResource.GetRequest GetCells = this.Service.Spreadsheets.Values.Get(SpreadsheetId, "{SpreadsheetName}!G2");
             ValueRange Response = GetCells.Execute();
             IList<IList<object>> Values = Response.Values;
             return Values != null && Values.Count > 0 && double.TryParse(((string)Values[0][0]).Remove(((string)Values[0][0]).LastIndexOf('$'), 1), out double Amount)

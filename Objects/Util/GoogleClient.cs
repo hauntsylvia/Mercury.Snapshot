@@ -1,8 +1,6 @@
 ﻿
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Responses;
-using Google.Apis.Calendar.v3;
-using Google.Apis.Sheets.v4;
 using izolabella.Google.Classes.Consts;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Calendars;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Financial;
@@ -13,7 +11,7 @@ namespace Mercury.Snapshot.Objects.Util
 {
     public class GoogleClient
     {
-        
+
         public static string ApplicationName => "MercuryDOTSnapshot";
 
         public GoogleClient(MercuryUser UserInstance)

@@ -12,7 +12,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization
                                    CultureSettings? CultureSettings)
         {
             this.GoogleCalendarSettings = GoogleCalendarSettings ?? new();
-            this.GoogleSheetsSettings = GoogleSheetsSettings ?? new(null);
+            this.GoogleSheetsSettings = GoogleSheetsSettings ?? new(null, null);
             this.WeatherSettings = WeatherSettings ?? new(null);
             this.CultureSettings = CultureSettings ?? new();
         }
@@ -20,7 +20,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization
         public MercuryUserSettings()
         {
             this.GoogleCalendarSettings = new();
-            this.GoogleSheetsSettings = new(null);
+            this.GoogleSheetsSettings = new(null, null);
             this.WeatherSettings = new(null);
             this.CultureSettings = new();
         }

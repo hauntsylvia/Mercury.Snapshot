@@ -1,5 +1,4 @@
 ﻿using Mercury.Snapshot.Consts.Enums;
-using Mercury.Snapshot.Objects.Structures.UserStructures.Identification;
 
 namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars.Events
 {

@@ -1,11 +1,6 @@
 ﻿using izolabella.Discord.Commands.Arguments;
 using Mercury.Snapshot.Objects.Structures.Cards;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Structures.Embeds
 {

@@ -3,9 +3,7 @@ using Mercury.Snapshot.Objects.Structures.UserStructures.Calendars.Events;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Interfaces;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
 using Mercury.Unification.IO.File.Records;
-using Mercury.Unification.IO.File.Registers;
 using Mercury.Unification.Util.ObjectComparisons;
-using System.Reflection;
 
 namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
 {
@@ -43,12 +41,12 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
         {
             IReadOnlyCollection<CalendarEvent> MercuryEvents = await this.GetEvents(DateTime.MinValue, DateTime.Today.AddYears(1), int.MaxValue).ConfigureAwait(false);
             await this.DeleteEvents(MercuryEvents.ToArray()).ConfigureAwait(false);
-            foreach(ICalendar? Calendar in this.User.Calendars)
+            foreach (ICalendar? Calendar in this.User.Calendars)
             {
-                if(Calendar != null && Calendar.GetType() != typeof(MercuryCalendar))
+                if (Calendar != null && Calendar.GetType() != typeof(MercuryCalendar))
                 {
                     IReadOnlyCollection<CalendarEvent> ThisCalendarsEvents = await Calendar.GetEvents(DateTime.MinValue, DateTime.Today.AddYears(1), int.MaxValue).ConfigureAwait(false);
-                    foreach(CalendarEvent CEvent in ThisCalendarsEvents)
+                    foreach (CalendarEvent CEvent in ThisCalendarsEvents)
                     {
                         await this.SaveEvents(CEvent).ConfigureAwait(false);
                     }
@@ -59,13 +57,13 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Calendars
         public async Task Push()
         {
             IReadOnlyCollection<CalendarEvent> MercuryEvents = await this.GetEvents(DateTime.MinValue, DateTime.MaxValue, int.MaxValue).ConfigureAwait(false);
-            foreach(ICalendar? Calendar in this.User.Calendars)
+            foreach (ICalendar? Calendar in this.User.Calendars)
             {
-                if(Calendar != null)
+                if (Calendar != null)
                 {
-                    foreach(CalendarEvent Event in MercuryEvents)
+                    foreach (CalendarEvent Event in MercuryEvents)
                     {
-                        if(Event.Origin == Origins.Mercury)
+                        if (Event.Origin == Origins.Mercury)
                         {
                             await Calendar.SaveEvents(Event).ConfigureAwait(false);
                         }

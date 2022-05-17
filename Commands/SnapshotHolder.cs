@@ -1,7 +1,5 @@
-﻿using izolabella.ConsoleHelper;
-using izolabella.Discord.Commands.Arguments;
+﻿using izolabella.Discord.Commands.Arguments;
 using izolabella.Discord.Commands.Attributes;
-using Mercury.Snapshot.Objects.Structures.Cards;
 using Mercury.Snapshot.Objects.Structures.Embeds;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
 

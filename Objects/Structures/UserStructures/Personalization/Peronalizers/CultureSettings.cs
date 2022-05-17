@@ -1,10 +1,5 @@
 ﻿using izolabella.OpenWeatherMap.NET;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization.Peronalizers
 {
@@ -31,9 +26,9 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization.Per
             {
                 this.TimeZone = TimeZoneInfo.FindSystemTimeZoneById(TimeZoneIdentifier);
             }
-            catch(Exception E)
+            catch (Exception E)
             {
-                if(E.GetType() == typeof(InvalidTimeZoneException) || E.GetType() == typeof(TimeZoneNotFoundException))
+                if (E.GetType() == typeof(InvalidTimeZoneException) || E.GetType() == typeof(TimeZoneNotFoundException))
                 {
                     this.TimeZone = TimeZoneInfo.Utc;
                 }

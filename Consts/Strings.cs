@@ -17,7 +17,7 @@ namespace Mercury.Snapshot.Consts
             public static string GoogleFileDatastoreLocation => "Tokens";
             public static string GoogleCredentialsFileLocation => "Google Credentials.json";
             public static Uri MercuryGoogleRedirectUrl => new("https://mercury-bot.ml:443/google-oauth2/GoogleAuthReceiver/");
-            public static string[] Scopes => new string[] { CalendarService.Scope.CalendarReadonly };
+            public static string[] Scopes => new string[] { CalendarService.Scope.Calendar, SheetsService.Scope.Spreadsheets };
 
         }
         internal static class SettingsStrings

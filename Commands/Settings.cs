@@ -1,13 +1,7 @@
 ﻿using izolabella.Discord.Commands.Arguments;
 using izolabella.Discord.Commands.Attributes;
 using izolabella.OpenWeatherMap.NET;
-using Mercury.Snapshot.Consts.Enums;
 using Mercury.Snapshot.Objects.Structures.UserStructures.Personalization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mercury.Snapshot.Commands
 {

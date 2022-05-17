@@ -34,7 +34,7 @@ namespace Mercury.Snapshot.Objects.Structures.UserStructures.Personalization
             get => CommonRegisters.MercurySettingsRegister.GetRecord(this.DiscordId)?.ObjectToStore ?? new();
             set => CommonRegisters.MercurySettingsRegister.SaveRecord(this.DiscordId, new Record<MercuryUserSettings>(value));
         }
-        
+
         public async Task<IReadOnlyCollection<CalendarEvent>> GetAllCalendarEventsAsync(DateTime TimeMin, DateTime TimeMax, int MaxResults)
         {
             List<CalendarEvent> Events = new();
